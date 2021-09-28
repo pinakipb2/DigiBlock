@@ -20,6 +20,7 @@
     "rules": {
         "no-alert": "off",
         "no-console": "off",
-        "max-len": "off"
+        "max-len": "off",
+        "linebreak-style": 0
     }
 }
