@@ -1,4 +1,6 @@
 import React from 'react';
+import Documents from './components/Documents/Documents';
+import Footer from './components/Footer';
 import Hero from './components/Hero/Hero';
 import Info from './components/Info';
 import Navbar from './components/Navbar';
@@ -9,7 +11,8 @@ function App() {
       <Navbar />
       <Hero />
       <Info />
-      {/* 4 cards */}
+      <Documents />
+      <Footer />
     </div>
   );
 }
