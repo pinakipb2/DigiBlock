@@ -1,5 +1,6 @@
 import React from 'react';
 import Documents from './components/Documents/Documents';
+import Explore from './components/Explore/Explore';
 import Footer from './components/Footer';
 import Hero from './components/Hero/Hero';
 import Info from './components/Info';
@@ -12,6 +13,7 @@ function App() {
       <Hero />
       <Info />
       <Documents />
+      <Explore />
       <Footer />
     </div>
   );
