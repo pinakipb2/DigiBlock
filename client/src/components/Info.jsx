@@ -3,7 +3,7 @@ import React from 'react';
 const Info = () => (
   <div className="text-center items-center">
     <h1 className="font-bold text-2xl mb-6">How It Works?</h1>
-    <div className="flex justify-evenly mb-6">
+    <div className="flex justify-evenly items-center mb-6">
       <div className="flex flex-col justify-center items-center">
         <div className="rounded-full p-6 bg-gray-50 h-36 w-36 flex justify-center items-center shadow-2xl">
           <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="s-ion-icon">
