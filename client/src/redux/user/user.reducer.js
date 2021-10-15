@@ -2,6 +2,7 @@ import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
   currentUser: null,
+  isMetaMask: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +12,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentUser: action.payload,
       };
-
+    case UserActionTypes.CHECK_METAMASK:
+      return {
+        ...state,
+        isMetaMask: action.payload,
+      };
     default:
       return state;
   }

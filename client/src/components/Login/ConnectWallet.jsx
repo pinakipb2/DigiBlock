@@ -12,7 +12,11 @@ const ConnectWallet = () => (
         <div className="pl-2">Metamask</div>
       </div>
     </div>
-    <button type="button" className="p-3 mb-3 bg-blue-700 hover:bg-blue-600 flex justify-center items-center w-5/6 rounded-lg">
+    <button
+      type="button"
+      className="p-3 mb-3 bg-blue-700 hover:bg-blue-600 flex justify-center items-center w-5/6 rounded-lg"
+      onClick={() => console.log('Function for metamask connection')}
+    >
       <img src="/assets/metamask.png" alt="metamask_logo" className="h-9 w-9 mr-2 rounded-full" />
       <div className="text-sm text-gray-50 hover:text-gray-100 font-bold">CONNECT TO METAMASK</div>
     </button>
