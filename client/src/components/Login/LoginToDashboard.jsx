@@ -9,7 +9,7 @@ const LoginToDashboard = () => (
       <div className="block text-grey-darker text-sm font-bold mb-2">
         Address
       </div>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type="text" placeholder="-" readOnly />
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type="text" value="-" readOnly />
     </div>
     <div className="mb-6 w-5/6">
       <div className="block text-grey-darker text-sm font-bold mb-2">

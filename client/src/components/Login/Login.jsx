@@ -18,7 +18,7 @@ const Login = () => (
       </div>
     </div>
     <ConnectWallet />
-    <button type="button" className="bg-blue-700 rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-blue-500 select-none">Next</button>
+    <button type="button" className="bg-blue-700 rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-blue-500 select-none mb-10">Next</button>
     <LoginToDashboard />
     <div className="flex justify-between items-center w-2/5 pb-10">
       <button type="button" className="bg-blue-700 rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-blue-500 select-none">Back</button>
