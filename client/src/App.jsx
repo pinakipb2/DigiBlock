@@ -1,19 +1,20 @@
 import React from 'react';
-import Documents from './components/Documents/Documents';
-import Explore from './components/Explore/Explore';
+import { Route, Switch } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ScrollToTop from './components/ScrollToTop';
+import LoginPage from './pages/LoginPage';
 import Footer from './components/Footer';
-import Hero from './components/Hero/Hero';
-import Info from './components/Info';
 import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="bg-white h-screen">
+    <div className="h-screen">
       <Navbar />
-      <Hero />
-      <Info />
-      <Documents />
-      <Explore />
+      <ScrollToTop />
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/login" component={LoginPage} />
+      </Switch>
       <Footer />
     </div>
   );
