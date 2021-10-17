@@ -5,35 +5,28 @@ const Documents = () => {
   const [documents] = useState([
     {
       id: 1,
-      title: 'Title 1',
-      sub: 'Sub Title 1',
-      description: 'Fingerstache flexitarian street art 8-bit waistcoat.Distillery hexagon disrupt edison bulbche.',
+      image: '/assets/birthCertificate.png',
     },
     {
       id: 2,
-      title: 'Title 2',
-      sub: 'Sub Title 2',
-      description: 'Fingerstache flexitarian street art 8-bit waistcoat.Distillery hexagon disrupt edison bulbche.',
+      image: '/assets/XIICertificate.png',
     },
     {
       id: 3,
-      title: 'Title 3',
-      sub: 'Sub Title 3',
-      description: 'Fingerstache flexitarian street art 8-bit waistcoat.Distillery hexagon disrupt edison bulbche.',
+      image: '/assets/voterID.png',
     },
     {
       id: 4,
-      title: 'Title 4',
-      sub: 'Sub Title 4',
-      description: 'Fingerstache flexitarian street art 8-bit waistcoat.Distillery hexagon disrupt edison bulbche.',
+      image: '/assets/deathCertificate.png',
     },
   ]);
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto">
+      <div className="text-center pt-16 mb-3 text-4xl font-bold text-prime font-roboto">Documents</div>
+      <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-wrap -m-4">
           {
-              documents.map((doc) => <Card key={doc.id} title={doc.title} sub={doc.sub} description={doc.description} />)
+              documents.map((doc) => <Card key={doc.id} image={doc.image} />)
           }
         </div>
       </div>
