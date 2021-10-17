@@ -25,11 +25,14 @@ const ConnectWallet = () => {
     }
   };
 
-  window.ethereum.on('accountsChanged', async () => {
+  window.ethereum.on('accountsChanged', async (account) => {
     /* after login, if account is changed give a alert of 10 sec to return to the logged in account, and hold the website in loading state or else logout after 10 sec, if user is logged in again dismiss the toast and dismiss loading state */
-    const web3 = await getWeb3(); // get web3 from redux
-    const account = web3.currentProvider.selectedAddress; // if this account is not equal to the logged in account
-    dispatch(setCurrentUserAccount(account));
+    console.log('accountsChanges', account[0]); // if this account is not equal to the logged in account, logout
+  });
+
+  window.ethereum.on('networkChanged', (networkId) => {
+    // same changes for network change
+    console.log('networkChanged', networkId);
   });
 
   return (
