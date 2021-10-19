@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import LoginToDashboard from './LoginToDashboard';
 import ConnectWallet from './ConnectWallet';
 
 const Login = () => {
   const [currentFormStep, setCurrentFormStep] = useState(1);
   const stepTwo = () => {
-    setCurrentFormStep(currentFormStep + 1);
+    setCurrentFormStep(2);
   };
   const stepOne = () => {
-    setCurrentFormStep(currentFormStep - 1);
+    setCurrentFormStep(1);
   };
+  const isLoggedIn = useSelector((state) => state.user.currentUser);
+
   return (
-    <div className="flex flex-col justify-center items-center w-1/2 bg-white rounded-2xl" style={{ height: '35rem' }}>
+    <div className="flex flex-col justify-center items-center w-1/2 h-loginCardHt bg-white rounded-2xl">
       {currentFormStep === 1 && (
       <>
         <div className="flex flex-col justify-center w-1/2 py-10">
@@ -29,7 +32,7 @@ const Login = () => {
         </div>
 
         <ConnectWallet />
-        <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none mb-10 cursor-not-allowed" onClick={() => stepTwo()}>Next</button>
+        <button type="button" disabled={!isLoggedIn} className={`${isLoggedIn ? '' : 'cursor-not-allowed'} bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none mb-10`} onClick={() => stepTwo()}>Next</button>
       </>
       )}
       {currentFormStep === 2 && (

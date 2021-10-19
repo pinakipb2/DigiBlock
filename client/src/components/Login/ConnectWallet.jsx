@@ -1,24 +1,22 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import getWeb3 from '../../getWeb3';
 import {
-  setWeb3, setCurrentUserAccount, setMetmaskInstalled, setCurrentUserBalance, setCurrentUserNetworkId,
+  setWeb3, setMetmaskInstalled, setCurrentUser,
 } from '../../redux/user/user.actions';
 
 const ConnectWallet = () => {
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.user.currentUser);
   const ConnectToMetamask = async () => {
     try {
       const web3 = await getWeb3();
       dispatch(setWeb3(web3));
       dispatch(setMetmaskInstalled(true));
       const account = web3.currentProvider.selectedAddress;
-      dispatch(setCurrentUserAccount(account));
       const balance = parseFloat((web3.utils.fromWei(await web3.eth.getBalance(account)))).toFixed(4);
-      dispatch(setCurrentUserBalance(balance));
       const networkId = await web3.eth.net.getId();
-      dispatch(setCurrentUserNetworkId(networkId));
+      dispatch(setCurrentUser(account, balance, networkId));
     } catch (error) {
       dispatch(setMetmaskInstalled(false));
       console.log(error.message);
@@ -30,9 +28,9 @@ const ConnectWallet = () => {
     console.log('accountsChanges', account[0]); // if this account is not equal to the logged in account, logout
   });
 
-  window.ethereum.on('networkChanged', (networkId) => {
+  window.ethereum.on('chainChanged', (networkId) => {
     // same changes for network change
-    console.log('networkChanged', networkId);
+    console.log('chainChanged', networkId);
   });
 
   return (
@@ -61,7 +59,7 @@ const ConnectWallet = () => {
         </div>
         <div className="text-lg p-1 font-sans">
           Address
-          <div className="text-center text-base">-</div>
+          <div className="text-center text-base">{user.account}</div>
         </div>
         {/* <div className="text-lg p-2">
           Balance
