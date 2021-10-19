@@ -5,24 +5,13 @@ export const setWeb3 = (web3) => ({
   payload: web3,
 });
 
-export const setCurrentUser = (user) => ({
+export const setCurrentUser = (account, balance, networkId) => ({
   type: UserActionTypes.SET_CURRENT_USER,
-  payload: user,
-});
-
-export const setCurrentUserAccount = (account) => ({
-  type: UserActionTypes.SET_CURRENT_USER_ACCOUNT,
-  payload: account,
-});
-
-export const setCurrentUserBalance = (balance) => ({
-  type: UserActionTypes.SET_CURRENT_USER_BALANCE,
-  payload: balance,
-});
-
-export const setCurrentUserNetworkId = (networkID) => ({
-  type: UserActionTypes.SET_CURRENT_USER_NETWORK_ID,
-  payload: networkID,
+  payload: {
+    account,
+    balance,
+    networkId,
+  },
 });
 
 export const setMetmaskInstalled = (status) => ({

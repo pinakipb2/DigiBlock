@@ -15,6 +15,9 @@ module.exports = {
         raleway: ['Raleway', 'sans-serif'],
         ubuntu: ['Ubuntu', 'sans-serif'],
       },
+      height: {
+        loginCardHt: '35rem',
+      },
     },
   },
   variants: {

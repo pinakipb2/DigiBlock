@@ -3,9 +3,6 @@ import UserActionTypes from './user.types';
 const INITIAL_STATE = {
   web3: null,
   currentUser: null,
-  currentUserAccount: null,
-  currentUserBalance: null,
-  currentUserNetworkId: null,
   isMetaMaskInstalled: false,
 };
 
@@ -20,21 +17,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-      };
-    case UserActionTypes.SET_CURRENT_USER_ACCOUNT:
-      return {
-        ...state,
-        currentUserAccount: action.payload,
-      };
-    case UserActionTypes.SET_CURRENT_USER_BALANCE:
-      return {
-        ...state,
-        currentUserBalance: action.payload,
-      };
-    case UserActionTypes.SET_CURRENT_USER_NETWORK_ID:
-      return {
-        ...state,
-        currentUserNetworkId: action.payload,
       };
     case UserActionTypes.CHECK_METAMASK_INSTALLED:
       return {
