@@ -5,13 +5,16 @@ import ConnectWallet from './ConnectWallet';
 
 const Login = () => {
   const [currentFormStep, setCurrentFormStep] = useState(1);
-  const stepTwo = () => {
-    setCurrentFormStep(2);
-  };
   const stepOne = () => {
     setCurrentFormStep(1);
   };
-  const isLoggedIn = useSelector((state) => state.user.currentUser);
+  const stepTwo = () => {
+    setCurrentFormStep(2);
+  };
+
+  const isConnected = useSelector((state) => state.user.currentUser);
+  const isAccountChanged = useSelector((state) => state.user.isAccountChanged);
+  const isNetworkChanged = useSelector((state) => state.user.isNetworkChanged);
 
   return (
     <div className="flex flex-col justify-center items-center w-1/2 h-loginCardHt bg-white rounded-2xl">
@@ -32,7 +35,9 @@ const Login = () => {
         </div>
 
         <ConnectWallet />
-        <button type="button" disabled={!isLoggedIn} className={`${isLoggedIn ? '' : 'cursor-not-allowed'} bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none mb-10`} onClick={() => stepTwo()}>Next</button>
+        {
+          (isConnected && isAccountChanged === false && isNetworkChanged === false) ? <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none mb-10" onClick={() => stepTwo()}>Next</button> : <button type="button" disabled className="cursor-not-allowed bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none mb-10">Next</button>
+        }
       </>
       )}
       {currentFormStep === 2 && (
@@ -56,7 +61,9 @@ const Login = () => {
         <LoginToDashboard />
         <div className="flex justify-between items-center w-2/5 pb-10">
           <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none" onClick={() => stepOne()}>Back</button>
-          <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none">Login</button>
+          {
+            (isConnected && isAccountChanged === false && isNetworkChanged === false) ? <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none">Login</button> : <button type="button" className="cursor-not-allowed bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none" disabled>Login</button>
+          }
         </div>
       </>
       )}

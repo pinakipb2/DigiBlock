@@ -21,11 +21,6 @@ const LoginToDashboard = () => {
         <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 bg-gray-200" type="text" placeholder="Name" />
         <p className="text-red-600 text-xs italic font-ubuntu">Enter your name if you are a verified user.</p>
       </div>
-      {/* <div className="flex items-center justify-between">
-        <button className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button">
-          Sign In
-        </button>
-      </div> */}
     </div>
   );
 };

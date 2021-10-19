@@ -21,6 +21,7 @@
         "no-alert": "off",
         "no-console": "off",
         "max-len": "off",
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "react/prop-types": 0
     }
 }

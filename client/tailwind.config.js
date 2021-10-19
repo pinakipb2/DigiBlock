@@ -9,6 +9,7 @@ module.exports = {
         orange: '#F68614',
         prime: '#0c11c2',
         blue1: '#3089DC',
+        healthy: '#05B113',
       },
       fontFamily: {
         roboto: ['Roboto', 'sanf-serif'],

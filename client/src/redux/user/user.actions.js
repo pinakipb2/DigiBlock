@@ -17,7 +17,7 @@ export const setCurrentUser = (account, balance, networkId) => (dispatch) => {
       },
     },
   );
-  if (account) { toast.success('MetaMask wallet connected successfully'); }
+  if (account) { toast.success('Connected to MetaMask'); }
 };
 
 export const setMetmaskInstalled = (status) => (dispatch) => {
@@ -29,3 +29,13 @@ export const setMetmaskInstalled = (status) => (dispatch) => {
     toast.warn('MetaMask not installed', { autoClose: 10000, toastId: 'Not-installed' });
   }
 };
+
+export const setIsAccountChange = (verdict) => ({
+  type: UserActionTypes.CHECK_ACCOUNT_CHANGED,
+  payload: verdict,
+});
+
+export const setIsNetworkChange = (verdict) => ({
+  type: UserActionTypes.CHECK_NETWORK_CHANGED,
+  payload: verdict,
+});

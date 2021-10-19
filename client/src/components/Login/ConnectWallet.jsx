@@ -1,82 +1,40 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import getWeb3 from '../../getWeb3';
 import {
-  setWeb3, setMetmaskInstalled, setCurrentUser,
+  setWeb3, setMetmaskInstalled, setCurrentUser, setIsAccountChange, setIsNetworkChange,
 } from '../../redux/user/user.actions';
 
 const ConnectWallet = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
   const user = useSelector((state) => state.user.currentUser);
-  // const web3AccountChange = useSelector((state) => state.user.web3);
-  useEffect(() => {
-    const getMetaMaskStatus = () => {
-      if (window.web3 || window.ethereum) {
-        dispatch(setMetmaskInstalled(true));
-      } else {
-        dispatch(setMetmaskInstalled(false));
-      }
-    };
-    // const checkAccountChange = () => {
-    //   const account = web3AccountChange?.currentProvider.selectedAddress;
-    //   if (account && account !== user.account) {
-    //     toast.warn('Account has been changed');
-    //   }
-    // };
-    getMetaMaskStatus();
-    // checkAccountChange();
-  }, [isMetaMask]);
+  const isAccountChanged = useSelector((state) => state.user.isAccountChanged);
+  const isNetworkChanged = useSelector((state) => state.user.isNetworkChanged);
+
   const ConnectToMetamask = async () => {
     try {
       const web3 = await getWeb3();
       dispatch(setWeb3(web3));
       dispatch(setMetmaskInstalled(true));
-      const account = web3.currentProvider.selectedAddress;
-      const balance = parseFloat((web3.utils.fromWei(await web3.eth.getBalance(account)))).toFixed(4);
       const networkId = await web3.eth.net.getId();
-      dispatch(setCurrentUser(account, balance, networkId));
+      if (networkId === 4) {
+        const account = web3.currentProvider.selectedAddress;
+        const balance = parseFloat((web3.utils.fromWei(await web3.eth.getBalance(account)))).toFixed(4);
+        dispatch(setCurrentUser(account, balance, networkId));
+        dispatch(setIsAccountChange(false));
+        dispatch(setIsNetworkChange(false));
+      } else {
+        toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
+        dispatch(setIsNetworkChange(true));
+      }
     } catch (error) {
       dispatch(setMetmaskInstalled(false));
       console.log(error.message);
     }
   };
-
-  const checkAccountChange = () => {
-    if (window.ethereum || window.web3) {
-      window.ethereum.on('accountsChanged', async () => {
-        const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
-        /* after login, if account is changed give a alert of 10 sec to return to the logged in account, and hold the website in loading state or else logout after 10 sec, if user is logged in again dismiss the toast and dismiss loading state */
-        const account = web3.currentProvider.selectedAddress; // if this account is not equal to the logged in account, logout
-        const change = account !== user?.account
-          ? toast.warn('Account has been changed', { toastId: 'Account-changed' })
-          : toast.success('Connected account retrieved', { toastId: 'Account-retrieved' });
-        console.log(change);
-      });
-    }
-  };
-
-  checkAccountChange();
-
-  const checkNetworkChange = () => {
-    if (window.ethereum || window.web3) {
-      window.ethereum.on('chainChanged', async () => {
-        const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
-        /* after login, if account is changed give a alert of 10 sec to return to the logged in account, and hold the website in loading state or else logout after 10 sec, if user is logged in again dismiss the toast and dismiss loading state */
-        const networkId = await web3.eth.net.getId();// if this account is not equal to the logged in account, logout
-        const change = networkId !== user?.networkId
-          ? toast.warn('Account has been changed', { toastId: 'Network-changed' })
-          : toast.success('Connected account retrieved', { toastId: 'Network-retrieved' });
-        console.log(change);
-      });
-    }
-  };
-
-  checkNetworkChange();
 
   return (
     <div className="bg-white h-auto m-6 p-2 w-2/3 rounded-2xl flex flex-col justify-center items-center">
@@ -86,7 +44,9 @@ const ConnectWallet = () => {
       <div className="bg-gray-300 w-5/6 mb-2 rounded-md flex justify-between p-2 text-gray-800">
         <h2 className="font-raleway font-bold">Connection Status</h2>
         <div className="flex justify-center items-center">
-          <div className={`${user ? 'bg-green-500' : 'bg-red-600'} rounded-full h-3 w-3`} />
+          {
+            (isAccountChanged || isNetworkChanged) ? <div className="bg-yellow-500 rounded-full h-3 w-3" /> : <div className={`${user ? 'bg-healthy' : 'bg-red-600'} rounded-full h-3 w-3`} />
+          }
           <div className="pl-2 font-semibold">MetaMask</div>
         </div>
       </div>
@@ -121,10 +81,6 @@ const ConnectWallet = () => {
           Address
           <div className="text-center text-base">{user ? user.account : '-'}</div>
         </div>
-        {/* <div className="text-lg p-2">
-          Balance
-          <div className="text-center text-base">392.44 ETH</div>
-        </div> */}
         <hr />
       </div>
     </div>

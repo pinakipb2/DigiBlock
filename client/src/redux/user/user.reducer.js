@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   web3: null,
   currentUser: null,
   isMetaMaskInstalled: false,
+  isAccountChanged: false,
+  isNetworkChanged: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +24,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isMetaMaskInstalled: action.payload,
+      };
+    case UserActionTypes.CHECK_ACCOUNT_CHANGED:
+      return {
+        ...state,
+        isAccountChanged: action.payload,
+      };
+    case UserActionTypes.CHECK_NETWORK_CHANGED:
+      return {
+        ...state,
+        isNetworkChanged: action.payload,
       };
     default:
       return state;
