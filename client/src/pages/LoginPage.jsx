@@ -82,6 +82,7 @@ const LoginPage = () => {
         if (networkId !== user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(true));
           toast.warn('Network has been changed', { toastId: 'network-changed' });
+          toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
         } else if (networkId === user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });

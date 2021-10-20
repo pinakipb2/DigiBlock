@@ -26,7 +26,7 @@ export const setMetmaskInstalled = (status) => (dispatch) => {
     payload: status,
   });
   if (!status) {
-    toast.warn('MetaMask not installed', { autoClose: 10000, toastId: 'Not-installed' });
+    toast.error('MetaMask not installed', { autoClose: false, toastId: 'Not-installed', closeButton: false });
   }
 };
 
