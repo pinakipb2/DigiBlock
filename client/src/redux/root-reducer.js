@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { persistReducer, createTransform } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import localforage from 'localforage';
 import { stringify, parse } from 'flatted';
 import userReducer from './user/user.reducer';
 
@@ -11,7 +11,7 @@ export const transformCircular = createTransform(
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: localforage,
   transforms: [transformCircular],
   whitelist: ['user'],
 };

@@ -12,7 +12,7 @@ const LoginToDashboard = () => {
         <div className="block text-grey-darker text-sm font-bold mb-2 font-ubuntu">
           Address
         </div>
-        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker bg-gray-200" type="text" value={user.account} readOnly />
+        <input className="text-center text-sm font-semibold shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker bg-gray-200" type="text" value={user.account} readOnly />
       </div>
       <div className="mb-6 w-5/6">
         <div className="block text-grey-darker text-sm font-bold mb-2 font-ubuntu">

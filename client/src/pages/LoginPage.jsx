@@ -21,6 +21,38 @@ const LoginPage = () => {
       }
     };
     getMetaMaskStatus();
+
+    const checkAccountChangeOnStart = async () => {
+      if (window.ethereum || window.web3) {
+        const web3 = await getWeb3();
+        dispatch(setWeb3(web3));
+        const account = web3.currentProvider.selectedAddress;
+        if (account !== user?.account && user !== null) {
+          dispatch(setIsAccountChange(true));
+          toast.warn('Account has been changed', { toastId: 'account-changed' });
+        } else if (account === user?.account && user !== null) {
+          dispatch(setIsAccountChange(false));
+          // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
+        }
+      }
+    };
+
+    checkAccountChangeOnStart();
+    const checkNetworkChangeOnStart = async () => {
+      if (window.ethereum || window.web3) {
+        const web3 = await getWeb3();
+        dispatch(setWeb3(web3));
+        const networkId = await web3.eth.net.getId();
+        if (networkId !== user?.networkId && user !== null) {
+          dispatch(setIsNetworkChange(true));
+          toast.warn('Network has been changed', { toastId: 'network-changed' });
+        } else if (networkId === user?.networkId && user !== null) {
+          dispatch(setIsNetworkChange(false));
+          // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
+        }
+      }
+    };
+    checkNetworkChangeOnStart();
   }, [isMetaMask]);
 
   const checkAccountChange = () => {
