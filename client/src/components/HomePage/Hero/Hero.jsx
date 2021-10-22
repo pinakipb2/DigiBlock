@@ -12,7 +12,13 @@ const Hero = () => (
         </h1>
         <p className="mb-8 leading-relaxed text-gray-800 font-raleway">A one-stop platform for your Digital Identity to be Safe and Organized. This platform is made using Blockchain Technology which makes it Fast, Trustworthy and Immutable. </p>
         <div className="flex justify-center">
-          <Link to="/about-us" type="button" className="inline-flex text-white bg-prime border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg font-roboto">About Us</Link>
+          <Link to="/about-us" type="button" className="inline-flex text-white bg-prime border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg font-roboto">
+            About Us
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-3 mt-1 animate-to-fro" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              <path fillRule="evenodd" d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+            </svg>
+          </Link>
           <button type="button" className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg font-roboto">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-0.5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />

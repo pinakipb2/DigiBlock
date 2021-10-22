@@ -9,7 +9,7 @@ const Profile = ({
       <img className="bg-orange h-60 rounded w-full object-cover object-center mb-6" src={`https://avatars.githubusercontent.com/${username}`} alt="content" />
       <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font text-center">{username}</h3>
       <h2 className="text-xl text-black font-medium title-font text-center">{name}</h2>
-      <h3 className="text-indigo-500 text-sm font-medium title-font text-center mb-2 font-ubuntu">{ '{ Web Developer }' }</h3>
+      <h3 className="text-indigo-500 text-sm font-medium title-font text-center mb-2 font-ubuntu">{ '< Web Developer />' }</h3>
       <div className="flex flex-row justify-center w-full">
         <Link to={{ pathname: `https://github.com/${username}` }} target="_blank" className="m-1 pr-1">
           <svg

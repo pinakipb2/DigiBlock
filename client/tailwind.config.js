@@ -19,6 +19,16 @@ module.exports = {
       height: {
         loginCardHt: '35rem',
       },
+      animation: {
+        'to-fro': 'wiggle 2.5s infinite',
+      },
+      keyframes: {
+        wiggle: {
+          '0%': { transform: 'translateX(-30%)' },
+          '50%': { transform: 'translateX(30%)' },
+          '100%': { transform: 'translateX(-30%)' },
+        },
+      },
     },
   },
   variants: {
