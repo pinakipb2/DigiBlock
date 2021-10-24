@@ -6,7 +6,7 @@ import LoginPage from './pages/LoginPage';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import AboutUs from './pages/AboutUsPage';
-// import ErrorPage from './components/404/404';
+import ErrorPage from './components/404/404';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/about-us" component={AboutUs} />
-        {/* <Route exact path="/404" component={ErrorPage} /> */}
+        <Route component={ErrorPage} />
       </Switch>
       <Footer />
     </div>

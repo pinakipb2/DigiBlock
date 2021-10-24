@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 import Login from '../components/Login/Login';
 import getWeb3 from '../getWeb3';
 import {
@@ -94,6 +95,9 @@ const LoginPage = () => {
 
   return (
     <div className="bg-blue1 flex justify-center items-center pt-28 pb-7">
+      <Helmet>
+        <title>Login - DigiBlock</title>
+      </Helmet>
       <Login />
     </div>
   );
