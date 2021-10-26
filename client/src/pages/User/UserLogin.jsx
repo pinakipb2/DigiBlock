@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import Login from '../components/Admin/Login/Login';
-import getWeb3 from '../getWeb3';
+import Login from '../../components/User/Login/Login';
+import getWeb3 from '../../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange,
-} from '../redux/admin/admin.actions';
+} from '../../redux/user/user.actions';
 
-const AdminLogin = () => {
+const UserLogin = () => {
   const dispatch = useDispatch();
-  const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
-  const admin = useSelector((state) => state.admin.currentAdmin);
+  const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
+  const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     const getMetaMaskStatus = () => {
@@ -28,10 +28,10 @@ const AdminLogin = () => {
         const web3 = await getWeb3();
         dispatch(setWeb3(web3));
         const account = web3.currentProvider.selectedAddress;
-        if (account !== admin?.account && admin !== null) {
+        if (account !== user?.account && user !== null) {
           dispatch(setIsAccountChange(true));
           toast.warn('Account has been changed', { toastId: 'account-changed' });
-        } else if (account === admin?.account && admin !== null) {
+        } else if (account === user?.account && user !== null) {
           dispatch(setIsAccountChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
@@ -44,10 +44,10 @@ const AdminLogin = () => {
         const web3 = await getWeb3();
         dispatch(setWeb3(web3));
         const networkId = await web3.eth.net.getId();
-        if (networkId !== admin?.networkId && admin !== null) {
+        if (networkId !== user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(true));
           toast.warn('Network has been changed', { toastId: 'network-changed' });
-        } else if (networkId === admin?.networkId && admin !== null) {
+        } else if (networkId === user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
@@ -62,10 +62,10 @@ const AdminLogin = () => {
         const web3 = await getWeb3();
         dispatch(setWeb3(web3));
         const account = web3.currentProvider.selectedAddress;
-        if (account !== admin?.account && admin !== null) {
+        if (account !== user?.account && user !== null) {
           dispatch(setIsAccountChange(true));
           toast.warn('Account has been changed', { toastId: 'account-changed' });
-        } else if (account === admin?.account && admin !== null) {
+        } else if (account === user?.account && user !== null) {
           dispatch(setIsAccountChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
@@ -80,11 +80,11 @@ const AdminLogin = () => {
         const web3 = await getWeb3();
         dispatch(setWeb3(web3));
         const networkId = await web3.eth.net.getId();
-        if (networkId !== admin?.networkId && admin !== null) {
+        if (networkId !== user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(true));
           toast.warn('Network has been changed', { toastId: 'network-changed' });
           toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
-        } else if (networkId === admin?.networkId && admin !== null) {
+        } else if (networkId === user?.networkId && user !== null) {
           dispatch(setIsNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
@@ -103,4 +103,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default UserLogin;

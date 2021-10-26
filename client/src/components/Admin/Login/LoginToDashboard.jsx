@@ -19,7 +19,7 @@ const LoginToDashboard = () => {
           Master Key
         </div>
         <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 bg-gray-200" type="password" placeholder="Master Key" />
-        <p className="text-red-600 text-xs italic font-ubuntu">Enter master key.</p>
+        <p className="text-red-600 text-xs italic font-ubuntu">Enter Master Key.</p>
       </div>
     </div>
   );
