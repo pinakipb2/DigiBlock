@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import Login from '../components/Login/Login';
+import Login from '../components/User/Login/Login';
 import getWeb3 from '../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange,
 } from '../redux/user/user.actions';
 
-const LoginPage = () => {
+const UserLogin = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
   const user = useSelector((state) => state.user.currentUser);
@@ -103,4 +103,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default UserLogin;
