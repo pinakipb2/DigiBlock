@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import getWeb3 from '../../getWeb3';
+import getWeb3 from '../../../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setCurrentUser, setIsAccountChange, setIsNetworkChange,
-} from '../../redux/user/user.actions';
+} from '../../../redux/user/user.actions';
 
 const ConnectWallet = () => {
   const dispatch = useDispatch();
