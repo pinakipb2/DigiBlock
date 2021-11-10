@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import Login from '../../components/Admin/Login/Login';
-import getWeb3 from '../../getWeb3';
+import Login from '../../../components/Admin/Login/Login';
+import getWeb3 from '../../../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange,
-} from '../../redux/admin/admin.actions';
+} from '../../../redux/admin/admin.actions';
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
