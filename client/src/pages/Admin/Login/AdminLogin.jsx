@@ -7,6 +7,8 @@ import getWeb3 from '../../../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange,
 } from '../../../redux/admin/admin.actions';
+import Navbar from '../../../components/Common/Navbar';
+import Footer from '../../../components/Common/Footer';
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
@@ -94,12 +96,16 @@ const AdminLogin = () => {
   checkNetworkChange();
 
   return (
-    <div className="bg-red-700 flex justify-center items-center pt-28 pb-7">
-      <Helmet>
-        <title>Admin Login - DigiBlock</title>
-      </Helmet>
-      <Login />
-    </div>
+    <>
+      <Navbar />
+      <div className="bg-red-700 flex justify-center items-center pt-28 pb-7">
+        <Helmet>
+          <title>Admin Login - DigiBlock</title>
+        </Helmet>
+        <Login />
+      </div>
+      <Footer />
+    </>
   );
 };
 
