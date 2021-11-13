@@ -19,7 +19,9 @@ function App() {
         <Route exact path="/admin/login" component={AdminLogin} />
         <Route exact path="/admin/dashboard" component={AdminDashboard} />
         <Route exact path="/admin/admins" component={AdminDashboard} />
-        <Route exact path="/admin/add-admin" component={AdminDashboard} />
+        <Route exact path="/admin/users" component={AdminDashboard} />
+        <Route exact path="/admin/issuers" component={AdminDashboard} />
+        <Route exact path="/admin/verifiers" component={AdminDashboard} />
         <Route exact path="/admin/profile" component={AdminDashboard} />
         <Route component={ErrorPage} />
       </Switch>

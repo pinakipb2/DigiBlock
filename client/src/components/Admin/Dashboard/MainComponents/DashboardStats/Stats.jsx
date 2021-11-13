@@ -36,10 +36,9 @@ const Stats = () => {
     <section className="text-gray-600 body-font px-6">
       <div className="container">
         <div className="flex flex-wrap lg:flex-nowrap justify-center items-center">
-          {
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              stats.map(({ id, ...otherProps }) => <Card key={id} {...otherProps} />)
-          }
+          {stats.map(({ id, ...otherProps }) => (
+            <Card key={id} {...otherProps} />
+          ))}
         </div>
       </div>
     </section>

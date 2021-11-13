@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AdminDetails = () => {
+const VerifierDetails = () => {
   const [data] = useState([
     {
       id: 1,
@@ -14,7 +14,7 @@ const AdminDetails = () => {
       name: 'A',
       email: 'A@gmail',
       address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
-      status: 0,
+      status: 1,
     },
     {
       id: 3,
@@ -41,7 +41,6 @@ const AdminDetails = () => {
             <th>Email</th>
             <th>Address</th>
             <th>Status</th>
-            <th>Remove</th>
           </tr>
         </thead>
         <tbody className="text-center">
@@ -76,12 +75,6 @@ const AdminDetails = () => {
                   </div>
                 )}
               </td>
-              {/* If current user is owner, show this td */}
-              <td>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded" type="button">
-                  <i className="far fa-trash-alt" />
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>
@@ -90,4 +83,4 @@ const AdminDetails = () => {
   );
 };
 
-export default AdminDetails;
+export default VerifierDetails;

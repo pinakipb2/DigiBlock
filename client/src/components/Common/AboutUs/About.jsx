@@ -31,7 +31,7 @@ const About = () => {
       <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-wrap -m-4">
           {
-              members.map((member) => <Profile key={member.id} name={member.name} username={member.username} linkedinUsername={member.linkedinUsername} emailId={member.emailID} />)
+            members.map(({ id, ...otherProps }) => <Profile key={id} {...otherProps} />)
           }
         </div>
       </div>
