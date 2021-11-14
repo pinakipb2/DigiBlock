@@ -40,13 +40,14 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="flex bg-gray-200">
+    <div className="flex bg-gray-200 select-none">
       <div>
         <SideBar />
       </div>
       <div className="flex-auto">
         <NavAdmin />
         <div className="text-3xl py-4 px-6 font-light text-gray-700 font-ubuntu">{currMenu}</div>
+        <span className="sidebar-tooltip hidden">Dashboard</span>
         {renderInnerComponent()}
       </div>
     </div>

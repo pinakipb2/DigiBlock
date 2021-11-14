@@ -32,7 +32,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      display: ['group-hover'],
+    },
   },
   plugins: [
     // eslint-disable-next-line global-require
