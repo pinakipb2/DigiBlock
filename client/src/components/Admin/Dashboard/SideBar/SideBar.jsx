@@ -10,11 +10,11 @@ const SideBar = () => {
   const [urlPath, setUrlPath] = useState(null);
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
 
-  function changeSidebarIconColor() {
+  const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
       const pathName = location.pathname.replace('/admin/', '');
-      setUrlPath(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)} (Admin) - DigiBlock`);
+      setUrlPath(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)}  | (Admin) - DigiBlock`);
       switch (pathName) {
         case 'dashboard':
           setCurrSidebarMenu(0);
@@ -41,7 +41,7 @@ const SideBar = () => {
         setCurrSidebarMenu(0);
       };
     }, [location]);
-  }
+  };
   changeSidebarIconColor();
 
   return (

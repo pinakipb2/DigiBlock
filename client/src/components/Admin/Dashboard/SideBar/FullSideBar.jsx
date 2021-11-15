@@ -4,7 +4,7 @@ import Scrollbars from 'react-custom-scrollbars-2';
 
 const FullSideBar = ({ currSidebarMenu }) => (
   <div className="h-screen w-72 flex flex-col bg-gray-700">
-    <div className="py-5 border-b border-gray-500 text-center">
+    <div className="py-4 border-b border-gray-500 text-center">
       <Link to="/admin/dashboard" className="text-2xl font-semibold text-gray-300">
         Admin Panel
       </Link>
@@ -15,8 +15,6 @@ const FullSideBar = ({ currSidebarMenu }) => (
     </div>
     <Scrollbars
       style={{ width: '100%', height: '100%' }}
-                // autoHide={true}
-                // autoHideTimeout={1300}
       renderThumbVertical={({ style, ...props }) => (
         <div
           {...props}
