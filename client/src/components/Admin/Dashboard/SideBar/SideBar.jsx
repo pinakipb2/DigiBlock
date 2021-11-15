@@ -9,37 +9,15 @@ const SideBar = () => {
   const [currSidebarMenu, setCurrSidebarMenu] = useState(0);
   const [urlPath, setUrlPath] = useState(null);
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
+  const sidebarMenuData = useSelector((state) => state.admin.sidebarMenu);
 
   const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
-      const pathName = location.pathname.replace('/admin/', '');
-      setUrlPath(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)}  | (Admin) - DigiBlock`);
-      switch (pathName) {
-        case 'dashboard':
-          setCurrSidebarMenu(0);
-          break;
-        case 'admins':
-          setCurrSidebarMenu(1);
-          break;
-        case 'users':
-          setCurrSidebarMenu(2);
-          break;
-        case 'issuers':
-          setCurrSidebarMenu(3);
-          break;
-        case 'verifiers':
-          setCurrSidebarMenu(4);
-          break;
-        case 'profile':
-          setCurrSidebarMenu(5);
-          break;
-        default:
-          break;
-      }
-      return () => {
-        setCurrSidebarMenu(0);
-      };
+      const path = location.pathname.replace('/admin/', '');
+      const pathName = path.charAt(0).toUpperCase() + path.slice(1);
+      setUrlPath(`${pathName} | (Admin) - DigiBlock`);
+      setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
     }, [location]);
   };
   changeSidebarIconColor();
@@ -49,9 +27,11 @@ const SideBar = () => {
       <Helmet>
         <title>{urlPath}</title>
       </Helmet>
-      {
-        sidebarCollapsed ? <CollapsedSideBar currSidebarMenu={currSidebarMenu} /> : <FullSideBar currSidebarMenu={currSidebarMenu} />
-      }
+      {sidebarCollapsed ? (
+        <CollapsedSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} />
+      ) : (
+        <FullSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} />
+      )}
     </>
   );
 };
