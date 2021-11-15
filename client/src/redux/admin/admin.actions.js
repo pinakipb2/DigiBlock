@@ -39,3 +39,7 @@ export const setIsNetworkChange = (verdict) => ({
   type: AdminActionTypes.CHECK_NETWORK_CHANGED,
   payload: verdict,
 });
+
+export const checkSidebarCollapsed = () => ({
+  type: AdminActionTypes.CHECK_SIDEBAR_COLLAPSED,
+});

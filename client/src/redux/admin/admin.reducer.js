@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   isMetaMaskInstalled: false,
   isAccountChanged: false,
   isNetworkChanged: false,
+  sidebarCollapsed: false,
 };
 
 const adminReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,11 @@ const adminReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isNetworkChanged: action.payload,
+      };
+    case AdminActionTypes.CHECK_SIDEBAR_COLLAPSED:
+      return {
+        ...state,
+        sidebarCollapsed: !state.sidebarCollapsed,
       };
     default:
       return state;
