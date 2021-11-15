@@ -7,44 +7,6 @@ const INITIAL_STATE = {
   isAccountChanged: false,
   isNetworkChanged: false,
   sidebarCollapsed: false,
-  sidebarMenu: [
-    {
-      id: 0,
-      name: 'Dashboard',
-      url: '/admin/dashboard',
-      icon: 'fas fa-tachometer-alt',
-    },
-    {
-      id: 1,
-      name: 'Admins',
-      url: '/admin/admins',
-      icon: 'fas fa-user-secret',
-    },
-    {
-      id: 2,
-      name: 'Users',
-      url: '/admin/users',
-      icon: 'fas fa-user-alt',
-    },
-    {
-      id: 3,
-      name: 'Issuers',
-      url: '/admin/issuers',
-      icon: 'fas fa-user-tie',
-    },
-    {
-      id: 4,
-      name: 'Verifiers',
-      url: '/admin/verifiers',
-      icon: 'fas fa-user-check',
-    },
-    {
-      id: 5,
-      name: 'Profile',
-      url: '/admin/profile',
-      icon: 'fas fa-id-badge',
-    },
-  ],
 };
 
 const adminReducer = (state = INITIAL_STATE, action) => {

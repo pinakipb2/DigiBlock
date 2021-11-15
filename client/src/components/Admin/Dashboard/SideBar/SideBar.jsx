@@ -9,7 +9,45 @@ const SideBar = () => {
   const [currSidebarMenu, setCurrSidebarMenu] = useState(0);
   const [urlPath, setUrlPath] = useState(null);
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
-  const sidebarMenuData = useSelector((state) => state.admin.sidebarMenu);
+
+  const [sidebarMenuData] = useState([
+    {
+      id: 0,
+      name: 'Dashboard',
+      url: '/admin/dashboard',
+      icon: 'fas fa-tachometer-alt',
+    },
+    {
+      id: 1,
+      name: 'Admins',
+      url: '/admin/admins',
+      icon: 'fas fa-user-secret',
+    },
+    {
+      id: 2,
+      name: 'Users',
+      url: '/admin/users',
+      icon: 'fas fa-user-alt',
+    },
+    {
+      id: 3,
+      name: 'Issuers',
+      url: '/admin/issuers',
+      icon: 'fas fa-user-tie',
+    },
+    {
+      id: 4,
+      name: 'Verifiers',
+      url: '/admin/verifiers',
+      icon: 'fas fa-user-check',
+    },
+    {
+      id: 5,
+      name: 'Profile',
+      url: '/admin/profile',
+      icon: 'fas fa-id-badge',
+    },
+  ]);
 
   const changeSidebarIconColor = () => {
     const location = useLocation();
