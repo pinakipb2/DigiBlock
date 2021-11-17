@@ -26,6 +26,78 @@ const UserDetails = () => {
       address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
       status: 0,
     },
+    {
+      id: 5,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 6,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 7,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 8,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 0,
+    },
+    {
+      id: 9,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 10,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 11,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 12,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 0,
+    },
+    {
+      id: 13,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 14,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 15,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 1,
+    },
+    {
+      id: 16,
+      name: 'A',
+      address: '0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb',
+      status: 0,
+    },
   ]);
   return (
     <div className="px-6">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import NavAdmin from '../../../components/Admin/Dashboard/Navbar/NavAdmin';
 import SideBar from '../../../components/Admin/Dashboard/SideBar/SideBar';
 import Stats from '../../../components/Admin/Dashboard/MainComponents/DashboardStats/Stats';
@@ -12,6 +13,7 @@ import VerifierDetails from '../../../components/Admin/Dashboard/MainComponents/
 const AdminDashboard = () => {
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
+  const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
   useEffect(() => {
     const pathName = location.pathname.replace('/admin/', '');
     setCurrMenu(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)}`);
@@ -41,10 +43,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex bg-gray-200 select-none">
-      <div>
+      <div className="fixed">
         <SideBar />
       </div>
-      <div className="flex-auto">
+      <div className={`${sidebarCollapsed ? 'ml-20' : 'ml-72'} flex-auto h-screen`}>
         <NavAdmin />
         <div className="text-3xl py-4 px-6 font-light text-gray-700 font-ubuntu">{currMenu}</div>
         <span className="sidebar-tooltip hidden">Dashboard</span>
