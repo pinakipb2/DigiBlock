@@ -71,7 +71,6 @@ const UserDetails = () => {
 
   // function to search in table
   const searchTable = (term) => {
-    console.log(term);
     const searchTerm = term.toLowerCase();
     if (searchTerm === '') {
       setTableData(originalData);
