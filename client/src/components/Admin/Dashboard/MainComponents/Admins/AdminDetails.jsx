@@ -1,7 +1,32 @@
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Stack,
+  Box,
+  FormLabel,
+  FormControl,
+  HStack,
+  Input,
+  Button,
+  PinInput,
+  PinInputField,
+} from '@chakra-ui/react';
 
 const AdminDetails = () => {
+  const [adminFormData, setAdminFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    pin: '',
+  });
   const objects = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 120; i++) {
@@ -13,6 +38,9 @@ const AdminDetails = () => {
       status: Math.round(Math.random()),
     });
   }
+
+  const { isOpen: isOpenAddAdmin, onOpen: onOpenAddAdmin, onClose: onCloseAddAdmin } = useDisclosure();
+  const firstField = React.useRef();
 
   // Original data
   const [originalData] = useState(objects);
@@ -28,7 +56,7 @@ const AdminDetails = () => {
 
   // JSX variable to show data in table page-wise
   const showData = tableData.slice(pagesVisited, pagesVisited + dataPerPage).map((val, index) => (
-    <tr key={val.id} className={index % 2 !== 0 ? 'bg-red-200 ' : 'bg-white'}>
+    <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100 ' : 'bg-white'}>
       <td className="font-ubuntu">{val.id}</td>
       <td className="font-ubuntu">{val.name}</td>
       <td className="font-ubuntu">{val.email}</td>
@@ -86,6 +114,11 @@ const AdminDetails = () => {
     }
   };
 
+  const addAdmin = () => {
+    console.log(adminFormData);
+    onCloseAddAdmin();
+  };
+
   return (
     <div className="px-6 pb-10">
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
@@ -106,7 +139,11 @@ const AdminDetails = () => {
               }}
             />
           </div>
-          <div className="flex bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-md px-2 py-1 justify-center items-center">
+          <div
+            role="button"
+            className="flex bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-md px-2 py-1 justify-center items-center"
+            onClick={onOpenAddAdmin}
+          >
             <i className="fas fa-plus-circle mr-3 p-1" />
             <div className="text-white mr-2 font-semibold text-base">Add Admins</div>
           </div>
@@ -140,7 +177,7 @@ const AdminDetails = () => {
               nextClassName="text-prime"
               nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
               disabledClassName="text-white"
-              disabledLinkClassName="cursor-not-allowed bg-gray-500 text-white"
+              disabledLinkClassName="bg-gray-500 text-white cursor-not-allowed"
               activeClassName="bg-prime"
               activeLinkClassName="text-white"
               breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
@@ -149,6 +186,91 @@ const AdminDetails = () => {
         }
 
       </div>
+      <Drawer
+        size="sm"
+        isOpen={isOpenAddAdmin}
+        placement="right"
+        initialFocusRef={firstField}
+        onClose={onCloseAddAdmin}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            Add a new admin
+          </DrawerHeader>
+
+          <DrawerBody>
+            <Stack spacing="20px">
+              <Box>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="username">Name</FormLabel>
+                  <Input
+                    ref={firstField}
+                    id="username"
+                    placeholder="Name of admin"
+                    onChange={(event) => { setAdminFormData({ ...adminFormData, name: event.target.value }); }}
+                  />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input
+                    type="email"
+                    id="email"
+                    placeholder="Email of admin"
+                    onChange={(event) => { setAdminFormData({ ...adminFormData, email: event.target.value }); }}
+                  />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="address">Address</FormLabel>
+                  <Input
+                    id="address"
+                    placeholder="Address of admin"
+                    onChange={(event) => { setAdminFormData({ ...adminFormData, address: event.target.value }); }}
+                  />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="masterkey">Master Key</FormLabel>
+                  <HStack>
+                    <PinInput size="sm" type="alphanumeric" mask onChange={(value) => { setAdminFormData({ ...adminFormData, pin: value }); }}>
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                    </PinInput>
+                  </HStack>
+                </FormControl>
+              </Box>
+            </Stack>
+          </DrawerBody>
+
+          <DrawerFooter borderTopWidth="1px">
+            <Button variant="outline" mr={3} onClick={onCloseAddAdmin}>
+              Cancel
+            </Button>
+            <Button
+              onClick={addAdmin}
+              colorScheme="blue"
+            >
+              Submit
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };

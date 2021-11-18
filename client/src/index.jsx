@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { store, persistor } from './redux/store';
 import './index.css';
 import App from './App';
@@ -26,7 +27,9 @@ ReactDOM.render(
           draggable
           pauseOnHover
         />
-        <App />
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
       </PersistGate>
     </BrowserRouter>
   </Provider>,
