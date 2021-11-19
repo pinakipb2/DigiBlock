@@ -1,15 +1,18 @@
 import React from 'react';
+import Avatar from 'react-avatar';
 
 const AdminProfile = () => (
   <div className="container flex justify-center items-center">
     <div className="flex flex-col bg-white justify-center items-center mt-10 py-6 sm:w-1/3 text-center rounded-2xl shadow-xl">
-      <img
+      {/* <img
         className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-xl border-2 border-prime"
         src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png"
         alt="Admin Profile"
-      />
+        draggable={false}
+      /> */}
+      <Avatar className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-lg" name="Pinaki Bhattacharjee" size="70" />
       <div className="flex flex-col items-center text-center justify-center">
-        <h2 className="font-medium title-font mt-4 text-gray-900 text-2xl">Admin Name</h2>
+        <h2 className="font-medium title-font mt-2 text-gray-900 text-2xl">Admin Name</h2>
         <div className="font-normal text-gray-500 text-sm font-ubuntu">0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb</div>
         <div className="flex mt-3 bg-green-500 rounded-md px-2 py-1 items-center">
           <div className="text-white mr-2 font-semibold text-sm">Verified</div>

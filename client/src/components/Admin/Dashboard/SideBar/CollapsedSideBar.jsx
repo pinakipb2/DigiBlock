@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Scrollbars from 'react-custom-scrollbars-2';
 import Tippy from '@tippyjs/react';
+import Avatar from 'react-avatar';
 
 const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
   <div className="h-screen w-20 flex flex-col bg-gray-700">
@@ -11,7 +12,8 @@ const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
       </Link>
     </div>
     <div className="py-4 border-b border-gray-500 text-center flex justify-center items-center">
-      <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" />
+      {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
+      <Avatar className="rounded-full mr-2" name="Pinaki Bhattacharjee" size="50" />
     </div>
     <Scrollbars
       style={{ width: '100%', height: '100%' }}

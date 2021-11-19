@@ -18,7 +18,19 @@ import {
   Button,
   PinInput,
   PinInputField,
+  FormHelperText,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from '@chakra-ui/react';
+import { toast } from 'react-toastify';
+import isEmail from 'validator/lib/isEmail';
+import isEthereumAddress from 'validator/lib/isEthereumAddress';
+import { Global, css } from '@emotion/react';
 
 const AdminDetails = () => {
   const [adminFormData, setAdminFormData] = useState({
@@ -27,6 +39,7 @@ const AdminDetails = () => {
     address: '',
     pin: '',
   });
+
   const objects = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 120; i++) {
@@ -40,7 +53,15 @@ const AdminDetails = () => {
   }
 
   const { isOpen: isOpenAddAdmin, onOpen: onOpenAddAdmin, onClose: onCloseAddAdmin } = useDisclosure();
+  const { isOpen: isOpenRemoveAdmin, onOpen: onOpenRemoveAdmin, onClose: onCloseRemoveAdmin } = useDisclosure();
   const firstField = React.useRef();
+  const initialRef = React.useRef();
+
+  const [toRemoveAdmin, setToRemoveAdmin] = useState({
+    name: '',
+    address: '',
+  });
+  const [adminPin, setAdminPin] = useState(null);
 
   // Original data
   const [originalData] = useState(objects);
@@ -88,7 +109,14 @@ const AdminDetails = () => {
       </td>
       {/* If current user is owner, show this td */}
       <td>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded" type="button">
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+          type="button"
+          onClick={() => {
+            setToRemoveAdmin({ name: val.name, address: val.address });
+            onOpenRemoveAdmin();
+          }}
+        >
           <i className="far fa-trash-alt" />
         </button>
       </td>
@@ -116,11 +144,51 @@ const AdminDetails = () => {
 
   const addAdmin = () => {
     console.log(adminFormData);
+    if (adminFormData.name === '' || adminFormData.email === '' || adminFormData.address === '' || adminFormData.pin === '') {
+      toast.warn('Please fill out all fields', { toastId: 'form-not-filled' });
+    } else if (isEmail(adminFormData.email) === false) {
+      toast.warn('Please fill correct email', { toastId: 'wrong-email' });
+    } else if (isEthereumAddress(adminFormData.address) === false) {
+      // 0x334aca9f21ac36b747f1a17baa5b0291cfad8ceb
+      toast.warn('Please fill correct wallet address', { toastId: 'wrong-address' });
+    } else if (adminFormData.pin.length !== 12) {
+      toast.warn('Please fill correct PIN', { toastId: 'wrong-pin' });
+    } else {
+      setAdminFormData({
+        name: '',
+        email: '',
+        address: '',
+        pin: '',
+      });
+      toast.success('Admin Created Successfully', { toastId: 'admin-created' });
+    }
     onCloseAddAdmin();
+  };
+
+  const removeAdmin = (admin) => {
+    if (adminPin === null || adminPin.length !== 12) {
+      toast.warn('Please fill correct PIN', { toastId: 'wrong-pin' });
+    } else {
+      console.log(admin);
+      toast.success('Admin Removed Successfully', { toastId: 'admin-removed' });
+    }
+    setAdminPin(null);
+    setToRemoveAdmin({
+      name: '',
+      admin: '',
+    });
+    onCloseRemoveAdmin();
   };
 
   return (
     <div className="px-6 pb-10">
+      <Global
+        styles={css`
+          .show-disabled-cursor {
+            cursor: not-allowed;
+          }
+        `}
+      />
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           Manage
@@ -139,11 +207,7 @@ const AdminDetails = () => {
               }}
             />
           </div>
-          <div
-            role="button"
-            className="flex bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-md px-2 py-1 justify-center items-center"
-            onClick={onOpenAddAdmin}
-          >
+          <div role="button" className="flex bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-md px-2 py-1 justify-center items-center" onClick={onOpenAddAdmin}>
             <i className="fas fa-plus-circle mr-3 p-1" />
             <div className="text-white mr-2 font-semibold text-base">Add Admins</div>
           </div>
@@ -156,60 +220,54 @@ const AdminDetails = () => {
               <th>SNo</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Address</th>
+              <th>Wallet Address</th>
               <th>Status</th>
               <th>Remove</th>
             </tr>
           </thead>
           <tbody className="text-center">{showData}</tbody>
         </table>
-        {
-          tableData.length === 0 ? (<div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div>) : (
-            <ReactPaginate
-              previousLabel="Previous"
-              nextLabel="Next"
-              pageCount={pageCount}
-              onPageChange={changePage}
-              className="flex justify-center items-center list-none h-10 w-4/5 mt-10"
-              pageClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-              previousClassName="text-prime"
-              previousLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-              nextClassName="text-prime"
-              nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-              disabledClassName="text-white"
-              disabledLinkClassName="bg-gray-500 text-white cursor-not-allowed"
-              activeClassName="bg-prime"
-              activeLinkClassName="text-white"
-              breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-            />
-          )
-        }
-
+        {tableData.length === 0 ? (
+          <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div>
+        ) : (
+          <ReactPaginate
+            previousLabel="Previous"
+            nextLabel="Next"
+            pageCount={pageCount}
+            onPageChange={changePage}
+            className="flex justify-center items-center list-none h-10 w-4/5 mt-10"
+            pageClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
+            previousClassName="text-prime"
+            previousLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
+            nextClassName="text-prime"
+            nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
+            disabledClassName="text-white"
+            disabledLinkClassName="show-disabled-cursor bg-gray-500 text-white"
+            activeClassName="bg-prime"
+            activeLinkClassName="text-white"
+            breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
+          />
+        )}
       </div>
-      <Drawer
-        size="sm"
-        isOpen={isOpenAddAdmin}
-        placement="right"
-        initialFocusRef={firstField}
-        onClose={onCloseAddAdmin}
-      >
+      <Drawer size="sm" isOpen={isOpenAddAdmin} placement="right" initialFocusRef={firstField} onClose={onCloseAddAdmin}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
-            Add a new admin
-          </DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">Add a new Admin</DrawerHeader>
 
           <DrawerBody>
             <Stack spacing="20px">
               <Box>
                 <FormControl isRequired>
-                  <FormLabel htmlFor="username">Name</FormLabel>
+                  <FormLabel htmlFor="name">Name</FormLabel>
                   <Input
                     ref={firstField}
-                    id="username"
+                    id="name"
                     placeholder="Name of admin"
-                    onChange={(event) => { setAdminFormData({ ...adminFormData, name: event.target.value }); }}
+                    value={adminFormData.name}
+                    onChange={(event) => {
+                      setAdminFormData({ ...adminFormData, name: event.target.value });
+                    }}
                   />
                 </FormControl>
               </Box>
@@ -220,17 +278,23 @@ const AdminDetails = () => {
                     type="email"
                     id="email"
                     placeholder="Email of admin"
-                    onChange={(event) => { setAdminFormData({ ...adminFormData, email: event.target.value }); }}
+                    value={adminFormData.email}
+                    onChange={(event) => {
+                      setAdminFormData({ ...adminFormData, email: event.target.value });
+                    }}
                   />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl isRequired>
-                  <FormLabel htmlFor="address">Address</FormLabel>
+                  <FormLabel htmlFor="walletaddress">Wallet Address</FormLabel>
                   <Input
-                    id="address"
-                    placeholder="Address of admin"
-                    onChange={(event) => { setAdminFormData({ ...adminFormData, address: event.target.value }); }}
+                    id="walletaddress"
+                    placeholder="Wallet Address of admin"
+                    value={adminFormData.address}
+                    onChange={(event) => {
+                      setAdminFormData({ ...adminFormData, address: event.target.value });
+                    }}
                   />
                 </FormControl>
               </Box>
@@ -238,7 +302,14 @@ const AdminDetails = () => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="masterkey">Master Key</FormLabel>
                   <HStack>
-                    <PinInput size="sm" type="alphanumeric" mask onChange={(value) => { setAdminFormData({ ...adminFormData, pin: value }); }}>
+                    <PinInput
+                      size="sm"
+                      type="alphanumeric"
+                      mask
+                      onChange={(value) => {
+                        setAdminFormData({ ...adminFormData, pin: value });
+                      }}
+                    >
                       <PinInputField />
                       <PinInputField />
                       <PinInputField />
@@ -253,6 +324,7 @@ const AdminDetails = () => {
                       <PinInputField />
                     </PinInput>
                   </HStack>
+                  <FormHelperText>Copy the Master Key and Paste Here</FormHelperText>
                 </FormControl>
               </Box>
             </Stack>
@@ -262,15 +334,66 @@ const AdminDetails = () => {
             <Button variant="outline" mr={3} onClick={onCloseAddAdmin}>
               Cancel
             </Button>
-            <Button
-              onClick={addAdmin}
-              colorScheme="blue"
-            >
+            <Button onClick={addAdmin} colorScheme="blue">
               Submit
             </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      <Modal initialFocusRef={initialRef} isOpen={isOpenRemoveAdmin} onClose={onCloseRemoveAdmin}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Remove
+            {' '}
+            {toRemoveAdmin.name}
+            {' '}
+            from Admin ?
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl isRequired>
+              <FormLabel>Master Key</FormLabel>
+              <HStack>
+                <PinInput
+                  size="sm"
+                  type="alphanumeric"
+                  onChange={(value) => {
+                    setAdminPin(value);
+                  }}
+                  mask
+                >
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                </PinInput>
+              </HStack>
+              <FormHelperText>Copy the Master Key and Paste Here</FormHelperText>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="red"
+              mr={3}
+              onClick={() => {
+                removeAdmin(toRemoveAdmin);
+              }}
+            >
+              Remove
+            </Button>
+            <Button onClick={onCloseRemoveAdmin}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

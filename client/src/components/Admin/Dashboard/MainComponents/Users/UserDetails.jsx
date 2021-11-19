@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { Global, css } from '@emotion/react';
 
 const UserDetails = () => {
   const objects = [];
@@ -8,7 +9,6 @@ const UserDetails = () => {
     objects.push({
       id: i + 1,
       name: (Math.random() + 1).toString(36).substring(2),
-      email: `${(Math.random() + 1).toString(36).substring(7)}@abc.com`,
       address: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
       status: Math.round(Math.random()),
     });
@@ -28,10 +28,9 @@ const UserDetails = () => {
 
   // JSX variable to show data in table page-wise
   const showData = tableData.slice(pagesVisited, pagesVisited + dataPerPage).map((val, index) => (
-    <tr key={val.id} className={index % 2 !== 0 ? 'bg-red-200 ' : 'bg-white'}>
+    <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100 ' : 'bg-white'}>
       <td className="font-ubuntu">{val.id}</td>
       <td className="font-ubuntu">{val.name}</td>
-      <td className="font-ubuntu">{val.email}</td>
       <td className="font-ubuntu">{val.address}</td>
       <td>
         {val.status ? (
@@ -71,6 +70,7 @@ const UserDetails = () => {
 
   // function to search in table
   const searchTable = (term) => {
+    console.log(term);
     const searchTerm = term.toLowerCase();
     if (searchTerm === '') {
       setTableData(originalData);
@@ -82,6 +82,13 @@ const UserDetails = () => {
 
   return (
     <div className="px-6 pb-10">
+      <Global
+        styles={css`
+          .show-disabled-cursor {
+            cursor: not-allowed;
+          }
+        `}
+      />
       <div className="text-white flex justify-between items-center bg-blue-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           Manage
@@ -106,35 +113,33 @@ const UserDetails = () => {
             <tr>
               <th>SNo</th>
               <th>Name</th>
-              <th>Email</th>
-              <th>Address</th>
+              <th>Wallet Address</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody className="text-center">{showData}</tbody>
         </table>
-        {
-          tableData.length === 0 ? (<div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div>) : (
-            <ReactPaginate
-              previousLabel="Previous"
-              nextLabel="Next"
-              pageCount={pageCount}
-              onPageChange={changePage}
-              className="flex justify-center items-center list-none h-10 w-4/5 mt-10"
-              pageClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-              previousClassName="text-prime"
-              previousLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-              nextClassName="text-prime"
-              nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-              disabledClassName="text-white"
-              disabledLinkClassName="cursor-not-allowed bg-gray-500 text-white"
-              activeClassName="bg-prime"
-              activeLinkClassName="text-white"
-              breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-            />
-          )
-        }
-
+        {tableData.length === 0 ? (
+          <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div>
+        ) : (
+          <ReactPaginate
+            previousLabel="Previous"
+            nextLabel="Next"
+            pageCount={pageCount}
+            onPageChange={changePage}
+            className="flex justify-center items-center list-none h-10 w-4/5 mt-10"
+            pageClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
+            previousClassName="text-prime"
+            previousLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
+            nextClassName="text-prime"
+            nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
+            disabledClassName="text-white"
+            disabledLinkClassName="show-disabled-cursor bg-gray-500 text-white"
+            activeClassName="bg-prime"
+            activeLinkClassName="text-white"
+            breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
+          />
+        )}
       </div>
     </div>
   );
