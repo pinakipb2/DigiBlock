@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactPaginate from 'react-paginate';
+
 import {
   Drawer,
   DrawerBody,
@@ -27,10 +27,11 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
+import { Global, css } from '@emotion/react';
+import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 import isEmail from 'validator/lib/isEmail';
 import isEthereumAddress from 'validator/lib/isEthereumAddress';
-import { Global, css } from '@emotion/react';
 
 const AdminDetails = () => {
   const [adminFormData, setAdminFormData] = useState({

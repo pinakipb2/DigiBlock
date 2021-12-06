@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+
+import Avatar from 'react-avatar';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import Avatar from 'react-avatar';
+
 import { checkSidebarCollapsed } from '../../../../redux/admin/admin.actions';
 import NavProfile from './NavProfile';
 

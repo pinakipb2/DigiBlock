@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+
 import Tippy from '@tippyjs/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import getWeb3 from '../../../getWeb3';
 import {
   setWeb3, setMetmaskInstalled, setCurrentAdmin, setIsAccountChange, setIsNetworkChange,

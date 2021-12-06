@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+
 import AdminActionTypes from './admin.types';
 
 export const setWeb3 = (web3) => ({

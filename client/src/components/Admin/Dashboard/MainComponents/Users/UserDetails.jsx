@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import ReactPaginate from 'react-paginate';
+
 import { Global, css } from '@emotion/react';
+import ReactPaginate from 'react-paginate';
 
 const UserDetails = () => {
   const objects = [];

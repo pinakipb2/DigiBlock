@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+
 import Avatar from 'react-avatar';
+import { Link, useHistory } from 'react-router-dom';
 
 const NavProfile = () => {
   const history = useHistory();

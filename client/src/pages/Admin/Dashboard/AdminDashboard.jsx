@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
+import AdminDetails from '../../../components/Admin/Dashboard/MainComponents/Admins/AdminDetails';
+import Stats from '../../../components/Admin/Dashboard/MainComponents/DashboardStats/Stats';
+import IssuerDetails from '../../../components/Admin/Dashboard/MainComponents/Issuers/IssuerDetails';
+import AdminProfile from '../../../components/Admin/Dashboard/MainComponents/Profile/Profile';
+import UserDetails from '../../../components/Admin/Dashboard/MainComponents/Users/UserDetails';
+import VerifierDetails from '../../../components/Admin/Dashboard/MainComponents/Verifiers/VerifierDetails';
 import NavAdmin from '../../../components/Admin/Dashboard/Navbar/NavAdmin';
 import SideBar from '../../../components/Admin/Dashboard/SideBar/SideBar';
-import Stats from '../../../components/Admin/Dashboard/MainComponents/DashboardStats/Stats';
-import AdminProfile from '../../../components/Admin/Dashboard/MainComponents/Profile/Profile';
-import AdminDetails from '../../../components/Admin/Dashboard/MainComponents/Admins/AdminDetails';
-import UserDetails from '../../../components/Admin/Dashboard/MainComponents/Users/UserDetails';
-import IssuerDetails from '../../../components/Admin/Dashboard/MainComponents/Issuers/IssuerDetails';
-import VerifierDetails from '../../../components/Admin/Dashboard/MainComponents/Verifiers/VerifierDetails';
 
 const AdminDashboard = () => {
   const location = useLocation();

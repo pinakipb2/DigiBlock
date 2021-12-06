@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+
 import { useSelector } from 'react-redux';
-import LoginToDashboard from './LoginToDashboard';
+
 import ConnectWallet from './ConnectWallet';
+import LoginToDashboard from './LoginToDashboard';
 
 const Login = () => {
   const [currentFormStep, setCurrentFormStep] = useState(1);

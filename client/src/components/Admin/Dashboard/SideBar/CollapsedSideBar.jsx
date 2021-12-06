@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import Scrollbars from 'react-custom-scrollbars-2';
+
 import Tippy from '@tippyjs/react';
 import Avatar from 'react-avatar';
+import Scrollbars from 'react-custom-scrollbars-2';
+import { Link, NavLink } from 'react-router-dom';
 
 const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
   <div className="h-screen w-20 flex flex-col bg-gray-700">

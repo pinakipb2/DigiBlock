@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+
 import UserActionTypes from './user.types';
 
 export const setWeb3 = (web3) => ({

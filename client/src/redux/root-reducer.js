@@ -1,9 +1,10 @@
+import { stringify, parse } from 'flatted';
+import localforage from 'localforage';
 import { combineReducers } from 'redux';
 import { persistReducer, createTransform } from 'redux-persist';
-import localforage from 'localforage';
-import { stringify, parse } from 'flatted';
-import userReducer from './user/user.reducer';
+
 import adminReducer from './admin/admin.reducer';
+import userReducer from './user/user.reducer';
 
 export const transformCircular = createTransform(
   (inboundState) => stringify(inboundState),

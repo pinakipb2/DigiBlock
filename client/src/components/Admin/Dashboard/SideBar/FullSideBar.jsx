@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import Scrollbars from 'react-custom-scrollbars-2';
+
 import Avatar from 'react-avatar';
+import Scrollbars from 'react-custom-scrollbars-2';
+import { Link, NavLink } from 'react-router-dom';
 
 const FullSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
   <div className="h-screen w-72 flex flex-col bg-gray-700">

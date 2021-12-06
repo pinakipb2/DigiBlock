@@ -1,12 +1,14 @@
 import React from 'react';
+
 import { Route, Switch } from 'react-router-dom';
-import HomePage from './pages/Common/HomePage';
-import ScrollToTop from './components/Common/ScrollToTop';
-import UserLogin from './pages/User/UserLogin';
-import AdminLogin from './pages/Admin/Login/AdminLogin';
-import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
-import AboutUs from './pages/Common/AboutUsPage';
+
 import ErrorPage from './components/Common/404/404';
+import ScrollToTop from './components/Common/ScrollToTop';
+import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
+import AdminLogin from './pages/Admin/Login/AdminLogin';
+import AboutUs from './pages/Common/AboutUsPage';
+import HomePage from './pages/Common/HomePage';
+import UserLogin from './pages/User/UserLogin';
 
 function App() {
   return (
