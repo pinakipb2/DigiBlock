@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Global, css } from '@emotion/react';
 import { Route, Switch } from 'react-router-dom';
 
 import ErrorPage from './components/Common/404/404';
@@ -13,6 +14,13 @@ import UserLogin from './pages/User/UserLogin';
 function App() {
   return (
     <div className="h-screen">
+      <Global
+        styles={css`
+          .show-disabled-cursor-pagination {
+            cursor: not-allowed;
+          }
+        `}
+      />
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />

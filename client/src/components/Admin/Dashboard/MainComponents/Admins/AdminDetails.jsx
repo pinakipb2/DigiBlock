@@ -1,46 +1,12 @@
 import React, { useState } from 'react';
 
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-  Stack,
-  Box,
-  FormLabel,
-  FormControl,
-  HStack,
-  Input,
-  Button,
-  PinInput,
-  PinInputField,
-  FormHelperText,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react';
-import { Global, css } from '@emotion/react';
-import ReactPaginate from 'react-paginate';
-import { toast } from 'react-toastify';
-import isEmail from 'validator/lib/isEmail';
-import isEthereumAddress from 'validator/lib/isEthereumAddress';
+import { useDisclosure } from '@chakra-ui/react';
+
+import AddAdminDrawer from '../UI/AddAdminDrawer';
+import MasterKeyModal from '../UI/MasterKeyModal';
+import Pagination from '../UI/Pagination';
 
 const AdminDetails = () => {
-  const [adminFormData, setAdminFormData] = useState({
-    name: '',
-    email: '',
-    address: '',
-    pin: '',
-  });
-
   const objects = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 120; i++) {
@@ -55,18 +21,9 @@ const AdminDetails = () => {
 
   const { isOpen: isOpenAddAdmin, onOpen: onOpenAddAdmin, onClose: onCloseAddAdmin } = useDisclosure();
   const { isOpen: isOpenRemoveAdmin, onOpen: onOpenRemoveAdmin, onClose: onCloseRemoveAdmin } = useDisclosure();
-  const firstField = React.useRef();
-  const initialRef = React.useRef();
-
-  const [toRemoveAdmin, setToRemoveAdmin] = useState({
-    name: '',
-    address: '',
-  });
-  const [adminPin, setAdminPin] = useState(null);
 
   // Original data
   const [originalData] = useState(objects);
-
   // Data shown at table
   const [tableData, setTableData] = useState(originalData);
   // Current Page Number
@@ -75,6 +32,22 @@ const AdminDetails = () => {
   const dataPerPage = 6;
   // Number of pages visited
   const pagesVisited = pageNumber * dataPerPage;
+  // Total number of pages
+  const pageCount = Math.ceil(tableData.length / dataPerPage);
+  // Function to change page number
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+  // function to search in table
+  const searchTable = (term) => {
+    const searchTerm = term.toLowerCase();
+    if (searchTerm === '') {
+      setTableData(originalData);
+    } else {
+      const filteredTable = originalData.filter((row) => row.name.toLowerCase().includes(searchTerm) || row.email.toLowerCase().includes(searchTerm) || row.address.toLowerCase().includes(searchTerm));
+      setTableData(filteredTable);
+    }
+  };
 
   // JSX variable to show data in table page-wise
   const showData = tableData.slice(pagesVisited, pagesVisited + dataPerPage).map((val, index) => (
@@ -110,90 +83,18 @@ const AdminDetails = () => {
       </td>
       {/* If current user is owner, show this td */}
       <td>
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-          type="button"
-          onClick={() => {
-            setToRemoveAdmin({ name: val.name, address: val.address });
-            onOpenRemoveAdmin();
-          }}
-        >
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded" type="button" onClick={onOpenRemoveAdmin}>
           <i className="far fa-trash-alt" />
         </button>
       </td>
     </tr>
   ));
 
-  // Total number of pages
-  const pageCount = Math.ceil(tableData.length / dataPerPage);
-
-  // Function to change page number
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
-  };
-
-  // function to search in table
-  const searchTable = (term) => {
-    const searchTerm = term.toLowerCase();
-    if (searchTerm === '') {
-      setTableData(originalData);
-    } else {
-      const filteredTable = originalData.filter((row) => row.name.toLowerCase().includes(searchTerm) || row.email.toLowerCase().includes(searchTerm) || row.address.toLowerCase().includes(searchTerm));
-      setTableData(filteredTable);
-    }
-  };
-
-  const addAdmin = () => {
-    console.log(adminFormData);
-    if (adminFormData.name === '' || adminFormData.email === '' || adminFormData.address === '' || adminFormData.pin === '') {
-      toast.warn('Please fill out all fields', { toastId: 'form-not-filled' });
-    } else if (isEmail(adminFormData.email) === false) {
-      toast.warn('Please fill correct email', { toastId: 'wrong-email' });
-    } else if (isEthereumAddress(adminFormData.address) === false) {
-      // 0x334aca9f21ac36b747f1a17baa5b0291cfad8ceb
-      toast.warn('Please fill correct wallet address', { toastId: 'wrong-address' });
-    } else if (adminFormData.pin.length !== 12) {
-      toast.warn('Please fill correct PIN', { toastId: 'wrong-pin' });
-    } else {
-      setAdminFormData({
-        name: '',
-        email: '',
-        address: '',
-        pin: '',
-      });
-      toast.success('Admin Created Successfully', { toastId: 'admin-created' });
-    }
-    onCloseAddAdmin();
-  };
-
-  const removeAdmin = (admin) => {
-    if (adminPin === null || adminPin.length !== 12) {
-      toast.warn('Please fill correct PIN', { toastId: 'wrong-pin' });
-    } else {
-      console.log(admin);
-      toast.success('Admin Removed Successfully', { toastId: 'admin-removed' });
-    }
-    setAdminPin(null);
-    setToRemoveAdmin({
-      name: '',
-      admin: '',
-    });
-    onCloseRemoveAdmin();
-  };
-
   return (
     <div className="px-6 pb-10">
-      <Global
-        styles={css`
-          .show-disabled-cursor {
-            cursor: not-allowed;
-          }
-        `}
-      />
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           Manage
-          {' '}
           <span className="font-bold">Admins</span>
         </div>
         <div className="flex justify-evenly items-center">
@@ -228,173 +129,10 @@ const AdminDetails = () => {
           </thead>
           <tbody className="text-center">{showData}</tbody>
         </table>
-        {tableData.length === 0 ? (
-          <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div>
-        ) : (
-          <ReactPaginate
-            previousLabel="Previous"
-            nextLabel="Next"
-            pageCount={pageCount}
-            onPageChange={changePage}
-            className="flex justify-center items-center list-none h-10 w-4/5 mt-10"
-            pageClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-            previousClassName="text-prime"
-            previousLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-            nextClassName="text-prime"
-            nextLinkClassName="p-2.5 m-0.5 rounded border border-gray-500 hover:bg-prime hover:text-white"
-            disabledClassName="text-white"
-            disabledLinkClassName="show-disabled-cursor bg-gray-500 text-white"
-            activeClassName="bg-prime"
-            activeLinkClassName="text-white"
-            breakClassName="p-2.5 m-0.5 rounded border border-prime text-prime hover:bg-prime hover:text-white"
-          />
-        )}
+        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
       </div>
-      <Drawer size="sm" isOpen={isOpenAddAdmin} placement="right" initialFocusRef={firstField} onClose={onCloseAddAdmin}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">Add a new Admin</DrawerHeader>
-
-          <DrawerBody>
-            <Stack spacing="20px">
-              <Box>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="name">Name</FormLabel>
-                  <Input
-                    ref={firstField}
-                    id="name"
-                    placeholder="Name of admin"
-                    value={adminFormData.name}
-                    onChange={(event) => {
-                      setAdminFormData({ ...adminFormData, name: event.target.value });
-                    }}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="email">Email</FormLabel>
-                  <Input
-                    type="email"
-                    id="email"
-                    placeholder="Email of admin"
-                    value={adminFormData.email}
-                    onChange={(event) => {
-                      setAdminFormData({ ...adminFormData, email: event.target.value });
-                    }}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="walletaddress">Wallet Address</FormLabel>
-                  <Input
-                    id="walletaddress"
-                    placeholder="Wallet Address of admin"
-                    value={adminFormData.address}
-                    onChange={(event) => {
-                      setAdminFormData({ ...adminFormData, address: event.target.value });
-                    }}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="masterkey">Master Key</FormLabel>
-                  <HStack>
-                    <PinInput
-                      size="sm"
-                      type="alphanumeric"
-                      mask
-                      onChange={(value) => {
-                        setAdminFormData({ ...adminFormData, pin: value });
-                      }}
-                    >
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                    </PinInput>
-                  </HStack>
-                  <FormHelperText>Copy the Master Key and Paste Here</FormHelperText>
-                </FormControl>
-              </Box>
-            </Stack>
-          </DrawerBody>
-
-          <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onCloseAddAdmin}>
-              Cancel
-            </Button>
-            <Button onClick={addAdmin} colorScheme="blue">
-              Submit
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-      <Modal initialFocusRef={initialRef} isOpen={isOpenRemoveAdmin} onClose={onCloseRemoveAdmin}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Remove
-            {' '}
-            {toRemoveAdmin.name}
-            {' '}
-            from Admin ?
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl isRequired>
-              <FormLabel>Master Key</FormLabel>
-              <HStack>
-                <PinInput
-                  size="sm"
-                  type="alphanumeric"
-                  onChange={(value) => {
-                    setAdminPin(value);
-                  }}
-                  mask
-                >
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                </PinInput>
-              </HStack>
-              <FormHelperText>Copy the Master Key and Paste Here</FormHelperText>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="red"
-              mr={3}
-              onClick={() => {
-                removeAdmin(toRemoveAdmin);
-              }}
-            >
-              Remove
-            </Button>
-            <Button onClick={onCloseRemoveAdmin}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <AddAdminDrawer isOpenAddAdmin={isOpenAddAdmin} onCloseAddAdmin={onCloseAddAdmin} />
+      <MasterKeyModal isOpenRemoveAdmin={isOpenRemoveAdmin} onCloseRemoveAdmin={onCloseRemoveAdmin} />
     </div>
   );
 };

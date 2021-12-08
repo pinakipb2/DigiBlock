@@ -13,15 +13,6 @@
   },
   "plugins": ["react"],
   "rules": {
-    "no-alert": "off",
-    "no-console": "off",
-    "max-len": "off",
-    "linebreak-style": 0,
-    "react/prop-types": 0,
-    "react/jsx-props-no-spreading": 0,
-    "jsx-a11y/click-events-have-key-events": 0,
-    "jsx-a11y/interactive-supports-focus": 0,
-    "react/destructuring-assignment": 0,
     "import/order": [
       "error",
       {
@@ -40,6 +31,17 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    "no-alert": "off",
+    "no-console": "off",
+    "max-len": "off",
+    "linebreak-style": 0,
+    "react/prop-types": 0,
+    "react/jsx-props-no-spreading": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/interactive-supports-focus": 0,
+    "react/destructuring-assignment": 0,
+    "react/no-children-prop": 0,
+    "func-names": "off"
   }
 }
