@@ -11,7 +11,9 @@ const Hero = () => (
           <br className="hidden lg:inline-block" />
           Safe & Organised
         </h1>
-        <p className="mb-8 leading-relaxed text-gray-800 font-raleway">A one-stop platform for your Digital Identity to be Safe and Organized. This platform is made using Blockchain Technology which makes it Fast, Trustworthy and Immutable. </p>
+        <p className="mb-8 leading-relaxed text-gray-800 font-raleway">
+          A one-stop platform for your Digital Identity to be Safe and Organized. This platform is made using Blockchain Technology which makes it Fast, Trustworthy and Immutable.
+        </p>
         <div className="flex justify-center">
           <Link to="/about-us" type="button" className="inline-flex text-white bg-prime border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg font-roboto">
             About Us

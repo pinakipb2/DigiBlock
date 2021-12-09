@@ -26,9 +26,9 @@ const Documents = () => {
       <div className="text-center pt-16 mb-3 text-4xl font-bold text-prime font-roboto">Documents</div>
       <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-wrap -m-4">
-          {
-              documents.map((doc) => <Card key={doc.id} image={doc.image} />)
-          }
+          {documents.map((doc) => (
+            <Card key={doc.id} image={doc.image} />
+          ))}
         </div>
       </div>
     </section>

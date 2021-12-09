@@ -32,9 +32,7 @@ const FullSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
       )}
     >
       <div className="text-center p-3 flex flex-col space-y-2 cursor-pointer">
-        {sidebarMenuData.map(({
-          id, name, url, icon,
-        }) => (
+        {sidebarMenuData.map(({ id, name, url, icon }) => (
           <NavLink key={id} exact to={url} className={(isActive) => `${!isActive ? 'text-gray-400' : 'bg-blue-600 rounded-md text-gray-100'}`}>
             <div className="flex py-2 px-4 items-center">
               <i className={`${icon} mr-3 ml-1 ${currSidebarMenu === id ? 'text-white' : 'text-gray-400'} text-xl`} />

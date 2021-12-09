@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Mogena';
-    src: local('Mogena'), url(./fonts/Mogena.ttf) format('truetype');
+  font-family: 'Mogena';
+  src: local('Mogena'), url(./fonts/Mogena.ttf) format('truetype');
 }

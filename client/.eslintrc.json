@@ -42,6 +42,10 @@
     "jsx-a11y/interactive-supports-focus": 0,
     "react/destructuring-assignment": 0,
     "react/no-children-prop": 0,
-    "func-names": "off"
+    "func-names": "off",
+    "object-curly-newline": "off",
+    "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
+    "comma-dangle": "off",
+    "react/jsx-one-expression-per-line": "off"
   }
 }

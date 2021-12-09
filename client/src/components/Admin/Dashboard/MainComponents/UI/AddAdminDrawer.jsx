@@ -90,14 +90,7 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <InputGroup>
-                    <Input
-                      isInvalid={!!errors.email}
-                      focusBorderColor={errors.email ? 'red.500' : ''}
-                      type="email"
-                      placeholder="Email of admin"
-                      {...register('email')}
-                      autoComplete="off"
-                    />
+                    <Input isInvalid={!!errors.email} focusBorderColor={errors.email ? 'red.500' : ''} type="email" placeholder="Email of admin" {...register('email')} autoComplete="off" />
                     {errors.email ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
                   </InputGroup>
                   {errors.email ? <FormHelperText color="red.600">{errors.email?.message}</FormHelperText> : null}

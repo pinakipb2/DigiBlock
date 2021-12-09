@@ -49,6 +49,13 @@ const AdminDetails = () => {
     }
   };
 
+  // To delete Admin Details
+  const [deleteAdminDetails, setDeleteAdminDetails] = useState({});
+  // Delete Admin
+  const deleteAdmin = (id) => {
+    console.log(id);
+  };
+
   // JSX variable to show data in table page-wise
   const showData = tableData.slice(pagesVisited, pagesVisited + dataPerPage).map((val, index) => (
     <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100 ' : 'bg-white'}>
@@ -83,7 +90,14 @@ const AdminDetails = () => {
       </td>
       {/* If current user is owner, show this td */}
       <td>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded" type="button" onClick={onOpenRemoveAdmin}>
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+          type="button"
+          onClick={() => {
+            onOpenRemoveAdmin();
+            setDeleteAdminDetails(val);
+          }}
+        >
           <i className="far fa-trash-alt" />
         </button>
       </td>
@@ -132,7 +146,15 @@ const AdminDetails = () => {
         {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
       </div>
       <AddAdminDrawer isOpenAddAdmin={isOpenAddAdmin} onCloseAddAdmin={onCloseAddAdmin} />
-      <MasterKeyModal isOpenRemoveAdmin={isOpenRemoveAdmin} onCloseRemoveAdmin={onCloseRemoveAdmin} />
+      <MasterKeyModal
+        isOpenRemoveAdmin={isOpenRemoveAdmin}
+        onCloseRemoveAdmin={onCloseRemoveAdmin}
+        deleteAdminDetails={deleteAdminDetails}
+        deleteAdmin={deleteAdmin}
+        modalHeaderText={`Remove ${deleteAdminDetails.name} from Admin ?`}
+        modalButtonColor="red"
+        modalButtonText="Remove"
+      />
     </div>
   );
 };

@@ -30,11 +30,9 @@ import { isValidAlphanumeric } from '../Utils/Validations';
 
 yup.addMethod(yup.string, 'isValidAlphanumeric', isValidAlphanumeric);
 
-const validationSchema = yup.object().shape({
-  masterkey: yup.string().required('Master Key is a Required field').length(14, 'Invalid Master Key').isValidAlphanumeric(),
-});
+const validationSchema = yup.object().shape({ masterkey: yup.string().required('Master Key is a Required field').length(14, 'Invalid Master Key').isValidAlphanumeric() });
 
-const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin }) => {
+const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin, deleteAdminDetails, deleteAdmin, modalHeaderText, modalButtonColor, modalButtonText }) => {
   const initialFocusRef = useRef();
   const [show, setShow] = useState(false);
   const tooglePass = () => setShow(!show);
@@ -43,15 +41,20 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin }) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
-  const [result, setResult] = useState({});
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: 'onChange',
+  });
+  // const [result, setResult] = useState({});
   const onSubmit = (data) => {
-    setResult(data);
+    deleteAdmin(deleteAdminDetails.id);
+    // setResult(data);
+    console.log(data);
     onCloseRemoveAdmin();
-    setShow(false);
     reset();
+    setShow(false);
   };
-  console.log(result);
+  // console.log(result);
   return (
     <Modal
       initialFocusRef={initialFocusRef}
@@ -63,8 +66,7 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin }) => {
     >
       <ModalOverlay />
       <ModalContent>
-        {/* Text Based on Modal: Variable */}
-        <ModalHeader>Remove XYZ from Admin ?</ModalHeader>
+        <ModalHeader>{modalHeaderText}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody pb={6}>
@@ -94,10 +96,8 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin }) => {
             </Box>
           </ModalBody>
           <ModalFooter>
-            {/* Color Based on Modal: Variable */}
-            <Button colorScheme="red" mr={3} type="submit" isLoading={isSubmitting}>
-              {/* Text Based on Modal: Variable */}
-              Remove
+            <Button colorScheme={modalButtonColor} mr={3} type="submit" isLoading={isSubmitting}>
+              {modalButtonText}
             </Button>
             <Button
               onClick={() => {

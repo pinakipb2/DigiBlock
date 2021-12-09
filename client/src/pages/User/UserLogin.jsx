@@ -8,9 +8,7 @@ import Footer from '../../components/Common/Footer';
 import Navbar from '../../components/Common/Navbar';
 import Login from '../../components/User/Login/Login';
 import getWeb3 from '../../getWeb3';
-import {
-  setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange,
-} from '../../redux/user/user.actions';
+import { setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange } from '../../redux/user/user.actions';
 
 const UserLogin = () => {
   const dispatch = useDispatch();

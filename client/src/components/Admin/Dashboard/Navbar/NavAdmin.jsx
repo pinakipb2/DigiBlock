@@ -17,7 +17,7 @@ const NavAdmin = () => {
       () => () => {
         setToggleProfile(false);
       },
-      [location],
+      [location]
     );
   };
   collapseProfileOnURLChange();

@@ -16,7 +16,11 @@ const Info = () => (
       <div className="flex flex-col justify-center items-center">
         <div className="rounded-full p-6 bg-gray-50 h-36 w-36 flex justify-center items-center shadow-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" className="" viewBox="0 0 20 20">
-            <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z" fillRule="evenodd" fill="#f7992f" />
+            <path
+              d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z"
+              fillRule="evenodd"
+              fill="#f7992f"
+            />
           </svg>
         </div>
         <h1 className="text-lg title-font font-bold my-3 font-ubuntu">Get Documents</h1>
@@ -36,7 +40,10 @@ const Info = () => (
         <div className="rounded-full p-6 bg-gray-50 h-36 w-36 flex justify-center items-center shadow-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" className="" viewBox="0 0 20 20" fill="#f2480a">
             <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-            <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+            <path
+              fillRule="evenodd"
+              d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            />
           </svg>
         </div>
         <h1 className="text-lg title-font font-bold my-3 font-ubuntu">Verify Yourself</h1>

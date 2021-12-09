@@ -32,9 +32,7 @@ const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
       )}
     >
       <div className="text-center p-3 flex flex-col justify-center items-center space-y-2 cursor-pointer">
-        {sidebarMenuData.map(({
-          id, name, url, icon,
-        }) => (
+        {sidebarMenuData.map(({ id, name, url, icon }) => (
           <Tippy
             key={id}
             placement="right"

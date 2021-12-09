@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import getWeb3 from '../../../getWeb3';
-import {
-  setWeb3, setMetmaskInstalled, setCurrentUser, setIsAccountChange, setIsNetworkChange,
-} from '../../../redux/user/user.actions';
+import { setWeb3, setMetmaskInstalled, setCurrentUser, setIsAccountChange, setIsNetworkChange } from '../../../redux/user/user.actions';
 
 const ConnectWallet = () => {
   const dispatch = useDispatch();
@@ -55,11 +53,11 @@ const ConnectWallet = () => {
           ) : (
             <Tippy
               placement="right"
-              content={(
+              content={
                 <span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">
                   {`${user ? 'Coonected' : 'Not Connected'}`}
                 </span>
-              )}
+              }
             >
               <div className={`${user ? 'bg-healthy' : 'bg-red-600'} rounded-full h-3 w-3`} />
             </Tippy>

@@ -19,4 +19,4 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middl
 
 const persistor = persistStore(store);
 
-export {store, persistor};
+export { store, persistor };
