@@ -21,7 +21,7 @@ contract("DigiBlock", accounts => {
     });
   }
   const web3ErrorMessage = (errType, reason) => {
-    return (PREFIX + errType + reason + ' -- ' + 'Reason given: ' + reason + '.');
+    return (PREFIX + errType + ' ' + reason + ' -- ' + 'Reason given: ' + reason + '.');
   }
   describe("Deployment", () => {
     it("should deploy smart contract properly", async () => {
@@ -73,7 +73,7 @@ contract("DigiBlock", accounts => {
         await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: contractOwner });
         throw null;
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "User is Already a Admin";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -87,7 +87,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: contractOwner });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "User is Already a Admin";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -98,7 +98,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: user[0] });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "User is Already a Admin";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -108,7 +108,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: user[0] });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "User is Already a Admin";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -122,7 +122,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: user[2] });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "Access Denied";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -132,7 +132,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: user[2] });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "Access Denied";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -142,7 +142,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.addAdmin("Fname", "Lname", user[3], "MKey", { from: user[2] });
       } catch (err) {
-        const errType = "revert ";
+        const errType = "revert";
         const reason = "Access Denied";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
       }
@@ -166,6 +166,122 @@ contract("DigiBlock", accounts => {
           console.log(err);
         }
       });
+    });
+  });
+  describe("deleteAdmin functionality", () => {
+    it("owner cannot deleteAdmin itself", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(contractOwner, { from: contractOwner });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(3);
+    });
+    it("owner can deleteAdmin an admin", async () => {
+      await DigiBlockInstance.deleteAdmin(user[1], { from: contractOwner });
+      checkAllAdminsCount(2);
+    });
+    it("owner cannot deleteAdmin a non-admin", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[4], { from: contractOwner });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Not a valid Admin";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("admin cannot deleteAdmin owner", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(contractOwner, { from: user[0] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("admin cannot deleteAdmin itself", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[0], { from: user[0] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("admin cannot deleteAdmin an admin", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[0], { from: user[0] });
+        throw null;
+      } catch(err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("admin cannot deleteAdmin a non-admin", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[4], { from: user[0] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("non-admin cannot deleteAdmin owner", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(contractOwner, { from: user[4] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("non-admin cannot deleteAdmin itself", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[4], { from: user[4] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("non-admin cannot deleteAdmin an admin", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[0], { from: user[4] });
+        throw null;
+      } catch(err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("non-admin cannot deleteAdmin a non-admin", async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(user[3], { from: user[4] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
     });
   });
 });

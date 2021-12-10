@@ -82,6 +82,11 @@ contract DigiBlock {
 
     function deleteAdmin(address _userAddress) public onlyOwner {
         require(_userAddress != owner, "Access Denied");
+        require(
+            registeredAdmins[_userAddress].userAddress !=
+                0x0000000000000000000000000000000000000000,
+            "Not a valid Admin"
+        );
         string memory _firstName = registeredAdmins[_userAddress].firstName;
         delete registeredAdmins[_userAddress];
         uint256 index = 0;
