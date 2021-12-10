@@ -15,6 +15,7 @@ contract("DigiBlock", accounts => {
         assert(result[0].length === cnt, 'Array length is not proper');
         assert(result[1].length === cnt, 'Array length is not proper');
         assert(result[2].length === cnt, 'Array length is not proper');
+        assert(result[3].length === cnt, 'Array length is not proper');
       } else {
         console.log(err);
       }
@@ -35,9 +36,10 @@ contract("DigiBlock", accounts => {
       assert(owner === contractOwner, 'Owner is not set properly');
     });
     it("validating first admin registration in constructor", async () => {
-      function Admin(firstName, lastName, userAddress, masterKey) {
+      function Admin(firstName, lastName, email, userAddress, masterKey) {
         this.firstName = firstName,
           this.lastName = lastName,
+          this.email = email,
           this.userAddress = userAddress,
           this.masterKey = masterKey
       }
@@ -45,9 +47,10 @@ contract("DigiBlock", accounts => {
         if (!err) {
           assert(result.firstName === 'Pinaki', 'First Name is not set properly');
           assert(result.lastName === 'Bhattacharjee', 'Last Name is not set properly');
+          assert(result.email === 'pinakipb2@gmail.com', 'Last Name is not set properly');
           assert(result.userAddress === contractOwner, 'Account Address is not set properly');
           assert(result.masterKey === 'Pinaki', 'Master Key is not set properly');
-          const me = new Admin(result.firstName, result.lastName, result.userAddress, result.masterKey);
+          const me = new Admin(result.firstName, result.lastName, result.email, result.userAddress, result.masterKey);
           // console.table(me);
         } else {
           console.log(err);
@@ -60,7 +63,8 @@ contract("DigiBlock", accounts => {
           checkAllAdminsCount(1);
           assert(result[0][0] === 'Pinaki', 'First Name is not set properly');
           assert(result[1][0] === 'Bhattacharjee', 'Last Name is not set properly');
-          assert(result[2][0] === contractOwner, 'Account Address is not set properly');
+          assert(result[2][0] === 'pinakipb2@gmail.com', 'Email is not set properly');
+          assert(result[3][0] === contractOwner, 'Account Address is not set properly');
         } else {
           console.log(err);
         }
@@ -70,7 +74,7 @@ contract("DigiBlock", accounts => {
   describe("addAdmin functionality", () => {
     it("owner cannot addAdmin itself", async () => {
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: contractOwner });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", contractOwner, "MKey", { from: contractOwner });
         throw null;
       } catch (err) {
         const errType = "revert";
@@ -80,12 +84,12 @@ contract("DigiBlock", accounts => {
       checkAllAdminsCount(1);
     });
     it("owner can addAdmin non-admin", async () => {
-      await DigiBlockInstance.addAdmin("User", "0", user[0], "MKey", { from: contractOwner });
+      await DigiBlockInstance.addAdmin("User", "0", "user0@gmail.com", user[0], "MKey", { from: contractOwner });
       checkAllAdminsCount(2);
     });
     it("owner again cannot addAdmin already admin-user", async () => {
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: contractOwner });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", user[0], "MKey", { from: contractOwner });
       } catch (err) {
         const errType = "revert";
         const reason = "User is Already a Admin";
@@ -96,7 +100,7 @@ contract("DigiBlock", accounts => {
     it("admin cannot addAdmin itself", async () => {
       // Now user[0] is an admin
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: user[0] });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", user[0], "MKey", { from: user[0] });
       } catch (err) {
         const errType = "revert";
         const reason = "User is Already a Admin";
@@ -106,7 +110,7 @@ contract("DigiBlock", accounts => {
     it("admin cannot addAdmin owner", async () => {
       // Now user[0] is an admin
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: user[0] });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", contractOwner, "MKey", { from: user[0] });
       } catch (err) {
         const errType = "revert";
         const reason = "User is Already a Admin";
@@ -115,12 +119,12 @@ contract("DigiBlock", accounts => {
       checkAllAdminsCount(2);
     });
     it("admin can addAdmin non-admin", async () => {
-      await DigiBlockInstance.addAdmin("User", "1", user[1], "MKey", { from: user[0] });
+      await DigiBlockInstance.addAdmin("User", "1", "user1@gmail.com", user[1], "MKey", { from: user[0] });
       checkAllAdminsCount(3);
     });
     it("non-admin cannot addAdmin owner", async () => {
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", contractOwner, "MKey", { from: user[2] });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", contractOwner, "MKey", { from: user[2] });
       } catch (err) {
         const errType = "revert";
         const reason = "Access Denied";
@@ -130,7 +134,7 @@ contract("DigiBlock", accounts => {
     });
     it("non-admin cannot addAdmin an admin", async () => {
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", user[0], "MKey", { from: user[2] });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", user[0], "MKey", { from: user[2] });
       } catch (err) {
         const errType = "revert";
         const reason = "Access Denied";
@@ -140,7 +144,7 @@ contract("DigiBlock", accounts => {
     });
     it("non-admin cannot addAdmin non-admin", async () => {
       try {
-        await DigiBlockInstance.addAdmin("Fname", "Lname", user[3], "MKey", { from: user[2] });
+        await DigiBlockInstance.addAdmin("Fname", "Lname", "Email", user[3], "MKey", { from: user[2] });
       } catch (err) {
         const errType = "revert";
         const reason = "Access Denied";
@@ -149,18 +153,19 @@ contract("DigiBlock", accounts => {
       checkAllAdminsCount(3);
     });
     it("getting all(3) Admins", async () => {
-      function Admin(firstName, lastName, userAddress) {
+      function Admin(firstName, lastName, email, userAddress) {
         this.firstName = firstName,
           this.lastName = lastName,
+          this.email = email,
           this.userAddress = userAddress
       }
       checkAllAdminsCount(3);
       await DigiBlockInstance.allAdmins.call((err, result) => {
         if (!err) {
           var admins = {};
-          admins.one = new Admin(result[0][0], result[0][1], result[0][2]);
-          admins.two = new Admin(result[1][0], result[1][1], result[1][2]);
-          admins.three = new Admin(result[2][0], result[2][1], result[2][2]);
+          admins.one = new Admin(result[0][0], result[0][1], result[0][2], result[0][3]);
+          admins.two = new Admin(result[1][0], result[1][1], result[1][2], result[0][3]);
+          admins.three = new Admin(result[2][0], result[2][1], result[2][2], result[0][3]);
           // console.table(admins);
         } else {
           console.log(err);
@@ -221,7 +226,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.deleteAdmin(user[0], { from: user[0] });
         throw null;
-      } catch(err) {
+      } catch (err) {
         const errType = "revert";
         const reason = "Access Denied";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
@@ -265,7 +270,7 @@ contract("DigiBlock", accounts => {
       try {
         await DigiBlockInstance.deleteAdmin(user[0], { from: user[4] });
         throw null;
-      } catch(err) {
+      } catch (err) {
         const errType = "revert";
         const reason = "Access Denied";
         assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);

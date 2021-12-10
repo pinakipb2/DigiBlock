@@ -11,6 +11,7 @@ contract DigiBlock {
         Admin memory ownerAdmin = Admin(
             "Pinaki",
             "Bhattacharjee",
+            "pinakipb2@gmail.com",
             msg.sender,
             "Pinaki"
         );
@@ -23,6 +24,7 @@ contract DigiBlock {
     struct Admin {
         string firstName;
         string lastName;
+        string email;
         address userAddress;
         string masterKey;
     }
@@ -66,12 +68,14 @@ contract DigiBlock {
     function addAdmin(
         string memory _firstName,
         string memory _lastName,
+        string memory _email,
         address _userAddress,
         string memory _masterKey
     ) public onlyAdmin alreadyRegisteredAdmin(_userAddress) {
         Admin memory newAdmin = Admin(
             _firstName,
             _lastName,
+            _email,
             _userAddress,
             _masterKey
         );
@@ -110,21 +114,25 @@ contract DigiBlock {
         returns (
             string[] memory,
             string[] memory,
+            string[] memory,
             address[] memory
         )
     {
         uint256 adminCount = registeredAdminsAddresses.length;
         string[] memory _firstName = new string[](adminCount);
         string[] memory _lastName = new string[](adminCount);
+        string[] memory _email = new string[](adminCount);
         address[] memory _userAddress = new address[](adminCount);
         for (uint256 i = 0; i < adminCount; i++) {
             _firstName[i] = registeredAdmins[registeredAdminsAddresses[i]]
                 .firstName;
             _lastName[i] = registeredAdmins[registeredAdminsAddresses[i]]
                 .lastName;
+            _email[i] = registeredAdmins[registeredAdminsAddresses[i]]
+                .email;
             _userAddress[i] = registeredAdmins[registeredAdminsAddresses[i]]
                 .userAddress;
         }
-        return (_firstName, _lastName, _userAddress);
+        return (_firstName, _lastName, _email, _userAddress);
     }
 }
