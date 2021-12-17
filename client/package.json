@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.6.0",
     "@hookform/resolvers": "^2.8.4",
     "@tippyjs/react": "^4.2.6",
+    "axios": "^0.24.0",
     "flatted": "^3.2.2",
     "framer-motion": "^4.1.17",
     "localforage": "^1.10.0",
