@@ -9,6 +9,11 @@ module.exports = {
     develop: {
       port: 7545
     },
+    test : {
+      host: "localhost",
+      port: 8545,
+      network_id: "*"
+    },
     // rinkeby: {
     //   provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/`),
     //   network_id: 4,       // Ropsten's id
