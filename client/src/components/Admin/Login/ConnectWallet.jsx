@@ -21,7 +21,7 @@ const ConnectWallet = () => {
       dispatch(setWeb3(web3));
       dispatch(setMetmaskInstalled(true));
       const networkId = await web3.eth.net.getId();
-      if (networkId === 4) {
+      if (networkId === 5777) {
         const account = web3.currentProvider.selectedAddress;
         const balance = parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account))).toFixed(4);
         dispatch(setCurrentAdmin(account, balance, networkId));

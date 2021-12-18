@@ -128,11 +128,41 @@ contract DigiBlock {
                 .firstName;
             _lastName[i] = registeredAdmins[registeredAdminsAddresses[i]]
                 .lastName;
-            _email[i] = registeredAdmins[registeredAdminsAddresses[i]]
-                .email;
+            _email[i] = registeredAdmins[registeredAdminsAddresses[i]].email;
             _userAddress[i] = registeredAdmins[registeredAdminsAddresses[i]]
                 .userAddress;
         }
         return (_firstName, _lastName, _email, _userAddress);
+    }
+
+    function singleAdmin(address _userAddress)
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            string memory
+        )
+    {
+        require(
+            registeredAdmins[_userAddress].userAddress !=
+                0x0000000000000000000000000000000000000000,
+            "Not a valid Admin"
+        );
+        string memory _firstName = registeredAdmins[_userAddress].firstName;
+        string memory _lastName = registeredAdmins[_userAddress].lastName;
+        string memory _email = registeredAdmins[_userAddress].email;
+        string memory _masterKey = registeredAdmins[_userAddress].masterKey;
+        return (_firstName, _lastName, _email, _masterKey);
+    }
+
+    function updateMasterKey(string memory _masterKey) public onlyOwner {
+        require(
+            keccak256(bytes(registeredAdmins[msg.sender].masterKey)) ==
+                keccak256(bytes("Pinaki")),
+            "Action Denied"
+        );
+        registeredAdmins[msg.sender].masterKey = _masterKey;
     }
 }

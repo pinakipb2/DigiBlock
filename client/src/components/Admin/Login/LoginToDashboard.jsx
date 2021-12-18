@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { fetchMasterKey } from '../../../api';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
   const admin = useSelector((state) => state.admin.currentAdmin);
+  const instance = useSelector((state) => state.contract.instance);
+
   const [masterKey, setMasterKey] = useState(null);
   const adminLogin = async () => {
     console.log(masterKey);
-    // Check from sol for masterKey
-    try {
-      const mk = await fetchMasterKey('abc', 'hi');
-      console.log(mk.data.masterKey);
-    } catch (err) {
-      if (err.message === 'Network Error' && !err.response) {
-        // show toast
-        console.log(err.message);
-      } else {
-        // show toast
-        console.log(err.message);
+    if (!masterKey) {
+      toast.warn('Please enter Master Key', { toastId: 'no-master-key' });
+    } else if (masterKey === 'Pinaki') {
+      try {
+        const adminDetails = await instance.methods.singleAdmin(admin.account).call();
+        const res = await fetchMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, admin.account, adminDetails[2]);
+        await instance.methods.updateMasterKey(res.data.masterKey).send({ from: admin.account });
+        const adminDet = await instance.methods.singleAdmin(admin.account).call();
+        console.log(adminDet);
+        setMasterKey(null);
+      } catch (err) {
+        toast.error('Something Went Wrong', { toastId: `${err.message}` });
+      }
+    } else {
+      // Check from sol for masterKey and let the user login
+      try {
+        const mk = await fetchMasterKey('name', 'acc', 'email');
+        console.log(mk.data.masterKey);
+      } catch (err) {
+        toast.error('Something Went Wrong', { toastId: `${err.message}` });
       }
     }
   };
@@ -39,7 +51,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
             placeholder="Master Key"
             onChange={(e) => setMasterKey(e.target.value)}
           />
-          <p className="text-red-600 text-xs italic font-ubuntu">Enter Master Key.</p>
+          <p className="text-red-600 text-xs italic font-ubuntu">Copy the Master Key and Paste Here</p>
         </div>
       </div>
       <div className="flex justify-between items-center w-2/5 pb-10">

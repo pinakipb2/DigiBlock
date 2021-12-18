@@ -9,7 +9,7 @@ const contractReducer = (state = INITIAL_STATE, action) => {
     case ContractActionTypes.SET_INSTANCE:
       return {
         ...state,
-        instance: state.instance ? null : action.payload,
+        instance: action.payload,
       };
     default:
       return state;
