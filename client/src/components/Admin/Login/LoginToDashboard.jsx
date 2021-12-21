@@ -28,7 +28,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
     } else {
       // Check from sol for masterKey and let the user login
       try {
-        const mk = await fetchMasterKey('name', 'acc', 'email');
+        const mk = await fetchMasterKey('jack', '12345abcde', 'seopinakipb2@gmail.com');
         console.log(mk.data.masterKey);
       } catch (err) {
         toast.error('Something Went Wrong', { toastId: `${err.message}` });
