@@ -18,6 +18,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
       try {
         const adminDetails = await instance.methods.singleAdmin(admin.account).call();
         const res = await fetchMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, admin.account, adminDetails[2]);
+        // TODO: Add parameter address to change
         await instance.methods.updateMasterKey(res.data.masterKey).send({ from: admin.account });
         const adminDet = await instance.methods.singleAdmin(admin.account).call();
         console.log(adminDet);

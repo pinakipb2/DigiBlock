@@ -55,7 +55,7 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
     setShow(false);
     reset();
   };
-  console.log(result);
+  console.log(`Result ${result}`);
   const initialFocusRef = useRef();
   const tooglePass = () => setShow(!show);
   return (

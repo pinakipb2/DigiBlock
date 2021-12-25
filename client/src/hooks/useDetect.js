@@ -14,13 +14,17 @@ const useDetect = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
+  const isInstance = useSelector((state) => !!(state.contract.instance));
+  const isWeb3 = useSelector((state) => !!(state.admin.web3));
 
   useEffect(() => {
     const getMetaMaskStatus = () => {
-      if (window.web3 || window.ethereum) {
-        dispatch(setMetmaskInstalled(true));
-      } else {
-        dispatch(setMetmaskInstalled(false));
+      if (!isMetaMask) {
+        if (window.web3 || window.ethereum) {
+          dispatch(setMetmaskInstalled(true));
+        } else {
+          dispatch(setMetmaskInstalled(false));
+        }
       }
     };
     getMetaMaskStatus();
@@ -36,7 +40,9 @@ const useDetect = () => {
     const checkAccountChangeOnStart = async () => {
       if (window.ethereum || window.web3) {
         const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
+        if (!isWeb3) {
+          dispatch(setWeb3(web3));
+        }
         const account = web3.currentProvider.selectedAddress;
         if (account !== admin?.account && admin !== null) {
           dispatch(setIsAccountChange(true));
@@ -56,7 +62,9 @@ const useDetect = () => {
     const checkNetworkChangeOnStart = async () => {
       if (window.ethereum || window.web3) {
         const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
+        if (!isWeb3) {
+          dispatch(setWeb3(web3));
+        }
         const networkId = await web3.eth.net.getId();
         if (networkId !== admin?.networkId && admin !== null) {
           dispatch(setIsNetworkChange(true));
@@ -67,7 +75,9 @@ const useDetect = () => {
         }
         const deployedNetwork = DigiBlockContract.networks[networkId];
         const instance = new web3.eth.Contract(DigiBlockContract.abi, deployedNetwork && deployedNetwork.address);
-        dispatch(setInstance(instance));
+        if (!isInstance) {
+          dispatch(setInstance(instance));
+        }
       }
     };
     checkNetworkChangeOnStart();

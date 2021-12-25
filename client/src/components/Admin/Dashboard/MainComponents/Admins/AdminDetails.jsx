@@ -1,31 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 import AddAdminDrawer from '../UI/AddAdminDrawer';
 import MasterKeyModal from '../UI/MasterKeyModal';
 import Pagination from '../UI/Pagination';
 
 const AdminDetails = () => {
+  const instance = useSelector((state) => state.contract.instance);
+  // Original data
   const objects = [];
+  const [originalData, setOriginalData] = useState([]);
+  // Data shown at table
+  const [tableData, setTableData] = useState(originalData);
+  const renderCounter = useRef(0);
+  renderCounter.current += 1;
+  console.log(renderCounter.current);
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < 120; i++) {
-    objects.push({
-      id: i + 1,
-      name: (Math.random() + 1).toString(36).substring(2),
-      email: `${(Math.random() + 1).toString(36).substring(7)}@abc.com`,
-      address: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-      status: Math.round(Math.random()),
-    });
-  }
+  // for (let i = 0; i < 120; i++) {
+  //   objects.push({
+  //     id: i + 1,
+  //     name: (Math.random() + 1).toString(36).substring(2),
+  //     email: `${(Math.random() + 1).toString(36).substring(7)}@abc.com`,
+  //     address: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+  //     status: Math.round(Math.random()),
+  //   });
+  // }
+  useEffect(() => {
+    const func = async () => {
+      console.log(instance);
+      const allAdmins = await instance.methods.allAdmins().call();
+      console.log(allAdmins[0].length);
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < allAdmins[0].length; i++) {
+        objects.push({
+          id: i + 1,
+          name: `${allAdmins[0][i]} ${allAdmins[1][i]}`,
+          email: allAdmins[2][i],
+          address: allAdmins[3][i],
+          status: 0,
+        });
+      }
+      console.log(objects);
+      setOriginalData(objects);
+      setTableData(objects);
+    };
+    if (instance.methods.allAdmins) {
+      func();
+    }
+  }, [instance]);
 
   const { isOpen: isOpenAddAdmin, onOpen: onOpenAddAdmin, onClose: onCloseAddAdmin } = useDisclosure();
   const { isOpen: isOpenRemoveAdmin, onOpen: onOpenRemoveAdmin, onClose: onCloseRemoveAdmin } = useDisclosure();
 
-  // Original data
-  const [originalData] = useState(objects);
-  // Data shown at table
-  const [tableData, setTableData] = useState(originalData);
   // Current Page Number
   const [pageNumber, setPageNumber] = useState(0);
   // Number of rows per page

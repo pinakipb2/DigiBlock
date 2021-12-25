@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import ErrorPage from './components/Common/404/404';
 import ScrollToTop from './components/Common/ScrollToTop';
+import useDetect from './hooks/useDetect';
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
 import AdminLogin from './pages/Admin/Login/AdminLogin';
 import AboutUs from './pages/Common/AboutUsPage';
@@ -12,6 +13,7 @@ import HomePage from './pages/Common/HomePage';
 import UserLogin from './pages/User/UserLogin';
 
 function App() {
+  useDetect();
   return (
     <div className="h-screen">
       <Global
