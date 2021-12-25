@@ -5,16 +5,15 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import DigiBlockContract from '../contracts/DigiBlock.json';
+// import DigiBlockContract from '../contracts/DigiBlock.json';
 import getWeb3 from '../getWeb3';
 import { setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange } from '../redux/admin/admin.actions';
-import setInstance from '../redux/contract/contract.actions';
+import { setInstanceStart } from '../redux/contract/contract.actions';
 
 const useDetect = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
-  const isInstance = useSelector((state) => !!(state.contract.instance));
   const isWeb3 = useSelector((state) => !!(state.admin.web3));
 
   useEffect(() => {
@@ -51,10 +50,8 @@ const useDetect = () => {
           dispatch(setIsAccountChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
-        const networkId = await web3.eth.net.getId();
-        const deployedNetwork = DigiBlockContract.networks[networkId];
-        const instance = new web3.eth.Contract(DigiBlockContract.abi, deployedNetwork && deployedNetwork.address);
-        dispatch(setInstance(instance));
+        // setInstance
+        dispatch(setInstanceStart());
       }
     };
     checkAccountChangeOnStart();
@@ -73,11 +70,8 @@ const useDetect = () => {
           dispatch(setIsNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
-        const deployedNetwork = DigiBlockContract.networks[networkId];
-        const instance = new web3.eth.Contract(DigiBlockContract.abi, deployedNetwork && deployedNetwork.address);
-        if (!isInstance) {
-          dispatch(setInstance(instance));
-        }
+        // setInstance
+        dispatch(setInstanceStart());
       }
     };
     checkNetworkChangeOnStart();

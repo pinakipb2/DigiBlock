@@ -6,7 +6,14 @@ import thunk from "redux-thunk";
 import { persistStore } from "redux-persist";
 import rootReducer from './root-reducer';
 
-const middlewares = [thunk];
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './root-saga';
+
+// const middlewares = [thunk];
+
+const sagaMiddleware = createSagaMiddleware();
+
+const middlewares = [thunk, sagaMiddleware];
 
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(logger);
@@ -16,6 +23,8 @@ if (process.env.NODE_ENV === 'development') {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middlewares)));
+
+sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);
 
