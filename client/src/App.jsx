@@ -32,13 +32,13 @@ function App() {
         <Route exact path="/login" component={UserLogin} />
         <Route exact path="/about-us" component={AboutUs} />
 
-        <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} auth={!isLoggedIn} goTo="/admin/dashboard" />
-        <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
-        <AdminProtectedRoute exact path="/admin/admins" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
-        <AdminProtectedRoute exact path="/admin/users" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
-        <AdminProtectedRoute exact path="/admin/issuers" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
-        <AdminProtectedRoute exact path="/admin/verifiers" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
-        <AdminProtectedRoute exact path="/admin/profile" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isLoggedIn} goTo="/admin/dashboard" />
+        <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/admins" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/users" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/issuers" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/verifiers" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/profile" component={AdminDashboard} isAuth={isLoggedIn} goTo="/admin/login" />
 
         <Route component={ErrorPage} />
       </Switch>

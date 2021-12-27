@@ -25,8 +25,12 @@ import { useForm } from 'react-hook-form';
 import { AiFillLock } from 'react-icons/ai';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { fetchMasterKey, sendMasterKey, validateMasterKey } from '../../../../../api/Admin';
+import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 
 yup.addMethod(yup.string, 'isValidEmail', isValidEmail);
@@ -34,28 +38,55 @@ yup.addMethod(yup.string, 'isValidEthereumAddress', isValidEthereumAddress);
 yup.addMethod(yup.string, 'isValidAlphanumeric', isValidAlphanumeric);
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required('Name is a Required field'),
+  firstName: yup.string().required('First Name is a Required field'),
+  lastName: yup.string().required('Last Name is a Required field'),
   email: yup.string().required('Email is a Required field').isValidEmail(),
   walletaddress: yup.string().required('Wallet Address is a Required field').isValidEthereumAddress(),
   masterkey: yup.string().required('Master Key is a Required field').length(14, 'Invalid Master Key').isValidAlphanumeric(),
 });
 
 const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
+  const dispatch = useDispatch();
+  const admin = useSelector((state) => state.admin.currentAdmin);
+  const instance = useSelector((state) => state.contract.instance);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
-  const [result, setResult] = useState({});
   const [show, setShow] = useState(false);
-  const onSubmit = (data) => {
-    setResult(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+    const adminDetails = await instance.methods.singleAdmin(admin.account).call();
+    const res = await validateMasterKey(data.masterkey, adminDetails[3]);
+    console.log(res.data.status);
+    if (res.data.status === false) {
+      toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
+    } else {
+      try {
+        const newMasterKey = await fetchMasterKey();
+        await instance.methods
+          .addAdmin(data.firstName, data.lastName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
+          .send({ from: admin.account })
+          .then(async () => {
+            await sendMasterKey(`${data.firstName} ${data.lastName}`, data.walletaddress, data.email, newMasterKey.data.masterKey);
+            dispatch(setInstanceStart());
+            toast.success('Admin Created Successfully', { toastId: 'Admin-success' });
+          })
+          .catch((e) => {
+            if (e.code === 4001) {
+              toast.error('Something Went Wrong', { toastId: `${e.message}` });
+            }
+          });
+      } catch (err) {
+        toast.error('Something Went Wrong', { toastId: `${err.message}` });
+      }
+    }
     onCloseAddAdmin();
     setShow(false);
     reset();
   };
-  console.log(`Result ${result}`);
   const initialFocusRef = useRef();
   const tooglePass = () => setShow(!show);
   return (
@@ -69,20 +100,31 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
             <Stack spacing="20px">
               <Box>
                 <FormControl isRequired>
-                  <FormLabel htmlFor="name">Name</FormLabel>
+                  <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <InputGroup>
                     {/* https://issueexplorer.com/issue/chakra-ui/chakra-ui/4792 */}
                     <Input
-                      isInvalid={!!errors.name}
-                      focusBorderColor={errors.name ? 'red.500' : ''}
-                      {...register('name')}
-                      ref={useMergeRefs(initialFocusRef, register('name').ref)}
-                      placeholder="Name of admin"
+                      isInvalid={!!errors.firstName}
+                      focusBorderColor={errors.firstName ? 'red.500' : ''}
+                      {...register('firstName')}
+                      ref={useMergeRefs(initialFocusRef, register('firstName').ref)}
+                      placeholder="First Name of admin"
                       autoComplete="off"
                     />
-                    {errors.name ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
+                    {errors.firstName ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
                   </InputGroup>
-                  {errors.name ? <FormHelperText color="red.600">{errors.name?.message}</FormHelperText> : null}
+                  {errors.firstName ? <FormHelperText color="red.600">{errors.firstName?.message}</FormHelperText> : null}
+                </FormControl>
+              </Box>
+
+              <Box>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                  <InputGroup>
+                    <Input isInvalid={!!errors.lastName} focusBorderColor={errors.lastName ? 'red.500' : ''} {...register('lastName')} placeholder="Last Name of admin" autoComplete="off" />
+                    {errors.lastName ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
+                  </InputGroup>
+                  {errors.lastName ? <FormHelperText color="red.600">{errors.lastName?.message}</FormHelperText> : null}
                 </FormControl>
               </Box>
 

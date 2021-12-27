@@ -55,7 +55,7 @@ const ConnectWallet = () => {
               placement="right"
               content={
                 <span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">
-                  {`${user ? 'Coonected' : 'Not Connected'}`}
+                  {`${user ? 'Connected' : 'Not Connected'}`}
                 </span>
               }
             >
