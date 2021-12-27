@@ -1,37 +1,64 @@
 import React, { useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { fetchMasterKey } from '../../../api';
+import { fetchMasterKey, sendMasterKey, validateMasterKey } from '../../../api/Admin';
+import { setLoginStatus } from '../../../redux/admin/admin.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
   const admin = useSelector((state) => state.admin.currentAdmin);
   const instance = useSelector((state) => state.contract.instance);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const [masterKey, setMasterKey] = useState(null);
+  const [masterKey, setMasterKey] = useState('');
   const adminLogin = async () => {
-    console.log(masterKey);
+    // console.log(masterKey);
     if (!masterKey) {
       toast.warn('Please enter Master Key', { toastId: 'no-master-key' });
     } else if (masterKey === 'Pinaki') {
       try {
         const adminDetails = await instance.methods.singleAdmin(admin.account).call();
-        const res = await fetchMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, admin.account, adminDetails[2]);
-        // TODO: Add parameter address to change
-        await instance.methods.updateMasterKey(res.data.masterKey).send({ from: admin.account });
-        const adminDet = await instance.methods.singleAdmin(admin.account).call();
-        console.log(adminDet);
-        setMasterKey(null);
+        if (adminDetails[3] === 'Pinaki') {
+          const res = await fetchMasterKey();
+          // console.log(res.data);
+          await instance.methods.updateMasterKey(res.data.hashedMasterKey).send({ from: admin.account }, (err) => {
+            if (err) {
+              throw err.message;
+            }
+          });
+          // const adminDet = await instance.methods.singleAdmin(admin.account).call();
+          // console.log(adminDet);
+          await sendMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, admin.account, adminDetails[2], res.data.masterKey);
+          setMasterKey('');
+          stepOne();
+        } else {
+          setMasterKey('');
+          toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });
+        }
       } catch (err) {
+        setMasterKey('');
         toast.error('Something Went Wrong', { toastId: `${err.message}` });
       }
     } else {
-      // Check from sol for masterKey and let the user login
       try {
-        const mk = await fetchMasterKey('jack', '12345abcde', 'seopinakipb2@gmail.com');
-        console.log(mk.data.masterKey);
+        const adminDetails = await instance.methods.singleAdmin(admin.account).call();
+        // console.log(adminDetails[3]);
+        const res = await validateMasterKey(masterKey, adminDetails[3]);
+        // console.log(res.data.status);
+        if (res.data.status === false) {
+          setMasterKey('');
+          toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });
+        } else {
+          // Setting Login status true for Admin
+          dispatch(setLoginStatus(true));
+          setMasterKey('');
+          history.push('/admin/dashboard');
+        }
       } catch (err) {
+        setMasterKey('');
         toast.error('Something Went Wrong', { toastId: `${err.message}` });
       }
     }
@@ -50,6 +77,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
             className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 bg-gray-200"
             type="password"
             placeholder="Master Key"
+            value={masterKey}
             onChange={(e) => setMasterKey(e.target.value)}
           />
           <p className="text-red-600 text-xs italic font-ubuntu">Copy the Master Key and Paste Here</p>

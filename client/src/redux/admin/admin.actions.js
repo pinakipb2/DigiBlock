@@ -21,6 +21,11 @@ export const setCurrentAdmin = (account, balance, networkId) => (dispatch) => {
   if (account) { toast.success('Connected to MetaMask'); }
 };
 
+export const setLoginStatus = (verdict) => ({
+  type: AdminActionTypes.SET_LOGIN_STATUS,
+  payload: verdict,
+});
+
 export const setMetmaskInstalled = (status) => (dispatch) => {
   dispatch({
     type: AdminActionTypes.CHECK_METAMASK_INSTALLED,
@@ -43,4 +48,8 @@ export const setIsNetworkChange = (verdict) => ({
 
 export const checkSidebarCollapsed = () => ({
   type: AdminActionTypes.CHECK_SIDEBAR_COLLAPSED,
+});
+
+export const logoutAdmin = () => ({
+  type: AdminActionTypes.LOGOUT,
 });

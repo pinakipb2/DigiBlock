@@ -1,12 +1,17 @@
 import React from 'react';
 
 import Avatar from 'react-avatar';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
+import { logoutAdmin } from '../../../../redux/admin/admin.actions';
+
 const NavProfile = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const loggingOut = () => {
-    history.push('/');
+    dispatch(logoutAdmin());
+    history.push('/admin/login');
   };
   return (
     <div className="absolute top-8 right-32 z-50 flex justify-center items-center w-44">

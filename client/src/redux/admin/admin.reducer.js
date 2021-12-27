@@ -3,6 +3,7 @@ import AdminActionTypes from './admin.types';
 const INITIAL_STATE = {
   web3: null,
   currentAdmin: null,
+  isLoggedIn: false,
   isMetaMaskInstalled: false,
   isAccountChanged: false,
   isNetworkChanged: false,
@@ -20,6 +21,11 @@ const adminReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentAdmin: action.payload,
+      };
+    case AdminActionTypes.SET_LOGIN_STATUS:
+      return {
+        ...state,
+        isLoggedIn: action.payload,
       };
     case AdminActionTypes.CHECK_METAMASK_INSTALLED:
       return {
@@ -41,6 +47,8 @@ const adminReducer = (state = INITIAL_STATE, action) => {
         ...state,
         sidebarCollapsed: !state.sidebarCollapsed,
       };
+    case AdminActionTypes.LOGOUT:
+      return INITIAL_STATE;
     default:
       return state;
   }

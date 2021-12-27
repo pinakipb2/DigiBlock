@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
@@ -14,9 +14,9 @@ const AdminDetails = () => {
   const [originalData, setOriginalData] = useState([]);
   // Data shown at table
   const [tableData, setTableData] = useState(originalData);
-  const renderCounter = useRef(0);
-  renderCounter.current += 1;
-  console.log(renderCounter.current);
+  // const renderCounter = useRef(0);
+  // renderCounter.current += 1;
+  // console.log(renderCounter.current);
   // eslint-disable-next-line no-plusplus
   // for (let i = 0; i < 120; i++) {
   //   objects.push({
@@ -29,9 +29,7 @@ const AdminDetails = () => {
   // }
   useEffect(() => {
     const func = async () => {
-      console.log(instance);
       const allAdmins = await instance.methods.allAdmins().call();
-      console.log(allAdmins[0].length);
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < allAdmins[0].length; i++) {
         objects.push({
@@ -42,7 +40,6 @@ const AdminDetails = () => {
           status: 0,
         });
       }
-      console.log(objects);
       setOriginalData(objects);
       setTableData(objects);
     };

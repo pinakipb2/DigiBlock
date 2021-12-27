@@ -66,7 +66,7 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin, deleteAdminDeta
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{modalHeaderText}</ModalHeader>
+        <ModalHeader fontSize="lg">{modalHeaderText}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody pb={6}>

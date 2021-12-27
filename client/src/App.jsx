@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Global, css } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 import ErrorPage from './components/Common/404/404';
@@ -11,9 +12,11 @@ import AdminLogin from './pages/Admin/Login/AdminLogin';
 import AboutUs from './pages/Common/AboutUsPage';
 import HomePage from './pages/Common/HomePage';
 import UserLogin from './pages/User/UserLogin';
+import AdminProtectedRoute from './routes/AdminProtectedRoute';
 
 function App() {
   useDetect();
+  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   return (
     <div className="h-screen">
       <Global
@@ -28,13 +31,15 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={UserLogin} />
         <Route exact path="/about-us" component={AboutUs} />
-        <Route exact path="/admin/login" component={AdminLogin} />
-        <Route exact path="/admin/dashboard" component={AdminDashboard} />
-        <Route exact path="/admin/admins" component={AdminDashboard} />
-        <Route exact path="/admin/users" component={AdminDashboard} />
-        <Route exact path="/admin/issuers" component={AdminDashboard} />
-        <Route exact path="/admin/verifiers" component={AdminDashboard} />
-        <Route exact path="/admin/profile" component={AdminDashboard} />
+
+        <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} auth={!isLoggedIn} goTo="/admin/dashboard" />
+        <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/admins" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/users" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/issuers" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/verifiers" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+        <AdminProtectedRoute exact path="/admin/profile" component={AdminDashboard} auth={isLoggedIn} goTo="/admin/login" />
+
         <Route component={ErrorPage} />
       </Switch>
     </div>

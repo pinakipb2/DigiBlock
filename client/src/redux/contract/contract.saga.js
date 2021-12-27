@@ -34,5 +34,3 @@ export function* onSetInstanceStart() {
     setInstance
   );
 }
-
-// export function* contractSagas()
