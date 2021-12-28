@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { fetchMasterKey, sendMasterKey, validateMasterKey } from '../../../api/Admin';
+import { fetchMasterKey, sendMasterKey, validateMasterKey, verify } from '../../../api/Admin';
 import { setLoginStatus } from '../../../redux/admin/admin.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
@@ -52,7 +52,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
           setMasterKey('');
           toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });
         } else {
-          // Setting Login status true for Admin
+          await verify(admin.account);
           dispatch(setLoginStatus(true));
           setMasterKey('');
           history.push('/admin/dashboard');

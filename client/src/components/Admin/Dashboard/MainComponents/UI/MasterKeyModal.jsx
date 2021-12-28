@@ -24,8 +24,11 @@ import { useForm } from 'react-hook-form';
 import { AiFillLock } from 'react-icons/ai';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { validateMasterKey } from '../../../../../api/Admin';
 import { isValidAlphanumeric } from '../Utils/Validations';
 
 yup.addMethod(yup.string, 'isValidAlphanumeric', isValidAlphanumeric);
@@ -36,6 +39,8 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin, deleteAdminDeta
   const initialFocusRef = useRef();
   const [show, setShow] = useState(false);
   const tooglePass = () => setShow(!show);
+  const admin = useSelector((state) => state.admin.currentAdmin);
+  const instance = useSelector((state) => state.contract.instance);
   const {
     register,
     handleSubmit,
@@ -45,11 +50,18 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin, deleteAdminDeta
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
   });
-  // const [result, setResult] = useState({});
-  const onSubmit = (data) => {
-    deleteAdmin(deleteAdminDetails.id);
-    // setResult(data);
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const adminDetails = await instance.methods.singleAdmin(admin.account).call();
+      const res = await validateMasterKey(data.masterkey, adminDetails[3]);
+      if (res.data.status === false) {
+        toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });
+      } else {
+        deleteAdmin(deleteAdminDetails.address);
+      }
+    } catch (err) {
+      toast.error('Something Went Wrong', { toastId: `${err.message}` });
+    }
     onCloseRemoveAdmin();
     reset();
     setShow(false);

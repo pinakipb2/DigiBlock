@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import { isVerified, remove } from '../../../../../api/Admin';
+import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import AddAdminDrawer from '../UI/AddAdminDrawer';
 import MasterKeyModal from '../UI/MasterKeyModal';
 import Pagination from '../UI/Pagination';
 
 const AdminDetails = () => {
+  const dispatch = useDispatch();
   const instance = useSelector((state) => state.contract.instance);
+  const currentAdmin = useSelector((state) => state.admin.currentAdmin).account.toLowerCase();
+  const owner = useSelector((state) => state.contract.owner).toLowerCase();
+  // console.log(currentAdmin === owner);
   // Original data
   const objects = [];
   const [originalData, setOriginalData] = useState([]);
@@ -32,12 +39,14 @@ const AdminDetails = () => {
       const allAdmins = await instance.methods.allAdmins().call();
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < allAdmins[0].length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const res = await isVerified(allAdmins[3][i]);
         objects.push({
           id: i + 1,
           name: `${allAdmins[0][i]} ${allAdmins[1][i]}`,
           email: allAdmins[2][i],
           address: allAdmins[3][i],
-          status: 0,
+          status: res.data.status,
         });
       }
       setOriginalData(objects);
@@ -77,8 +86,26 @@ const AdminDetails = () => {
   // To delete Admin Details
   const [deleteAdminDetails, setDeleteAdminDetails] = useState({});
   // Delete Admin
-  const deleteAdmin = (id) => {
-    console.log(id);
+  const deleteAdmin = async (address) => {
+    console.log(`Deleting : ${address}`);
+    // delete this person from sol and db and reinstanciate instance to re-render
+    try {
+      await instance.methods
+        .deleteAdmin(address)
+        .send({ from: currentAdmin })
+        .then(async () => {
+          await remove(address);
+          dispatch(setInstanceStart());
+          toast.success('Admin Deleted Successfully', { toastId: 'Admin-Deleted' });
+        })
+        .catch((e) => {
+          if (e.code === 4001) {
+            toast.error('Something Went Wrong', { toastId: `${e.message}` });
+          }
+        });
+    } catch (err) {
+      toast.error('Something Went Wrong', { toastId: `${err.message}` });
+    }
   };
 
   // JSX variable to show data in table page-wise
@@ -113,19 +140,22 @@ const AdminDetails = () => {
           </div>
         )}
       </td>
-      {/* If current user is owner, show this td */}
-      <td>
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-          type="button"
-          onClick={() => {
-            onOpenRemoveAdmin();
-            setDeleteAdminDetails(val);
-          }}
-        >
-          <i className="far fa-trash-alt" />
-        </button>
-      </td>
+      {currentAdmin === owner && val.id !== 1 ? (
+        <td>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+            type="button"
+            onClick={() => {
+              onOpenRemoveAdmin();
+              setDeleteAdminDetails(val);
+            }}
+          >
+            <i className="far fa-trash-alt" />
+          </button>
+        </td>
+      ) : (
+        <td hidden={currentAdmin !== owner} />
+      )}
     </tr>
   ));
 
@@ -163,7 +193,7 @@ const AdminDetails = () => {
               <th>Email</th>
               <th>Wallet Address</th>
               <th>Status</th>
-              <th>Remove</th>
+              {currentAdmin === owner ? <th>Remove</th> : null}
             </tr>
           </thead>
           <tbody className="text-center">{showData}</tbody>
