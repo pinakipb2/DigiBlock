@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import Avatar from 'react-avatar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { checkSidebarCollapsed } from '../../../../redux/admin/admin.actions';
@@ -10,6 +10,7 @@ import NavProfile from './NavProfile';
 const NavAdmin = () => {
   const dispatch = useDispatch();
   const [toggleProfile, setToggleProfile] = useState(false);
+  const adminName = useSelector((state) => state.admin.adminName);
 
   const collapseProfileOnURLChange = () => {
     const location = useLocation();
@@ -60,8 +61,8 @@ const NavAdmin = () => {
           </div>
           <div role="button" onClick={() => setToggleProfile(!toggleProfile)} className="text-center flex justify-center items-center pr-24 cursor-pointer">
             {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
-            <Avatar className="rounded-full mr-2" name="Pinaki Bhattacharjee" size="41" />
-            <h1 className="text-lg text-gray-900">Name of admin</h1>
+            <Avatar className="rounded-full mr-2" name={adminName} size="41" />
+            <h1 className="text-lg text-gray-900">{adminName}</h1>
           </div>
           {toggleProfile ? <NavProfile /> : null}
         </div>

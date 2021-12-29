@@ -4,7 +4,7 @@ import Avatar from 'react-avatar';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Link, NavLink } from 'react-router-dom';
 
-const FullSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
+const FullSideBar = ({ currSidebarMenu, sidebarMenuData, adminName }) => (
   <div className="h-screen w-72 flex flex-col bg-gray-700">
     <div className="py-4 border-b border-gray-500 text-center">
       <Link to="/admin/dashboard" className="text-2xl font-semibold text-gray-300">
@@ -13,8 +13,8 @@ const FullSideBar = ({ currSidebarMenu, sidebarMenuData }) => (
     </div>
     <div className="py-4 border-b border-gray-500 text-center flex justify-center items-center">
       {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
-      <Avatar className="rounded-full mr-2" name="Pinaki Bhattacharjee" size="41" />
-      <h1 className="text-lg text-gray-300 hover:text-gray-100 cursor-pointer">Name of admin</h1>
+      <Avatar className="rounded-full mr-2" name={adminName} size="41" />
+      <h1 className="text-lg text-gray-300 hover:text-gray-100 cursor-pointer">{adminName}</h1>
     </div>
     <Scrollbars
       style={{ width: '100%', height: '100%' }}

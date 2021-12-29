@@ -11,6 +11,7 @@ const SideBar = () => {
   const [currSidebarMenu, setCurrSidebarMenu] = useState(0);
   const [urlPath, setUrlPath] = useState(null);
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
+  const adminName = useSelector((state) => state.admin.adminName);
 
   const [sidebarMenuData] = useState([
     {
@@ -68,9 +69,9 @@ const SideBar = () => {
         <title>{urlPath}</title>
       </Helmet>
       {sidebarCollapsed ? (
-        <CollapsedSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} />
+        <CollapsedSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} adminName={adminName} />
       ) : (
-        <FullSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} />
+        <FullSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} adminName={adminName} />
       )}
     </>
   );

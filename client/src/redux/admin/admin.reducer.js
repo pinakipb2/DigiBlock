@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   isAccountChanged: false,
   isNetworkChanged: false,
   sidebarCollapsed: false,
+  adminName: null,
 };
 
 const adminReducer = (state = INITIAL_STATE, action) => {
@@ -46,6 +47,11 @@ const adminReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         sidebarCollapsed: !state.sidebarCollapsed,
+      };
+    case AdminActionTypes.SET_ADMIN_NAME:
+      return {
+        ...state,
+        adminName: action.payload,
       };
     case AdminActionTypes.LOGOUT:
       return INITIAL_STATE;

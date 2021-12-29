@@ -46,6 +46,11 @@ export const setIsNetworkChange = (verdict) => ({
   payload: verdict,
 });
 
+export const setAdminName = (adminName) => ({
+  type: AdminActionTypes.SET_ADMIN_NAME,
+  payload: adminName,
+});
+
 export const checkSidebarCollapsed = () => ({
   type: AdminActionTypes.CHECK_SIDEBAR_COLLAPSED,
 });

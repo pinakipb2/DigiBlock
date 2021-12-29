@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Avatar from 'react-avatar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 import { logoutAdmin } from '../../../../redux/admin/admin.actions';
@@ -13,6 +13,8 @@ const NavProfile = () => {
     dispatch(logoutAdmin());
     history.push('/admin/login');
   };
+  const adminName = useSelector((state) => state.admin.adminName);
+  const { account } = useSelector((state) => state.admin.currentAdmin);
   return (
     <div className="absolute top-8 right-32 z-50 flex justify-center items-center w-44">
       <div className="flex flex-col bg-white justify-center items-center mt-10 py-4 text-center rounded-2xl shadow-xl">
@@ -22,10 +24,10 @@ const NavProfile = () => {
           alt="Admin Profile"
           draggable={false}
         /> */}
-        <Avatar className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-lg" name="Pinaki Bhattacharjee" size="60" />
+        <Avatar className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-lg" name={adminName} size="60" />
         <div className="flex flex-col items-center px-4 text-center justify-center">
-          <h2 className="font-semibold title-font mt-2 text-gray-900 text-xl">Admin Name</h2>
-          <div className="font-normal text-gray-500 text-xs font-ubuntu">0x334aCa9f21AC36b747f1A17bAA5b0291CFaD8CEb</div>
+          <h2 className="font-semibold title-font mt-2 text-gray-900 text-xl">{adminName}</h2>
+          <div className="font-normal text-gray-500 text-xs font-ubuntu">{account}</div>
           <div className="flex mt-3 bg-green-500 rounded-md px-2 py-1 items-center">
             <div className="text-white mr-2 font-semibold text-sm">Verified</div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">

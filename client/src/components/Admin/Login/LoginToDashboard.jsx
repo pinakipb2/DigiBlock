@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { fetchMasterKey, sendMasterKey, validateMasterKey, verify } from '../../../api/Admin';
-import { setLoginStatus } from '../../../redux/admin/admin.actions';
+import { setLoginStatus, setAdminName } from '../../../redux/admin/admin.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
   const admin = useSelector((state) => state.admin.currentAdmin);
@@ -54,6 +54,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
         } else {
           await verify(admin.account);
           dispatch(setLoginStatus(true));
+          dispatch(setAdminName(`${adminDetails[0]} ${adminDetails[1]}`));
           setMasterKey('');
           history.push('/admin/dashboard');
         }
