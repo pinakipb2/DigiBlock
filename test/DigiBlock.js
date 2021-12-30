@@ -289,4 +289,61 @@ contract("DigiBlock", accounts => {
       checkAllAdminsCount(2);
     });
   });
+  describe("singleAdmin functionality", () => {
+    it("fetching a single admin details", async () => {
+      try {
+        const adminDetails = await DigiBlockInstance.singleAdmin(user[0], { from: user[4] });
+        assert(adminDetails[0] === "User", "First Name is not returned Properly");
+        assert(adminDetails[1] === "0", "Last Namae is not returned Properly");
+        assert(adminDetails[2] === "user0@gmail.com", "Email is not returned Properly");
+        assert(adminDetails[3] === "MKey", "Master Key is not returned Properly");
+      } catch (err) {
+        assert(err.message === "Returned error: VM Exception while processing transaction: revert Not a valid Admin");
+      }
+      checkAllAdminsCount(2);
+    });
+    it("should get error if fetching a single non-admin details", async () => {
+      try {
+        await DigiBlockInstance.singleAdmin(user[4], { from: user[1] });
+        throw null;
+      } catch (err) {
+        assert(err.message === "Returned error: VM Exception while processing transaction: revert Not a valid Admin");
+      }
+      checkAllAdminsCount(2);
+    });
+  });
+  describe("updateMasterKey functionality", () => {
+    it("update master key of owner", async () => {
+      try {
+        await DigiBlockInstance.updateMasterKey("NewMasterKey", { from: contractOwner });
+        const adminDetails = await DigiBlockInstance.singleAdmin(contractOwner, { from: user[4] });
+        assert(adminDetails[3] === "NewMasterKey", "Master Key is updated Properly");
+      } catch (err) {
+        assert(err.message === "Returned error: VM Exception while processing transaction: revert Not a valid Admin");
+      }
+      checkAllAdminsCount(2);
+    });
+    it("should get error if called from admin account", async () => {
+      try {
+        await DigiBlockInstance.updateMasterKey("NewMasterKey", { from: user[0] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+    it("should get error if called from non-admin account", async () => {
+      try {
+        await DigiBlockInstance.updateMasterKey("NewMasterKey", { from: user[4] });
+        throw null;
+      } catch (err) {
+        const errType = "revert";
+        const reason = "Access Denied";
+        assert(err.message === web3ErrorMessage(errType, reason), "Got: " + err.message);
+      }
+      checkAllAdminsCount(2);
+    });
+  });
 });

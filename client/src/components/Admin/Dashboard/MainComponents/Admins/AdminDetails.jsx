@@ -5,14 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { isVerified, remove } from '../../../../../api/Admin';
-// import useDetect from '../../../../../hooks/useDetect';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import AddAdminDrawer from '../UI/AddAdminDrawer';
 import MasterKeyModal from '../UI/MasterKeyModal';
 import Pagination from '../UI/Pagination';
 
 const AdminDetails = () => {
-  // useDetect();
   const dispatch = useDispatch();
   const instance = useSelector((state) => state.contract.instance);
   const currentAdmin = useSelector((state) => state.admin.currentAdmin).account.toLowerCase();
@@ -39,9 +37,7 @@ const AdminDetails = () => {
   useEffect(() => {
     const func = async () => {
       const allAdmins = await instance.methods.allAdmins().call();
-      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < allAdmins[0].length; i++) {
-        // eslint-disable-next-line no-await-in-loop
         const res = await isVerified(allAdmins[3][i]);
         objects.push({
           id: i + 1,

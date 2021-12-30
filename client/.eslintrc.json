@@ -47,6 +47,8 @@
     "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
     "comma-dangle": "off",
     "react/jsx-one-expression-per-line": "off",
-    "newline-per-chained-call": "off"
+    "newline-per-chained-call": "off",
+    "no-plusplus": "off",
+    "no-await-in-loop": "off"
   }
 }
