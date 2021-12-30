@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+// import { useDisclosure } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -14,7 +15,12 @@ const useDetect = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
-  const isWeb3 = useSelector((state) => !!(state.admin.web3));
+  const isAdminPresent = useSelector((state) => !!state.admin.currentAdmin);
+  const isWeb3 = useSelector((state) => !!state.admin.web3);
+  const dependencyWeb3 = useSelector((state) => state.admin.web3);
+  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isAccountChanged = useSelector((state) => state.admin.isAccountChanged);
+  const isNetworkChanged = useSelector((state) => state.admin.isNetworkChanged);
 
   useEffect(() => {
     const getMetaMaskStatus = () => {
@@ -28,15 +34,7 @@ const useDetect = () => {
     };
     getMetaMaskStatus();
 
-    // const initContractInstance = async (web3) => {
-    //   const networkId = await web3.eth.net.getId();
-    //   const deployedNetwork = DigiBlockContract.networks[networkId];
-    //   const instance = new web3.eth.Contract(DigiBlockContract.abi, deployedNetwork && deployedNetwork.address);
-    //   dispatch(setInstance(instance));
-    //   console.log('running');
-    // };
-
-    const checkAccountChangeOnStart = async () => {
+    const checkAccountAndNetworkChangeOnStart = async () => {
       if (window.ethereum || window.web3) {
         const web3 = await getWeb3();
         if (!isWeb3) {
@@ -45,37 +43,60 @@ const useDetect = () => {
         const account = web3.currentProvider.selectedAddress;
         if (account !== admin?.account && admin !== null) {
           dispatch(setIsAccountChange(true));
-          toast.warn('Account has been changed', { toastId: 'account-changed' });
+          if (!isLoggedIn) {
+            toast.warn('Account has been changed', { toastId: 'account-changed' });
+          }
         } else if (account === admin?.account && admin !== null) {
           dispatch(setIsAccountChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
-        // setInstance
-        dispatch(setInstanceStart());
-      }
-    };
-    checkAccountChangeOnStart();
-
-    const checkNetworkChangeOnStart = async () => {
-      if (window.ethereum || window.web3) {
-        const web3 = await getWeb3();
-        if (!isWeb3) {
-          dispatch(setWeb3(web3));
-        }
         const networkId = await web3.eth.net.getId();
         if (networkId !== admin?.networkId && admin !== null) {
           dispatch(setIsNetworkChange(true));
-          toast.warn('Network has been changed', { toastId: 'network-changed' });
+          if (!isLoggedIn) {
+            toast.warn('Network has been changed', { toastId: 'network-changed' });
+          }
         } else if (networkId === admin?.networkId && admin !== null) {
           dispatch(setIsNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
-        // setInstance
         dispatch(setInstanceStart());
       }
     };
-    checkNetworkChangeOnStart();
-  }, [isMetaMask]);
+
+    // If admin, user, issuer, verifier present
+    if (isAdminPresent) {
+      checkAccountAndNetworkChangeOnStart();
+    }
+    window.ethereum.on('accountsChanged', () => {
+      checkAccountAndNetworkChangeOnStart();
+    });
+    window.ethereum.on('networkChanged', () => {
+      checkAccountAndNetworkChangeOnStart();
+    });
+
+    // const checkNetworkChangeOnStart = async () => {
+    //   if (window.ethereum || window.web3) {
+    //     const web3 = await getWeb3();
+    //     if (!isWeb3) {
+    //       dispatch(setWeb3(web3));
+    //     }
+    //     const networkId = await web3.eth.net.getId();
+    //     if (networkId !== admin?.networkId && admin !== null) {
+    //       dispatch(setIsNetworkChange(true));
+    //       toast.warn('Network has been changed', { toastId: 'network-changed' });
+    //     } else if (networkId === admin?.networkId && admin !== null) {
+    //       dispatch(setIsNetworkChange(false));
+    //       // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
+    //     }
+    //     // setInstance
+    //     dispatch(setInstanceStart());
+    //   }
+    // };
+    // if (admin) {
+    //   checkNetworkChangeOnStart();
+    // }
+  }, [isMetaMask, isAccountChanged, isNetworkChanged, dependencyWeb3, isLoggedIn]);
 };
 
 export default useDetect;

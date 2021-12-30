@@ -46,6 +46,7 @@
     "object-curly-newline": "off",
     "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
     "comma-dangle": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "newline-per-chained-call": "off"
   }
 }

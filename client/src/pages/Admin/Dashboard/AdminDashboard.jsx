@@ -11,8 +11,11 @@ import UserDetails from '../../../components/Admin/Dashboard/MainComponents/User
 import VerifierDetails from '../../../components/Admin/Dashboard/MainComponents/Verifiers/VerifierDetails';
 import NavAdmin from '../../../components/Admin/Dashboard/Navbar/NavAdmin';
 import SideBar from '../../../components/Admin/Dashboard/SideBar/SideBar';
+import useDetect from '../../../hooks/useDetect';
+import NonDismissableModal from '../../../UI/NonDismissableModal';
 
 const AdminDashboard = () => {
+  useDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
@@ -23,6 +26,10 @@ const AdminDashboard = () => {
       setCurrMenu('Dashboard');
     };
   }, [location]);
+
+  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isAccountChanged = useSelector((state) => state.admin.isAccountChanged);
+  const isNetworkChanged = useSelector((state) => state.admin.isNetworkChanged);
 
   function renderInnerComponent() {
     switch (currMenu) {
@@ -42,9 +49,9 @@ const AdminDashboard = () => {
         return <></>;
     }
   }
-
   return (
     <div className="flex bg-gray-200 select-none">
+      {isLoggedIn && (isAccountChanged || isNetworkChanged) ? <NonDismissableModal text={`Please Switch to Correct ${isAccountChanged ? 'Account' : 'Network'} to Continue...`} /> : null}
       <div className="fixed">
         <SideBar />
       </div>

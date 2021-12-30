@@ -38,10 +38,10 @@ yup.addMethod(yup.string, 'isValidEthereumAddress', isValidEthereumAddress);
 yup.addMethod(yup.string, 'isValidAlphanumeric', isValidAlphanumeric);
 
 const validationSchema = yup.object().shape({
-  firstName: yup.string().required('First Name is a Required field'),
-  lastName: yup.string().required('Last Name is a Required field'),
-  email: yup.string().required('Email is a Required field').isValidEmail(),
-  walletaddress: yup.string().required('Wallet Address is a Required field').isValidEthereumAddress(),
+  firstName: yup.string().trim().required('First Name is a Required field'),
+  lastName: yup.string().trim().required('Last Name is a Required field'),
+  email: yup.string().trim().lowercase().required('Email is a Required field').isValidEmail(),
+  walletaddress: yup.string().lowercase().required('Wallet Address is a Required field').isValidEthereumAddress(),
   masterkey: yup.string().required('Master Key is a Required field').length(14, 'Invalid Master Key').isValidAlphanumeric(),
 });
 
@@ -56,8 +56,11 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
     formState: { errors, isSubmitting },
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
   const [show, setShow] = useState(false);
+  const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
   const onSubmit = async (data) => {
     console.log(data);
+    const transformedFirstName = capitalizeFirstLetter(data.firstName);
+    const transformedLastName = capitalizeFirstLetter(data.lastName);
     const adminDetails = await instance.methods.singleAdmin(admin.account).call();
     const res = await validateMasterKey(data.masterkey, adminDetails[3]);
     console.log(res.data.status);
@@ -67,10 +70,10 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
       try {
         const newMasterKey = await fetchMasterKey();
         await instance.methods
-          .addAdmin(data.firstName, data.lastName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
+          .addAdmin(transformedFirstName, transformedLastName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
           .send({ from: admin.account })
           .then(async () => {
-            await sendMasterKey(`${data.firstName} ${data.lastName}`, data.walletaddress, data.email, newMasterKey.data.masterKey);
+            await sendMasterKey(`${transformedFirstName} ${transformedLastName}`, data.walletaddress, data.email, newMasterKey.data.masterKey);
             dispatch(setInstanceStart());
             toast.success('Admin Created Successfully', { toastId: 'Admin-success' });
           })

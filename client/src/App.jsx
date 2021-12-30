@@ -6,7 +6,6 @@ import { Route, Switch } from 'react-router-dom';
 
 import ErrorPage from './components/Common/404/404';
 import ScrollToTop from './components/Common/ScrollToTop';
-import useDetect from './hooks/useDetect';
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
 import AdminLogin from './pages/Admin/Login/AdminLogin';
 import AboutUs from './pages/Common/AboutUsPage';
@@ -15,7 +14,6 @@ import UserLogin from './pages/User/UserLogin';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 
 function App() {
-  useDetect();
   const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   return (
     <div className="h-screen">
