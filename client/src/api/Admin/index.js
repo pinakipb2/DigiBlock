@@ -10,3 +10,6 @@ export const validateMasterKey = (masterKey, masterKeyHash) => adminAPI.post('/v
 export const verify = (address) => adminAPI.post('/verify', { address });
 export const isVerified = (address) => adminAPI.post('/is-verified', { address });
 export const remove = (address) => adminAPI.post('/remove', { address });
+
+export const fetchIssuerMasterKey = () => adminAPI.post('/gen-issuer-master-key');
+export const sendIssuerMasterKey = (name, email, masterKey) => adminAPI.post('/send-issuer-master-key', { name, email, masterKey });

@@ -178,7 +178,7 @@ const AdminDetails = () => {
           </div>
           <div role="button" className="flex bg-blue-600 hover:bg-blue-700 cursor-pointer rounded-md px-2 py-1 justify-center items-center" onClick={onOpenAddAdmin}>
             <i className="fas fa-plus-circle mr-3 p-1" />
-            <div className="text-white mr-2 font-semibold text-base">Add Admins</div>
+            <div className="text-white mr-2 font-semibold text-base">Add Admin</div>
           </div>
         </div>
       </div>
