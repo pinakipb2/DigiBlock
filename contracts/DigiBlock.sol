@@ -34,6 +34,7 @@ contract DigiBlock {
         address from;
         address to;
         string ipfsHash;
+        uint256 timestamp;
     }
     
     // User structure
@@ -224,7 +225,7 @@ contract DigiBlock {
     }
 
     // Add a new Issuer (Admin Only action)
-    function addIssuer(string memory _orgName, string memory _email, address _orgAddress, string memory _masterKey) public onlyAdmin alreadyRegisteredIssuer(_orgAddress) {
+    function addIssuer(string memory _orgName, string memory _email, address _orgAddress, string memory _masterKey) public onlyAdmin alreadyRegisteredIssuer(_orgAddress) alreadyRegisteredAdmin(_orgAddress) {
         Issuer memory newIssuer = Issuer(
             _orgName,
             _email,
