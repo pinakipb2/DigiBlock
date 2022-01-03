@@ -10,12 +10,14 @@ import { toast } from 'react-toastify';
 import getWeb3 from '../getWeb3';
 import { setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange } from '../redux/admin/admin.actions';
 import { setInstanceStart } from '../redux/contract/contract.actions';
+import { setMetmaskInstalled as setIssuerMetmaskInstalled } from '../redux/issuer/issuer.actions';
 
 const useDetect = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
   const isAdminPresent = useSelector((state) => !!state.admin.currentAdmin);
+  const isIssuerPresent = useSelector((state) => !!state.issuer.currentIssuer);
   const isWeb3 = useSelector((state) => !!state.admin.web3);
   const dependencyWeb3 = useSelector((state) => state.admin.web3);
   const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
@@ -27,8 +29,10 @@ const useDetect = () => {
       if (!isMetaMask) {
         if (window.web3 || window.ethereum) {
           dispatch(setMetmaskInstalled(true));
+          dispatch(setIssuerMetmaskInstalled(true));
         } else {
           dispatch(setMetmaskInstalled(false));
+          dispatch(setIssuerMetmaskInstalled(false));
         }
       }
     };
@@ -65,7 +69,7 @@ const useDetect = () => {
     };
 
     // If admin, user, issuer, verifier present
-    if (isAdminPresent) {
+    if (isAdminPresent || isIssuerPresent) {
       checkAccountAndNetworkChangeOnStart();
     }
     window.ethereum.on('accountsChanged', () => {
