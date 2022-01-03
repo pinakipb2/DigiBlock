@@ -115,7 +115,7 @@ const AdminDetails = () => {
       <td className="font-ubuntu">{val.address}</td>
       <td>
         {val.status ? (
-          <div className="flex w-24 m-auto mt-3 bg-green-500 rounded-md px-2 py-1 mb-2 justify-center items-center">
+          <div className="flex w-24 my-3 bg-green-500 rounded-md px-2 py-1 mb-2 justify-center items-center">
             <div className="text-white mr-2 font-semibold text-sm">Verified</div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
               <path

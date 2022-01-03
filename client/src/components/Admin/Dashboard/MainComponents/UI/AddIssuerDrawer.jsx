@@ -29,7 +29,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { fetchIssuerMasterKey, sendIssuerMasterKey, validateMasterKey } from '../../../../../api/Admin';
+import { genIssuerMasterKey, sendIssuerMasterKey, validateMasterKey } from '../../../../../api/Admin';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 
@@ -64,7 +64,7 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
       toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
     } else {
       try {
-        const newMasterKey = await fetchIssuerMasterKey();
+        const newMasterKey = await genIssuerMasterKey();
         await instance.methods
           .addIssuer(data.orgName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
           .send({ from: admin.account })

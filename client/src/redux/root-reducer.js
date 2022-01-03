@@ -5,6 +5,7 @@ import { persistReducer, createTransform } from 'redux-persist';
 
 import adminReducer from './admin/admin.reducer';
 import contractReducer from './contract/contract.reducer';
+import issuerReducer from './issuer/issuer.reducer';
 import userReducer from './user/user.reducer';
 
 export const transformCircular = createTransform(
@@ -16,13 +17,14 @@ const persistConfig = {
   key: 'root',
   storage: localforage,
   transforms: [transformCircular],
-  whitelist: ['user', 'admin', 'contract'],
+  whitelist: ['user', 'admin', 'contract', 'issuer'],
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
   admin: adminReducer,
   contract: contractReducer,
+  issuer: issuerReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);

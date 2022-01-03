@@ -29,7 +29,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { fetchMasterKey, sendMasterKey, validateMasterKey } from '../../../../../api/Admin';
+import { genMasterKey, sendMasterKey, validateMasterKey } from '../../../../../api/Admin';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 
@@ -68,7 +68,7 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
       toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
     } else {
       try {
-        const newMasterKey = await fetchMasterKey();
+        const newMasterKey = await genMasterKey();
         await instance.methods
           .addAdmin(transformedFirstName, transformedLastName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
           .send({ from: admin.account })
