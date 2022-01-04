@@ -79,6 +79,7 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
             }
           });
       } catch (err) {
+        console.log(err.message);
         toast.error('Something Went Wrong', { toastId: `${err.message}` });
       }
     }

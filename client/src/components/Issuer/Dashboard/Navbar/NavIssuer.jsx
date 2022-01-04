@@ -4,7 +4,7 @@ import Avatar from 'react-avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { checkSidebarCollapsed } from '../../../../redux/issuer/issuer.actions';
+import { checkIssuerSidebarCollapsed } from '../../../../redux/issuer/issuer.actions';
 import NavProfile from './NavProfile';
 
 const NavIssuer = () => {
@@ -51,7 +51,7 @@ const NavIssuer = () => {
             <div
               role="button"
               onClick={() => {
-                dispatch(checkSidebarCollapsed());
+                dispatch(checkIssuerSidebarCollapsed());
                 setToggleProfile(false);
               }}
               className="cursor-pointer text-gray-500 hover:text-gray-900"

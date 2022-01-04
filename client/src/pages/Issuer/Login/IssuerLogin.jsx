@@ -9,7 +9,7 @@ import Navbar from '../../../components/Common/Navbar';
 import Login from '../../../components/Issuer/Login/Login';
 import getWeb3 from '../../../getWeb3';
 import useDetect from '../../../hooks/useDetect';
-import { setWeb3, setIsAccountChange, setIsNetworkChange } from '../../../redux/issuer/issuer.actions';
+import { setIssuerWeb3, setIsIssuerAccountChange, setIsIssuerNetworkChange } from '../../../redux/issuer/issuer.actions';
 
 const IssuerLogin = () => {
   const dispatch = useDispatch();
@@ -65,13 +65,13 @@ const IssuerLogin = () => {
     if (window.ethereum || window.web3) {
       window.ethereum.on('accountsChanged', async () => {
         const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
+        dispatch(setIssuerWeb3(web3));
         const account = web3.currentProvider.selectedAddress;
         if (account !== issuer?.account && issuer !== null) {
-          dispatch(setIsAccountChange(true));
+          dispatch(setIsIssuerAccountChange(true));
           toast.warn('Account has been changed', { toastId: 'account-changed' });
         } else if (account === issuer?.account && issuer !== null) {
-          dispatch(setIsAccountChange(false));
+          dispatch(setIsIssuerAccountChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
       });
@@ -83,14 +83,14 @@ const IssuerLogin = () => {
     if (window.ethereum || window.web3) {
       window.ethereum.on('chainChanged', async () => {
         const web3 = await getWeb3();
-        dispatch(setWeb3(web3));
+        dispatch(setIssuerWeb3(web3));
         const networkId = await web3.eth.net.getId();
         if (networkId !== issuer?.networkId && issuer !== null) {
-          dispatch(setIsNetworkChange(true));
+          dispatch(setIsIssuerNetworkChange(true));
           toast.warn('Network has been changed', { toastId: 'network-changed' });
           toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
         } else if (networkId === issuer?.networkId && issuer !== null) {
-          dispatch(setIsNetworkChange(false));
+          dispatch(setIsIssuerNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
       });

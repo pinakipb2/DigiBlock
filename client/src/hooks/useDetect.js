@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import getWeb3 from '../getWeb3';
 import { setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange } from '../redux/admin/admin.actions';
 import { setInstanceStart } from '../redux/contract/contract.actions';
-import { setMetmaskInstalled as setIssuerMetmaskInstalled } from '../redux/issuer/issuer.actions';
+import { setIssuerMetmaskInstalled } from '../redux/issuer/issuer.actions';
 
 const useDetect = () => {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const useDetect = () => {
     window.ethereum.on('accountsChanged', () => {
       checkAccountAndNetworkChangeOnStart();
     });
-    window.ethereum.on('networkChanged', () => {
+    window.ethereum.on('chainChanged', () => {
       checkAccountAndNetworkChangeOnStart();
     });
 
@@ -100,6 +100,14 @@ const useDetect = () => {
     // if (admin) {
     //   checkNetworkChangeOnStart();
     // }
+    return () => {
+      window.ethereum.removeListener('accountsChanged', () => {
+        checkAccountAndNetworkChangeOnStart();
+      });
+      window.ethereum.removeListener('chainChanged', () => {
+        checkAccountAndNetworkChangeOnStart();
+      });
+    };
   }, [isMetaMask, isAccountChanged, isNetworkChanged, dependencyWeb3, isLoggedIn]);
 };
 

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import getWeb3 from '../../../getWeb3';
-import { setCurrentIssuer, setIsAccountChange, setIsNetworkChange, setWeb3, setMetmaskInstalled } from '../../../redux/issuer/issuer.actions';
+import { setCurrentIssuer, setIsIssuerAccountChange, setIsIssuerNetworkChange, setIssuerWeb3, setIssuerMetmaskInstalled } from '../../../redux/issuer/issuer.actions';
 
 const ConnectWallet = () => {
   const dispatch = useDispatch();
@@ -18,21 +18,21 @@ const ConnectWallet = () => {
   const ConnectToMetamask = async () => {
     try {
       const web3 = await getWeb3();
-      dispatch(setWeb3(web3));
-      dispatch(setMetmaskInstalled(true));
+      dispatch(setIssuerWeb3(web3));
+      dispatch(setIssuerMetmaskInstalled(true));
       const networkId = await web3.eth.net.getId();
       if (networkId === 5777) {
         const account = web3.currentProvider.selectedAddress;
         const balance = parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account))).toFixed(4);
         dispatch(setCurrentIssuer(account, balance, networkId));
-        dispatch(setIsAccountChange(false));
-        dispatch(setIsNetworkChange(false));
+        dispatch(setIsIssuerAccountChange(false));
+        dispatch(setIsIssuerNetworkChange(false));
       } else {
         toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
-        dispatch(setIsNetworkChange(true));
+        dispatch(setIsIssuerNetworkChange(true));
       }
     } catch (error) {
-      dispatch(setMetmaskInstalled(false));
+      dispatch(setIssuerMetmaskInstalled(false));
       console.log(error.message);
     }
   };

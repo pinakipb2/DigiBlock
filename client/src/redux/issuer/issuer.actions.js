@@ -2,31 +2,31 @@ import { toast } from 'react-toastify';
 
 import IssuerActionTypes from './issuer.types';
 
-export const setWeb3 = (web3) => ({
+export const setIssuerWeb3 = (web3) => ({
   type: IssuerActionTypes.ISSUER_WEB3,
   payload: web3,
 });
 
 export const setCurrentIssuer = (account, balance, networkId) => (dispatch) => {
-  dispatch(
-    {
-      type: IssuerActionTypes.SET_CURRENT_ISSUER,
-      payload: {
-        account,
-        balance,
-        networkId,
-      },
+  dispatch({
+    type: IssuerActionTypes.SET_CURRENT_ISSUER,
+    payload: {
+      account,
+      balance,
+      networkId,
     },
-  );
-  if (account) { toast.success('Connected to MetaMask'); }
+  });
+  if (account) {
+    toast.success('Connected to MetaMask');
+  }
 };
 
-export const setLoginStatus = (verdict) => ({
+export const setIssuerLoginStatus = (verdict) => ({
   type: IssuerActionTypes.SET_ISSUER_LOGIN_STATUS,
   payload: verdict,
 });
 
-export const setMetmaskInstalled = (status) => (dispatch) => {
+export const setIssuerMetmaskInstalled = (status) => (dispatch) => {
   dispatch({
     type: IssuerActionTypes.CHECK_ISSUER_METAMASK_INSTALLED,
     payload: status,
@@ -36,12 +36,12 @@ export const setMetmaskInstalled = (status) => (dispatch) => {
   }
 };
 
-export const setIsAccountChange = (verdict) => ({
+export const setIsIssuerAccountChange = (verdict) => ({
   type: IssuerActionTypes.CHECK_ISSUER_ACCOUNT_CHANGED,
   payload: verdict,
 });
 
-export const setIsNetworkChange = (verdict) => ({
+export const setIsIssuerNetworkChange = (verdict) => ({
   type: IssuerActionTypes.CHECK_ISSUER_NETWORK_CHANGED,
   payload: verdict,
 });
@@ -51,7 +51,7 @@ export const setIssuerName = (issuerName) => ({
   payload: issuerName,
 });
 
-export const checkSidebarCollapsed = () => ({
+export const checkIssuerSidebarCollapsed = () => ({
   type: IssuerActionTypes.CHECK_ISSUER_SIDEBAR_COLLAPSED,
 });
 

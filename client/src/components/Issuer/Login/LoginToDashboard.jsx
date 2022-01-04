@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import validateMasterKey from '../../../api/Issuer';
-import { setLoginStatus, setIssuerName } from '../../../redux/issuer/issuer.actions';
+import { setIssuerLoginStatus, setIssuerName } from '../../../redux/issuer/issuer.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
   const issuer = useSelector((state) => state.issuer.currentIssuer);
@@ -28,7 +28,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
           setMasterKey('');
           toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });
         } else {
-          dispatch(setLoginStatus(true));
+          dispatch(setIssuerLoginStatus(true));
           dispatch(setIssuerName(issuerDetails[0]));
           setMasterKey('');
           history.push('/issuer/dashboard');
