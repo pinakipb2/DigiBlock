@@ -21,9 +21,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
     } else {
       try {
         const issuerDetails = await instance.methods.singleIssuer(issuer.account).call();
-        // console.log(issuerDetails[3]);
         const res = await validateMasterKey(masterKey, issuerDetails[2]);
-        // console.log(res.data.status);
         if (res.data.status === false) {
           setMasterKey('');
           toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });

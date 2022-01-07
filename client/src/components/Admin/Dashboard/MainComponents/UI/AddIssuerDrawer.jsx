@@ -32,6 +32,7 @@ import * as yup from 'yup';
 import { genIssuerMasterKey, sendIssuerMasterKey, validateMasterKey } from '../../../../../api/Admin';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
+import TagsInput from './TagsInput';
 
 yup.addMethod(yup.string, 'isValidEmail', isValidEmail);
 yup.addMethod(yup.string, 'isValidEthereumAddress', isValidEthereumAddress);
@@ -55,37 +56,59 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
     formState: { errors, isSubmitting },
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
   const [show, setShow] = useState(false);
-  const onSubmit = async (data) => {
-    console.log(data);
-    const adminDetails = await instance.methods.singleAdmin(admin.account).call();
-    const res = await validateMasterKey(data.masterkey, adminDetails[3]);
-    console.log(res.data.status);
-    if (res.data.status === false) {
-      toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
-    } else {
-      try {
-        const newMasterKey = await genIssuerMasterKey();
-        await instance.methods
-          .addIssuer(data.orgName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
-          .send({ from: admin.account })
-          .then(async () => {
-            await sendIssuerMasterKey(data.orgName, data.email, newMasterKey.data.masterKey);
-            dispatch(setInstanceStart());
-            toast.success('Issuer Created Successfully', { toastId: 'Issuer-success' });
-          })
-          .catch((e) => {
-            if (e.code === 4001) {
-              toast.error('Something Went Wrong', { toastId: `${e.message}` });
-            }
-          });
-      } catch (err) {
-        console.log(err.message);
-        toast.error('Something Went Wrong', { toastId: `${err.message}` });
-      }
+  const [tags, setTags] = useState([]);
+  const [docErrors, setDocErrors] = useState({});
+
+  const changeHandler = (value) => {
+    setTags(value);
+    if (value.length > 0 && docErrors.tags) {
+      setDocErrors((prev) => {
+        const prevErrors = { ...prev };
+        delete prevErrors.tags;
+        return prevErrors;
+      });
     }
-    onCloseAddIssuer();
-    setShow(false);
-    reset();
+  };
+  const onSubmit = async (data) => {
+    if (tags.length === 0) {
+      setDocErrors((prev) => ({
+        ...prev,
+        tags: 'Please add atleast one Document Type',
+      }));
+    } else {
+      console.log(tags);
+      // console.log(data);
+      const adminDetails = await instance.methods.singleAdmin(admin.account).call();
+      const res = await validateMasterKey(data.masterkey, adminDetails[3]);
+      console.log(res.data.status);
+      if (res.data.status === false) {
+        toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
+      } else {
+        try {
+          const newMasterKey = await genIssuerMasterKey();
+          await instance.methods
+            .addIssuer(data.orgName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey, tags)
+            .send({ from: admin.account })
+            .then(async () => {
+              await sendIssuerMasterKey(data.orgName, data.email, newMasterKey.data.masterKey);
+              dispatch(setInstanceStart());
+              toast.success('Issuer Created Successfully', { toastId: 'Issuer-success' });
+            })
+            .catch((e) => {
+              if (e.code === 4001) {
+                toast.error('Something Went Wrong', { toastId: `${e.message}` });
+              }
+            });
+        } catch (err) {
+          console.log(err.message);
+          toast.error('Something Went Wrong', { toastId: `${err.message}` });
+        }
+      }
+      onCloseAddIssuer();
+      setShow(false);
+      reset();
+      setTags([]);
+    }
   };
   const initialFocusRef = useRef();
   const tooglePass = () => setShow(!show);
@@ -121,7 +144,7 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <InputGroup>
-                    <Input isInvalid={!!errors.email} focusBorderColor={errors.email ? 'red.500' : ''} type="email" placeholder="Email of admin" {...register('email')} autoComplete="off" />
+                    <Input isInvalid={!!errors.email} focusBorderColor={errors.email ? 'red.500' : ''} type="email" placeholder="Email of issuer" {...register('email')} autoComplete="off" />
                     {errors.email ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
                   </InputGroup>
                   {errors.email ? <FormHelperText color="red.600">{errors.email?.message}</FormHelperText> : null}
@@ -135,13 +158,23 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
                     <Input
                       isInvalid={!!errors.walletaddress}
                       focusBorderColor={errors.walletaddress ? 'red.500' : ''}
-                      placeholder="Wallet Address of admin"
+                      placeholder="Wallet Address of issuer"
                       {...register('walletaddress')}
                       autoComplete="off"
                     />
                     {errors.walletaddress ? <InputRightElement children={<BsFillExclamationCircleFill color="red" />} /> : null}
                   </InputGroup>
                   {errors.walletaddress ? <FormHelperText color="red.600">{errors.walletaddress?.message}</FormHelperText> : null}
+                </FormControl>
+              </Box>
+
+              <Box>
+                <FormControl>
+                  <FormLabel>
+                    Document Types <span style={{ color: 'red' }}>*</span>
+                  </FormLabel>
+                  <TagsInput id="tags" placeholder="Add a Document Type" onChange={changeHandler} error={docErrors.tags} defaultTags={tags} key={tags} />
+                  {docErrors.tags ? <FormHelperText color="red.600">{docErrors?.tags}</FormHelperText> : null}
                 </FormControl>
               </Box>
 
@@ -187,6 +220,7 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
               onClick={() => {
                 reset();
                 setShow(false);
+                setTags([]);
               }}
             >
               Reset
