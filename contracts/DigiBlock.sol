@@ -34,6 +34,7 @@ contract DigiBlock {
         address from;
         address to;
         string ipfsHash;
+        string docType;
         uint256 timestamp;
     }
     
@@ -51,6 +52,7 @@ contract DigiBlock {
         string email;
         address orgAddress;
         string masterKey;
+        string[] docTypes;
     }
 
     // mappings
@@ -225,12 +227,13 @@ contract DigiBlock {
     }
 
     // Add a new Issuer (Admin Only action)
-    function addIssuer(string memory _orgName, string memory _email, address _orgAddress, string memory _masterKey) public onlyAdmin alreadyRegisteredIssuer(_orgAddress) alreadyRegisteredAdmin(_orgAddress) {
+    function addIssuer(string memory _orgName, string memory _email, address _orgAddress, string memory _masterKey, string[] memory _docTypes) public onlyAdmin alreadyRegisteredIssuer(_orgAddress) alreadyRegisteredAdmin(_orgAddress) {
         Issuer memory newIssuer = Issuer(
             _orgName,
             _email,
             _orgAddress,
-            _masterKey
+            _masterKey,
+            _docTypes
         );
         registeredIssuers[_orgAddress] = newIssuer;
         registeredIssuersAddresses.push(_orgAddress);
@@ -268,7 +271,8 @@ contract DigiBlock {
         returns (
             string memory,
             string memory,
-            string memory
+            string memory,
+            string[] memory
         )
     {
         require(
@@ -279,7 +283,8 @@ contract DigiBlock {
         string memory _orgName = registeredIssuers[_orgAddress].orgName;
         string memory _email = registeredIssuers[_orgAddress].email;
         string memory _masterKey = registeredIssuers[_orgAddress].masterKey;
-        return (_orgName, _email, _masterKey);
+        string[] memory _docTypes = registeredIssuers[_orgAddress].docTypes;
+        return (_orgName, _email, _masterKey, _docTypes);
     }
 
     // Get the count of Issuers
