@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 contract DigiBlock {
     // global variables
-    address public immutable owner; // don't make it external
+    address public immutable owner;
 
     // constructor
     constructor() {
@@ -17,7 +17,6 @@ contract DigiBlock {
         );
         registeredAdmins[msg.sender] = ownerAdmin;
         registeredAdminsAddresses.push(msg.sender);
-        // emit AdminRegisteredEvent("Pinaki", msg.sender); // may be commented out in future
     }
 
     // Function to comapre two strings
@@ -114,7 +113,7 @@ contract DigiBlock {
     uint256 totalRequestedRejectedDocuments;
     uint256 totalRequestedRevokedDocuments;
 
-    // modifiers
+    // modifier functions
     // Owner Only Action
     function onlyOwner(address _owner) internal view {
         require(_owner == owner, "Access Denied");
@@ -234,7 +233,6 @@ contract DigiBlock {
             registeredAdmins[_userAddress].userAddress != address(0),
             "Invalid Admin"
         );
-        // string memory _firstName = registeredAdmins[_userAddress].firstName;
         delete registeredAdmins[_userAddress];
         uint256 index = 0;
         while (registeredAdminsAddresses[index] != _userAddress) {
@@ -248,7 +246,6 @@ contract DigiBlock {
             registeredAdminsAddresses.length - 1
         ];
         registeredAdminsAddresses.pop();
-        // emit AdminDeletedEvent(_firstName, _userAddress);
     }
 
     // Get all Admins
@@ -334,33 +331,7 @@ contract DigiBlock {
         );
         registeredIssuers[_orgAddress] = newIssuer;
         registeredIssuersAddresses.push(_orgAddress);
-        // emit IssuerRegisteredEvent(_orgName, _orgAddress);
     }
-
-    // Get list of all Issuers
-    // function allIssuers()
-    //     external
-    //     view
-    //     returns (
-    //         string[] memory,
-    //         string[] memory,
-    //         address[] memory
-    //     )
-    // {
-    //     uint256 issuerCount = registeredIssuersAddresses.length;
-    //     string[] memory _orgName = new string[](issuerCount);
-    //     string[] memory _email = new string[](issuerCount);
-    //     address[] memory _orgAddress = new address[](issuerCount);
-    //     for (uint256 i = 0; i < issuerCount; i++) {
-    //         Issuer storage currentIssuer = registeredIssuers[
-    //             registeredIssuersAddresses[i]
-    //         ];
-    //         _orgName[i] = currentIssuer.orgName;
-    //         _email[i] = currentIssuer.email;
-    //         _orgAddress[i] = currentIssuer.orgAddress;
-    //     }
-    //     return (_orgName, _email, _orgAddress);
-    // }
 
     // Get a single Issuer by address
     function singleIssuer(address _orgAddress)
@@ -404,36 +375,7 @@ contract DigiBlock {
         User memory newUser = User(_firstName, _lastName, _email, _userAddress);
         registeredUsers[_userAddress] = newUser;
         registeredUsersAddresses.push(_userAddress);
-        // emit UserRegisteredEvent(_firstName, _userAddress);
     }
-
-    // Get list of all Users
-    // function allUsers()
-    //     external
-    //     view
-    //     returns (
-    //         string[] memory,
-    //         string[] memory,
-    //         string[] memory,
-    //         address[] memory
-    //     )
-    // {
-    //     uint256 userCount = registeredUsersAddresses.length;
-    //     string[] memory _firstName = new string[](userCount);
-    //     string[] memory _lastName = new string[](userCount);
-    //     string[] memory _email = new string[](userCount);
-    //     address[] memory _userAddress = new address[](userCount);
-    //     for (uint256 i = 0; i < userCount; i++) {
-    //         User storage currentUser = registeredUsers[
-    //             registeredUsersAddresses[i]
-    //         ];
-    //         _firstName[i] = currentUser.firstName;
-    //         _lastName[i] = currentUser.lastName;
-    //         _email[i] = currentUser.email;
-    //         _userAddress[i] = currentUser.userAddress;
-    //     }
-    //     return (_firstName, _lastName, _email, _userAddress);
-    // }
 
     // Get a single User by address
     function singleUser(address _userAddress)
@@ -565,33 +507,7 @@ contract DigiBlock {
         );
         registeredRequestors[_orgAddress] = newRequestor;
         registeredRequestorsAddresses.push(_orgAddress);
-        // emit RequestorRegisteredEvent(_orgName, _orgAddress);
     }
-
-    // Get list of all Requestors
-    // function allRequestors()
-    //     external
-    //     view
-    //     returns (
-    //         string[] memory,
-    //         string[] memory,
-    //         address[] memory
-    //     )
-    // {
-    //     uint256 requestorCount = registeredRequestorsAddresses.length;
-    //     string[] memory _orgName = new string[](requestorCount);
-    //     string[] memory _email = new string[](requestorCount);
-    //     address[] memory _orgAddress = new address[](requestorCount);
-    //     for (uint256 i = 0; i < requestorCount; i++) {
-    //         Requestor storage currentRequestor = registeredRequestors[
-    //             registeredRequestorsAddresses[i]
-    //         ];
-    //         _orgName[i] = currentRequestor.orgName;
-    //         _email[i] = currentRequestor.email;
-    //         _orgAddress[i] = currentRequestor.orgAddress;
-    //     }
-    //     return (_orgName, _email, _orgAddress);
-    // }
 
     // Get a single Requestor by address
     function singleRequestor(address _orgAddress)
