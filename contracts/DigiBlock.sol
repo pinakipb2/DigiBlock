@@ -442,7 +442,7 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        onlyIssuer();
+        // onlyIssuer();
         uint256 docsIssued = issuedDocsByIssuer[_orgAddress].length;
         address[] memory _to = new address[](docsIssued);
         string[] memory _ipfsHash = new string[](docsIssued);
