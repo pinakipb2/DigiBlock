@@ -7,39 +7,27 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
   const user = [accounts[6], accounts[7], accounts[8], accounts[9], accounts[10]];
   const issuer = [accounts[11], accounts[12], accounts[13], accounts[14], accounts[15]];
   const requestor = [accounts[16], accounts[17], accounts[18], accounts[19], accounts[20]];
-  const PREFIX = 'Returned error: VM Exception while processing transaction: ';
-  const web3ErrorMessage = (errType, reason) => {
-    return PREFIX + errType + ' ' + reason + ' -- ' + 'Reason given: ' + reason + '.';
-  };
-  let timestampA=0;
-  let timestampC=0;
+  let timestampA = 0;
+  let timestampC = 0;
   let DigiBlockInstance;
-	beforeEach(async () => {
-		DigiBlockInstance = await DigiBlock.deployed();
-	});
+  beforeEach(async () => {
+    DigiBlockInstance = await DigiBlock.deployed();
+  });
   describe('Deployment', () => {
     it('should deploy smart contract properly', async () => {
-      // console.log('Contract at : ' + DigiBlockInstance.address);
-      // console.log('Owner : ' + contractOwner);
       assert(DigiBlockInstance.address !== '', 'Contract not deployed correctly');
     });
     it('should set the right owner', async () => {
       const owner = await DigiBlockInstance.owner.call();
-      // console.log('Owner in smart contract is : ' + owner);
       assert(owner === contractOwner, 'Owner is not set properly');
     });
     it('validating first admin registration in constructor', async () => {
-      // function Admin(firstName, lastName, email, masterKey) {
-      //   (this.firstName = firstName), (this.lastName = lastName), (this.email = email), (this.masterKey = masterKey);
-      // }
       await DigiBlockInstance.singleAdmin.call(contractOwner, (err, result) => {
         if (!err) {
           assert(result[0] === 'Pinaki', 'First Name is not set properly');
           assert(result[1] === 'Bhattacharjee', 'Last Name is not set properly');
           assert(result[2] === 'pinakipb2@gmail.com', 'Email is not set properly');
           assert(result[3] === 'Pinaki', 'Master Key is not set properly');
-          // const me = new Admin(result[0], result[1], result[2], result[3]);
-          // console.table(me);
         } else {
           console.log(err);
         }
@@ -72,7 +60,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.usersCount.call((err, result) => {
-        if(!err) {
+        if (!err) {
           assert(result === '1', 'Error in user count');
         } else {
           console.log(err);
@@ -91,7 +79,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.requestorsCount.call((err, result) => {
-        if(!err) {
+        if (!err) {
           assert(result === '1', 'Error in requestor count');
         } else {
           console.log(err);
@@ -103,33 +91,23 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       try {
         await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', issuer[0], 'MKey', ['A', 'B'], { from: admin[1] });
       } catch (err) {
-        assert(err.message === "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
-
       try {
         await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', admin[0], 'MKey', ['A', 'B'], { from: admin[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'User Already Admin';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert User Already Admin -- Reason given: User Already Admin.');
       }
-      
       try {
         await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', user[0], 'MKey', ['A', 'B'], { from: admin[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Already Registered';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Already Registered -- Reason given: Already Registered.');
       }
-
       try {
         await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', requestor[0], 'MKey', ['A', 'B'], { from: admin[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Already Registered';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Already Registered -- Reason given: Already Registered.');
       }
-
       await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', issuer[0], 'MKey', ['A', 'B'], { from: admin[0] });
       await DigiBlockInstance.singleIssuer.call(issuer[0], (err, result) => {
         if (!err) {
@@ -143,17 +121,14 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
           console.log(err);
         }
       });
-
       try {
         await DigiBlockInstance.addIssuer('Issuer1', 'issuer1@gmail.com', issuer[0], 'MKey', ['A', 'B'], { from: admin[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Already Registered';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        // console.log(err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Already Registered -- Reason given: Already Registered.');
       }
-
       await DigiBlockInstance.issuersCount.call((err, result) => {
-        if(!err) {
+        if (!err) {
           assert(result === '1', 'Error in issuer count');
         } else {
           console.log(err);
@@ -168,9 +143,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       try {
         await DigiBlockInstance.deleteAdmin(admin[1], { from: admin[4] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Access Denied';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       await DigiBlockInstance.singleAdmin.call(admin[1], (err, result) => {
         if (!err) {
@@ -186,26 +159,80 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       try {
         await DigiBlockInstance.singleAdmin.call(admin[1]);
       } catch (err) {
-        assert(err.message === "Returned error: VM Exception while processing transaction: revert Invalid Admin");
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Invalid Admin');
       }
     });
   });
-
+  describe('deleteAdmin', () => {
+    it('deleteAdmin', async () => {
+      try {
+        await DigiBlockInstance.deleteAdmin(admin[4], { from: admin[0] });
+      } catch (err) {
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
+      }
+      try {
+        await DigiBlockInstance.deleteAdmin(contractOwner, { from: contractOwner });
+      } catch (err) {
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
+      }
+    });
+  });
+  describe('allAdmins', () => {
+    it('allAdmins', async () => {
+      await DigiBlockInstance.allAdmins.call((err, result) => {
+        if (!err) {
+          assert(result[0][0] === 'Pinaki', 'First Name is not set properly');
+          assert(result[0][1] === 'Admin', 'First Name is not set properly');
+          assert(result[1][0] === 'Bhattacharjee', 'Last Name is not set properly');
+          assert(result[1][1] === '0', 'Last Name is not set properly');
+          assert(result[2][0] === 'pinakipb2@gmail.com', 'Email is not set properly');
+          assert(result[2][1] === 'admin0@gmail.com', 'Email is not set properly');
+          assert(result[3][0] === contractOwner, 'Address is not set properly');
+          assert(result[3][1] === admin[0], 'Address is not set properly');
+        } else {
+          console.log(err);
+        }
+      });
+    });
+  });
   describe('Document issuing and access flow', () => {
     it('document issued correctly', async () => {
       try {
         await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'A', { from: issuer[4] });
       } catch (err) {
-        assert(err.message === "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       try {
         await DigiBlockInstance.issueDocument(requestor[0], 'ipfshash', 'A', { from: issuer[0] });
       } catch (err) {
-        assert(err.message === "Returned error: VM Exception while processing transaction: revert Invalid User -- Reason given: Invalid User.");
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Invalid User -- Reason given: Invalid User.');
       }
       await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'A', { from: issuer[0] });
+      await DigiBlockInstance.getAllDocuments.call(user[0], (err, result) => {
+        if (!err) {
+          assert(result[0][0] === issuer[0], 'Issuer is not set properly');
+          assert(result[1][0] === 'ipfshash', 'Ipfshash is not set properly');
+          assert(result[2][0] === 'A', 'Document Type is not set properly');
+        } else {
+          console.log(err);
+        }
+      });
+      try {
+        await DigiBlockInstance.getAllDocuments.call(user[4], (err, result) => {
+          if (!err) {
+            assert(result[0].length === 0, 'Length not proper');
+            assert(result[1].length === 0, 'Length not proper');
+            assert(result[2].length === 0, 'Length not proper');
+            assert(result[3].length === 0, 'Length not proper');
+          } else {
+            throw err;
+          }
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
       await DigiBlockInstance.getDocsIssuedByIssuer.call(issuer[0], (err, result) => {
-        if(!err) {
+        if (!err) {
           assert(result[0][0] === user[0], 'To address is not set properly');
           assert(result[1][0] === 'ipfshash', 'Ipfs hash is not set properly');
           assert(result[2][0] === 'A', 'DocType is not set properly');
@@ -213,55 +240,49 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
           console.log(err);
         }
       });
-
       await DigiBlockInstance.getDocsIssuedByIssuer.call(issuer[4], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0].length === 0, 'Issuer has issued documents');
         } else {
           console.log(err);
         }
       });
-
       try {
         await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'A', { from: issuer[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Access Denied';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
-
       await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'C', { from: issuer[1] });
     });
-
     it('document requested correctly', async () => {
       try {
         await DigiBlockInstance.requestDocumentFromUser(user[0], 'A', { from: issuer[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       try {
         await DigiBlockInstance.requestDocumentFromUser(user[0], 'A', { from: user[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       try {
         await DigiBlockInstance.requestDocumentFromUser(user[0], 'A', { from: admin[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       try {
         await DigiBlockInstance.requestDocumentFromUser(user[4], 'A', { from: requestor[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Invalid User -- Reason given: Invalid User.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Invalid User -- Reason given: Invalid User.');
       }
       try {
         await DigiBlockInstance.requestDocumentFromUser(user[0], 'T', { from: requestor[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Doc not Found -- Reason given: Doc not Found.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Doc not Found -- Reason given: Doc not Found.');
       }
       await DigiBlockInstance.requestDocumentFromUser(user[0], 'A', { from: requestor[0] });
       await DigiBlockInstance.getUserPendingDocuments.call(user[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === requestor[0], 'From address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
         } else {
@@ -269,7 +290,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.getRequestorPendingDocuments.call(requestor[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === user[0], 'To address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
           timestampA = result[2][0];
@@ -279,7 +300,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       });
       await DigiBlockInstance.requestDocumentFromUser(user[0], 'C', { from: requestor[0] });
       await DigiBlockInstance.getRequestorPendingDocuments.call(requestor[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][1] === user[0], 'To address is not set properly');
           assert(result[1][1] === 'C', 'DocType is not set properly');
           timestampC = result[2][1];
@@ -292,16 +313,16 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       try {
         await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'A', parseInt(timestampA), 0, 3, { from: user[0] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.');
       }
       try {
         await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'A', parseInt(timestampA), 0, 3, { from: user[4] });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
       await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'A', parseInt(timestampA), 0, 1, { from: user[0] });
       await DigiBlockInstance.getUserAcceptedDocuments.call(user[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === requestor[0], 'From address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
         } else {
@@ -309,17 +330,16 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.getRequestorAcceptedDocuments.call(requestor[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === user[0], 'From address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
         } else {
           console.log(err);
         }
       });
-
       await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'C', parseInt(timestampC), 0, 2, { from: user[0] });
       await DigiBlockInstance.getUserRejectedDocuments.call(user[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === requestor[0], 'From address is not set properly');
           assert(result[1][0] === 'C', 'DocType is not set properly');
         } else {
@@ -327,7 +347,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.getRequestorRejectedDocuments.call(requestor[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === user[0], 'From address is not set properly');
           assert(result[1][0] === 'C', 'DocType is not set properly');
         } else {
@@ -336,7 +356,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       });
       await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'A', parseInt(timestampA), 1, 3, { from: user[0] });
       await DigiBlockInstance.getUserRevokedDocuments.call(user[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === requestor[0], 'From address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
         } else {
@@ -344,7 +364,7 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
         }
       });
       await DigiBlockInstance.getRequestorRevokedDocuments.call(requestor[0], (err, result) => {
-        if(!err){
+        if (!err) {
           assert(result[0][0] === user[0], 'From address is not set properly');
           assert(result[1][0] === 'A', 'DocType is not set properly');
         } else {
@@ -353,10 +373,8 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       });
     });
   });
-
   describe('updateMasterKey functionality', () => {
     it('update master key of owner', async () => {
-      
       await DigiBlockInstance.updateMasterKey('NewMasterKey', { from: contractOwner });
       await DigiBlockInstance.singleAdmin.call(contractOwner, (err, result) => {
         if (!err) {
@@ -371,45 +389,40 @@ contract('DigiBlock (Modifier Functions)', (accounts) => {
       try {
         await DigiBlockInstance.updateMasterKey('NextMasterKey', { from: contractOwner });
       } catch (err) {
-        assert(err.message, "Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.");
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.');
       }
     });
     it('should get error if called from admin account', async () => {
       try {
         await DigiBlockInstance.updateMasterKey('NewMasterKey', { from: admin[0] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Access Denied';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.');
       }
     });
     it('should get error if called from non-admin account', async () => {
       try {
         await DigiBlockInstance.updateMasterKey('NewMasterKey', { from: admin[4] });
       } catch (err) {
-        const errType = 'revert';
-        const reason = 'Access Denied';
-        assert(err.message === web3ErrorMessage(errType, reason), 'Got: ' + err.message);
+        assert(err.message, 'Returned error: VM Exception while processing transaction: revert Action Denied -- Reason given: Action Denied.');
       }
     });
   });
-
   describe('updateMasterKey functionality', () => {
     it('user verification check', async () => {
       await DigiBlockInstance.isUserVerified.call(user[1], (err, result) => {
-        if(!err) {
-          assert(result === false, "Verfied status incorrect");
+        if (!err) {
+          assert(result === false, 'Verfied status incorrect');
         } else {
           console.log(err);
         }
       });
       await DigiBlockInstance.isUserVerified.call(user[0], (err, result) => {
-        if(!err) {
-          assert(result === true, "Verfied status incorrect");
+        if (!err) {
+          assert(result === true, 'Verfied status incorrect');
         } else {
           console.log(err);
         }
       });
-    })
+    });
   });
 });
