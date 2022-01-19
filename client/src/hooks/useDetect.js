@@ -72,12 +72,14 @@ const useDetect = () => {
     if (isAdminPresent || isIssuerPresent) {
       checkAccountAndNetworkChangeOnStart();
     }
-    window.ethereum.on('accountsChanged', () => {
-      checkAccountAndNetworkChangeOnStart();
-    });
-    window.ethereum.on('chainChanged', () => {
-      checkAccountAndNetworkChangeOnStart();
-    });
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', () => {
+        checkAccountAndNetworkChangeOnStart();
+      });
+      window.ethereum.on('chainChanged', () => {
+        checkAccountAndNetworkChangeOnStart();
+      });
+    }
 
     // const checkNetworkChangeOnStart = async () => {
     //   if (window.ethereum || window.web3) {
@@ -101,12 +103,14 @@ const useDetect = () => {
     //   checkNetworkChangeOnStart();
     // }
     return () => {
-      window.ethereum.removeListener('accountsChanged', () => {
-        checkAccountAndNetworkChangeOnStart();
-      });
-      window.ethereum.removeListener('chainChanged', () => {
-        checkAccountAndNetworkChangeOnStart();
-      });
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', () => {
+          checkAccountAndNetworkChangeOnStart();
+        });
+        window.ethereum.removeListener('chainChanged', () => {
+          checkAccountAndNetworkChangeOnStart();
+        });
+      }
     };
   }, [isMetaMask, isAccountChanged, isNetworkChanged, dependencyWeb3, isLoggedIn]);
 };
