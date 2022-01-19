@@ -55,4 +55,4 @@
 
 ### No: of closed bugs: 1
 
-### %coverage = $\frac{40}{40}$x100 = 100%
+### %coverage = (40/40)x100 = 100%
