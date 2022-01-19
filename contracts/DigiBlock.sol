@@ -182,16 +182,6 @@ contract DigiBlock {
         }
     }
 
-    // events
-    // event AdminRegisteredEvent(string _firstName, address indexed _useraddress);
-    // event AdminDeletedEvent(string _firstName, address indexed _useraddress);
-
-    // event IssuerRegisteredEvent(string _orgName, address indexed _orgaddress);
-
-    // event UserRegisteredEvent(string _firstName, address indexed _useraddress);
-
-    // event RequestorRegisteredEvent(string _orgName, address indexed _orgAddress);
-
     event DocumentStatusChange(
         address indexed _from,
         address _to,
@@ -238,10 +228,7 @@ contract DigiBlock {
         while (registeredAdminsAddresses[index] != _userAddress) {
             index++;
         }
-        require(
-            index < registeredAdminsAddresses.length,
-            "Failed"
-        );
+        require(index < registeredAdminsAddresses.length, "Failed");
         registeredAdminsAddresses[index] = registeredAdminsAddresses[
             registeredAdminsAddresses.length - 1
         ];
@@ -831,12 +818,9 @@ contract DigiBlock {
             (_nextStatus < 0 || _nextStatus > 3) ||
             (_prevStatus == _nextStatus)
         ) revert("Action Denied");
-        if (_prevStatus == 0 && _nextStatus == 3)
-            revert("Action Denied");
-        if (_prevStatus == 1 && _nextStatus != 3)
-            revert("Action Denied");
-        if (_prevStatus == 2 || _prevStatus == 3)
-            revert("Action Denied");
+        if (_prevStatus == 0 && _nextStatus == 3) revert("Action Denied");
+        if (_prevStatus == 1 && _nextStatus != 3) revert("Action Denied");
+        if (_prevStatus == 2 || _prevStatus == 3) revert("Action Denied");
         RequestedDocument[] storage requestedToUserDocs = requestedDocuments[
             _to
         ];
