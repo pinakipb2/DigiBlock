@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
+import { allIssuers } from '../../../../../api/Issuer/index';
 import AddIssuerDrawer from '../UI/AddIssuerDrawer';
 import Pagination from '../UI/Pagination';
 import Table from '../UI/Table';
@@ -13,24 +14,23 @@ const IssuerDetails = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
-      const allIssuers = await instance.methods.allIssuers().call();
-      for (let i = 0; i < allIssuers[0].length; i++) {
+      const issuers = await allIssuers();
+      for (let i = 0; i < issuers.data.length; i++) {
         objects.push({
           id: i + 1,
-          name: allIssuers[0][i],
-          email: allIssuers[1][i],
-          address: allIssuers[2][i],
+          name: issuers.data[i].orgName,
+          address: issuers.data[i].address,
+          docType: issuers.data[i].docType,
         });
       }
       setOriginalData(objects);
       setTableData(objects);
     };
-    if (instance.methods.allIssuers) {
-      func();
-    }
+    func();
   }, [instance]);
 
   // Current Page Number
@@ -55,7 +55,9 @@ const IssuerDetails = () => {
     if (searchTerm === '') {
       setTableData(originalData);
     } else {
-      const filteredTable = originalData.filter((row) => row.name.toLowerCase().includes(searchTerm) || row.email.toLowerCase().includes(searchTerm) || row.address.toLowerCase().includes(searchTerm));
+      const filteredTable = originalData.filter(
+        (row) => row.name.toLowerCase().includes(searchTerm) || row.address.toLowerCase().includes(searchTerm) || row.docType.filter((docs) => docs.toLowerCase().includes(searchTerm)).length > 0
+      );
       setTableData(filteredTable);
     }
   };
@@ -91,8 +93,8 @@ const IssuerDetails = () => {
             <tr>
               <th>SNo</th>
               <th>Organization Name</th>
-              <th>Email</th>
               <th>Wallet Address</th>
+              <th>Document Types</th>
             </tr>
           </thead>
           <tbody className="text-center">

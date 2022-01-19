@@ -32,12 +32,12 @@ const SideBar = () => {
     //   url: '/admin/users',
     //   icon: 'fas fa-user-alt',
     // },
-    // {
-    //   id: 3,
-    //   name: 'Issuers',
-    //   url: '/admin/issuers',
-    //   icon: 'fas fa-user-tie',
-    // },
+    {
+      id: 2,
+      name: 'Issuers',
+      url: '/admin/issuers',
+      icon: 'fas fa-user-tie',
+    },
     // {
     //   id: 4,
     //   name: 'Verifiers',
@@ -45,7 +45,7 @@ const SideBar = () => {
     //   icon: 'fas fa-user-check',
     // },
     {
-      id: 2,
+      id: 3,
       name: 'Profile',
       url: '/admin/profile',
       icon: 'fas fa-id-badge',

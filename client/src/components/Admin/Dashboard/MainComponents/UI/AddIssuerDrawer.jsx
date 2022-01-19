@@ -30,6 +30,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 import { genIssuerMasterKey, sendIssuerMasterKey, validateMasterKey } from '../../../../../api/Admin';
+import { addIssuer } from '../../../../../api/Issuer';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 import TagsInput from './TagsInput';
@@ -91,7 +92,6 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
             .send({ from: admin.account })
             .then(async () => {
               await sendIssuerMasterKey(data.orgName, data.email, newMasterKey.data.masterKey);
-              dispatch(setInstanceStart());
               toast.success('Issuer Created Successfully', { toastId: 'Issuer-success' });
             })
             .catch((e) => {
@@ -99,6 +99,8 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
                 toast.error('Something Went Wrong', { toastId: `${e.message}` });
               }
             });
+          await addIssuer(data.orgName, data.walletaddress, tags);
+          dispatch(setInstanceStart());
         } catch (err) {
           console.log(err.message);
           toast.error('Something Went Wrong', { toastId: `${err.message}` });
