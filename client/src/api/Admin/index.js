@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const adminAPI = axios.create({
-  baseURL: 'http://localhost:5000/api/admin/',
+  baseURL: 'http://localhost:5000/api/v1/admin/',
 });
 
 export const genMasterKey = () => adminAPI.post('/gen-master-key');
