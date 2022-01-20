@@ -92,6 +92,8 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
             .send({ from: admin.account })
             .then(async () => {
               await sendIssuerMasterKey(data.orgName, data.email, newMasterKey.data.masterKey);
+              await addIssuer(data.orgName, data.walletaddress, tags);
+              dispatch(setInstanceStart());
               toast.success('Issuer Created Successfully', { toastId: 'Issuer-success' });
             })
             .catch((e) => {
@@ -99,8 +101,6 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
                 toast.error('Something Went Wrong', { toastId: `${e.message}` });
               }
             });
-          await addIssuer(data.orgName, data.walletaddress, tags);
-          dispatch(setInstanceStart());
         } catch (err) {
           console.log(err.message);
           toast.error('Something Went Wrong', { toastId: `${err.message}` });
