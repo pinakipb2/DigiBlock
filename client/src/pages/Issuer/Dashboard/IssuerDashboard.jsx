@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import Guide from '../../../components/Issuer/Dashboard/MainComponents/DashboardGuide/Guide';
+import IssuerDocuments from '../../../components/Issuer/Dashboard/MainComponents/Documents/IssuerDocuments';
 import IssuerProfile from '../../../components/Issuer/Dashboard/MainComponents/Profile/Profile';
 import NavIssuer from '../../../components/Issuer/Dashboard/Navbar/NavIssuer';
 import SideBar from '../../../components/Issuer/Dashboard/SideBar/SideBar';
@@ -31,6 +32,8 @@ const IssuerDashboard = () => {
     switch (currMenu) {
       case 'Dashboard':
         return <Guide />;
+      case 'Documents':
+        return <IssuerDocuments />;
       case 'Profile':
         return <IssuerProfile />;
       default:
