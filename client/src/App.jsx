@@ -13,6 +13,7 @@ import HomePage from './pages/Common/HomePage';
 import IssuerDashboard from './pages/Issuer/Dashboard/IssuerDashboard';
 import IssuerLogin from './pages/Issuer/Login/IssuerLogin';
 import UserLogin from './pages/User/UserLogin';
+import UserSignUp from './pages/User/UserSignUp';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 import IssuerProtectedRoute from './routes/IssuerProtectedRoute';
 
@@ -32,6 +33,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={UserLogin} />
+        <Route exact path="/signup" component={UserSignUp} />
         <Route exact path="/about-us" component={AboutUs} />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
