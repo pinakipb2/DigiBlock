@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 
 import Footer from '../../components/Common/Footer';
 import Navbar from '../../components/Common/Navbar';
-import Login from '../../components/User/Login/Login';
+import SignUp from '../../components/User/SignUp/SignUp';
 import getWeb3 from '../../getWeb3';
 import useDetect from '../../hooks/useDetect';
 import { setUserWeb3, setIsUserAccountChange, setIsUserNetworkChange } from '../../redux/user/user.actions';
 
-const UserLogin = () => {
+const UserSignUp = () => {
   const dispatch = useDispatch();
   // const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
   const user = useSelector((state) => state.user.currentUser);
@@ -105,11 +105,11 @@ const UserLogin = () => {
         <Helmet>
           <title>Login - DigiBlock</title>
         </Helmet>
-        <Login />
+        <SignUp />
       </div>
       <Footer />
     </>
   );
 };
 
-export default UserLogin;
+export default UserSignUp;

@@ -21,6 +21,18 @@ const SideBar = () => {
       icon: 'fas fa-tachometer-alt',
     },
     {
+      id: 1,
+      name: 'Issue Document',
+      url: '/issuer/issue-document',
+      icon: 'fas fa-id-badge',
+    },
+    {
+      id: 2,
+      name: 'Documents',
+      url: '/issuer/documents',
+      icon: 'fas fa-id-badge',
+    },
+    {
       id: 3,
       name: 'Profile',
       url: '/issuer/profile',
@@ -28,16 +40,13 @@ const SideBar = () => {
     },
   ]);
 
-  const changeSidebarIconColor = () => {
-    const location = useLocation();
-    useEffect(() => {
-      const path = location.pathname.replace('/issuer/', '');
-      const pathName = path.charAt(0).toUpperCase() + path.slice(1);
-      setUrlPath(`${pathName} | (Issuer) - DigiBlock`);
-      setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
-    }, [location]);
-  };
-  changeSidebarIconColor();
+  const location = useLocation();
+  useEffect(() => {
+    const path = location.pathname.replace('/issuer/', '');
+    const pathName = path.charAt(0).toUpperCase() + path.slice(1);
+    setUrlPath(`${pathName} | (Issuer) - DigiBlock`);
+    setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
+  }, [location]);
 
   return (
     <>

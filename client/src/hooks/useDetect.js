@@ -10,35 +10,63 @@ import { toast } from 'react-toastify';
 import getWeb3 from '../getWeb3';
 import { setWeb3, setMetmaskInstalled, setIsAccountChange, setIsNetworkChange } from '../redux/admin/admin.actions';
 import { setInstanceStart } from '../redux/contract/contract.actions';
-import { setIssuerMetmaskInstalled } from '../redux/issuer/issuer.actions';
+import { setIssuerWeb3, setIssuerMetmaskInstalled, setIsIssuerAccountChange, setIsIssuerNetworkChange } from '../redux/issuer/issuer.actions';
+import { setUserWeb3, setUserMetmaskInstalled, setIsUserAccountChange, setIsUserNetworkChange } from '../redux/user/user.actions';
 
 const useDetect = () => {
   const dispatch = useDispatch();
   const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
+  const isIssuerMetaMask = useSelector((state) => state.issuer.isMetaMaskInstalled);
+  const isUserMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
+  const user = useSelector((state) => state.user.currentUser);
+  const issuer = useSelector((state) => state.issuer.currentIssuer);
   const isAdminPresent = useSelector((state) => !!state.admin.currentAdmin);
   const isIssuerPresent = useSelector((state) => !!state.issuer.currentIssuer);
+  const isUserPresent = useSelector((state) => !!state.user.currentUser);
   const isWeb3 = useSelector((state) => !!state.admin.web3);
+  const isIssuerWeb3 = useSelector((state) => !!state.issuer.web3);
+  const isUserWeb3 = useSelector((state) => !!state.user.web3);
   const dependencyWeb3 = useSelector((state) => state.admin.web3);
+  const dependencyWeb3Issuer = useSelector((state) => state.issuer.web3);
+  const dependencyWeb3User = useSelector((state) => state.user.web3);
   const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isIssuerLoggedIn = useSelector((state) => state.issuer.isLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isAccountChanged = useSelector((state) => state.admin.isAccountChanged);
+  const isIssuerAccountChanged = useSelector((state) => state.issuer.isAccountChanged);
+  const isUserAccountChanged = useSelector((state) => state.user.isAccountChanged);
   const isNetworkChanged = useSelector((state) => state.admin.isNetworkChanged);
+  const isIssuerNetworkChanged = useSelector((state) => state.issuer.isNetworkChanged);
+  const isUserNetworkChanged = useSelector((state) => state.user.isNetworkChanged);
 
   useEffect(() => {
     const getMetaMaskStatus = () => {
       if (!isMetaMask) {
         if (window.web3 || window.ethereum) {
           dispatch(setMetmaskInstalled(true));
-          dispatch(setIssuerMetmaskInstalled(true));
         } else {
           dispatch(setMetmaskInstalled(false));
+        }
+      }
+      if (!isIssuerMetaMask) {
+        if (window.web3 || window.ethereum) {
+          dispatch(setIssuerMetmaskInstalled(true));
+        } else {
           dispatch(setIssuerMetmaskInstalled(false));
+        }
+      }
+      if (!isUserMetaMask) {
+        if (window.web3 || window.ethereum) {
+          dispatch(setUserMetmaskInstalled(true));
+        } else {
+          dispatch(setUserMetmaskInstalled(false));
         }
       }
     };
     getMetaMaskStatus();
 
-    const checkAccountAndNetworkChangeOnStart = async () => {
+    const checkAdminAccountAndNetworkChangeOnStart = async () => {
       if (window.ethereum || window.web3) {
         const web3 = await getWeb3();
         if (!isWeb3) {
@@ -68,16 +96,92 @@ const useDetect = () => {
       }
     };
 
+    const checkIssuerAccountAndNetworkChangeOnStart = async () => {
+      if (window.web3 || window.ethereum) {
+        const web3 = await getWeb3();
+        if (!isIssuerWeb3) {
+          dispatch(setIssuerWeb3(web3));
+        }
+        const account = web3.currentProvider.selectedAddress;
+        if (account !== issuer?.account && issuer !== null) {
+          dispatch(setIsIssuerAccountChange(true));
+          if (!isIssuerLoggedIn) {
+            toast.warn('Account has been changed', { toastId: 'account-changed' });
+          }
+        } else if (account === issuer?.account && issuer !== null) {
+          dispatch(setIsIssuerAccountChange(false));
+        }
+        const networkId = await web3.eth.net.getId();
+        if (networkId !== issuer?.networkId && issuer !== null) {
+          dispatch(setIsIssuerNetworkChange(true));
+          if (!isIssuerLoggedIn) {
+            toast.warn('Network has been changed', { toastId: 'network-changed' });
+          }
+        } else if (networkId === issuer?.networkId && issuer !== null) {
+          dispatch(setIsIssuerNetworkChange(false));
+        }
+        dispatch(setInstanceStart());
+      }
+    };
+
+    const checkUserAccountAndNetworkChangeOnStart = async () => {
+      if (window.web3 || window.ethereum) {
+        const web3 = await getWeb3();
+        if (!isUserWeb3) {
+          dispatch(setUserWeb3(web3));
+        }
+        const account = web3.currentProvider.selectedAddress;
+        if (account !== user?.account && user !== null) {
+          dispatch(setIsUserAccountChange(true));
+          if (!isUserLoggedIn) {
+            toast.warn('Account has been changed', { toastId: 'account-changed' });
+          }
+        } else if (account === user?.account && user !== null) {
+          dispatch(setIsUserAccountChange(false));
+        }
+        const networkId = await web3.eth.net.getId();
+        if (networkId !== user?.networkId && user !== null) {
+          console.log(networkId, user.networkId);
+          dispatch(setIsUserNetworkChange(true));
+          if (!isUserLoggedIn) {
+            toast.warn('Network has been changed', { toastId: 'network-changed' });
+          }
+        } else if (networkId === user?.networkId && user !== null) {
+          dispatch(setIsUserNetworkChange(false));
+        }
+        dispatch(setInstanceStart());
+      }
+    };
+
     // If admin, user, issuer, verifier present
-    if (isAdminPresent || isIssuerPresent) {
-      checkAccountAndNetworkChangeOnStart();
+    if (isAdminPresent) {
+      checkAdminAccountAndNetworkChangeOnStart();
+    } else if (isIssuerPresent) {
+      checkIssuerAccountAndNetworkChangeOnStart();
+    } else if (isUserPresent) {
+      checkUserAccountAndNetworkChangeOnStart();
     }
-    if (window.ethereum) {
+
+    if (window.ethereum && isAdminPresent) {
       window.ethereum.on('accountsChanged', () => {
-        checkAccountAndNetworkChangeOnStart();
+        checkAdminAccountAndNetworkChangeOnStart();
       });
       window.ethereum.on('chainChanged', () => {
-        checkAccountAndNetworkChangeOnStart();
+        checkAdminAccountAndNetworkChangeOnStart();
+      });
+    } else if (window.ethereum && isIssuerPresent) {
+      window.ethereum.on('accountsChanged', () => {
+        checkIssuerAccountAndNetworkChangeOnStart();
+      });
+      window.ethereum.on('chainChanged', () => {
+        checkIssuerAccountAndNetworkChangeOnStart();
+      });
+    } else if (window.ethereum && isUserPresent) {
+      window.ethereum.on('accountsChanged', () => {
+        checkUserAccountAndNetworkChangeOnStart();
+      });
+      window.ethereum.on('chainChanged', () => {
+        checkUserAccountAndNetworkChangeOnStart();
       });
     }
 
@@ -103,16 +207,30 @@ const useDetect = () => {
     //   checkNetworkChangeOnStart();
     // }
     return () => {
-      if (window.ethereum) {
+      if (window.ethereum && isAdminPresent) {
         window.ethereum.removeListener('accountsChanged', () => {
-          checkAccountAndNetworkChangeOnStart();
+          checkAdminAccountAndNetworkChangeOnStart();
         });
         window.ethereum.removeListener('chainChanged', () => {
-          checkAccountAndNetworkChangeOnStart();
+          checkAdminAccountAndNetworkChangeOnStart();
+        });
+      } else if (window.ethereum && isIssuerPresent) {
+        window.ethereum.removeListener('accountsChanged', () => {
+          checkIssuerAccountAndNetworkChangeOnStart();
+        });
+        window.ethereum.removeListener('chainChanged', () => {
+          checkIssuerAccountAndNetworkChangeOnStart();
+        });
+      } else if (window.ethereum && isUserPresent) {
+        window.ethereum.removeListener('accountsChanged', () => {
+          checkUserAccountAndNetworkChangeOnStart();
+        });
+        window.ethereum.removeListener('chainChanged', () => {
+          checkUserAccountAndNetworkChangeOnStart();
         });
       }
     };
-  }, [isMetaMask, isAccountChanged, isNetworkChanged, dependencyWeb3, isLoggedIn]);
+  }, [isMetaMask, isIssuerMetaMask, isUserMetaMask, isAccountChanged, isIssuerAccountChanged, isUserAccountChanged, isNetworkChanged, isIssuerNetworkChanged, isUserNetworkChanged, dependencyWeb3, dependencyWeb3Issuer, dependencyWeb3User, isLoggedIn, isIssuerLoggedIn, isUserLoggedIn]);
 };
 
 export default useDetect;
