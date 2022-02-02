@@ -97,6 +97,7 @@ contract DigiBlock {
     mapping(address => Requestor) registeredRequestors;
     mapping(address => RequestedDocument[]) requestedDocuments;
     mapping(address => RequestedDocument[]) requestedDocsByRequestor;
+    mapping(string => bool) IPFShash;
 
     // arrays
     address[] registeredAdminsAddresses;
@@ -399,6 +400,8 @@ contract DigiBlock {
         onlyIssuer();
         // _to must be a User
         require(registeredUsers[_to].userAddress != address(0), "Invalid User");
+        if (IPFShash[_ipfsHash]) revert("Access Denied");
+        IPFShash[_ipfsHash] = true;
         // _to must not be issued this docType before
         uint256 userIssuedDocsCount = issuedDocuments[_to].length;
         for (uint256 i = 0; i < userIssuedDocsCount; i++) {

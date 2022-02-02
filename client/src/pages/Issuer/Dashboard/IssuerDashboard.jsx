@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import Guide from '../../../components/Issuer/Dashboard/MainComponents/DashboardGuide/Guide';
 import IssuerDocuments from '../../../components/Issuer/Dashboard/MainComponents/Documents/IssuerDocuments';
+import IssueDocument from '../../../components/Issuer/Dashboard/MainComponents/IssueDocument/IssueDocument';
 import IssuerProfile from '../../../components/Issuer/Dashboard/MainComponents/Profile/Profile';
 import NavIssuer from '../../../components/Issuer/Dashboard/Navbar/NavIssuer';
 import SideBar from '../../../components/Issuer/Dashboard/SideBar/SideBar';
@@ -18,7 +19,14 @@ const IssuerDashboard = () => {
   const sidebarCollapsed = useSelector((state) => state.issuer.sidebarCollapsed);
   useEffect(() => {
     const pathName = location.pathname.replace('/issuer/', '');
-    setCurrMenu(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)}`);
+    const capitalizeFirstLetter = (str) => {
+      const splitStr = str.toLowerCase().split(' ');
+      for (let i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+      }
+      return splitStr.join(' ');
+    };
+    setCurrMenu(capitalizeFirstLetter(pathName.split('-').join(' ')));
     return () => {
       setCurrMenu('Dashboard');
     };
@@ -32,6 +40,8 @@ const IssuerDashboard = () => {
     switch (currMenu) {
       case 'Dashboard':
         return <Guide />;
+      case 'Issue Document':
+        return <IssueDocument />;
       case 'Documents':
         return <IssuerDocuments />;
       case 'Profile':

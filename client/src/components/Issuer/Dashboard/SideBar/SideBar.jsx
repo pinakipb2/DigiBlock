@@ -43,7 +43,14 @@ const SideBar = () => {
   const location = useLocation();
   useEffect(() => {
     const path = location.pathname.replace('/issuer/', '');
-    const pathName = path.charAt(0).toUpperCase() + path.slice(1);
+    const capitalizeFirstLetter = (str) => {
+      const splitStr = str.toLowerCase().split(' ');
+      for (let i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+      }
+      return splitStr.join(' ');
+    };
+    const pathName = capitalizeFirstLetter(path.split('-').join(' '));
     setUrlPath(`${pathName} | (Issuer) - DigiBlock`);
     setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
   }, [location]);

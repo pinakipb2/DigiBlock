@@ -48,6 +48,7 @@ function App() {
         <IssuerProtectedRoute exact path="/issuer/dashboard" component={IssuerDashboard} isAuth={isIssuerLoggedIn} goTo="/issuer/login" />
         <IssuerProtectedRoute exact path="/issuer/profile" component={IssuerDashboard} isAuth={isIssuerLoggedIn} goTo="/issuer/login" />
         <IssuerProtectedRoute exact path="/issuer/documents" component={IssuerDashboard} isAuth={isIssuerLoggedIn} goTo="/issuer/login" />
+        <IssuerProtectedRoute exact path="/issuer/issue-document" component={IssuerDashboard} isAuth={isIssuerLoggedIn} goTo="/issuer/login" />
 
         <Route component={ErrorPage} />
       </Switch>
