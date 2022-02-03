@@ -4,12 +4,12 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import Footer from '../../components/Common/Footer';
-import Navbar from '../../components/Common/Navbar';
-import SignUp from '../../components/User/SignUp/SignUp';
-import getWeb3 from '../../getWeb3';
-import useDetect from '../../hooks/useDetect';
-import { setUserWeb3, setIsUserAccountChange, setIsUserNetworkChange } from '../../redux/user/user.actions';
+import Footer from '../../../components/Common/Footer';
+import Navbar from '../../../components/Common/Navbar';
+import SignUp from '../../../components/User/SignUp/SignUp';
+import getWeb3 from '../../../getWeb3';
+import useDetect from '../../../hooks/useDetect';
+import { setUserWeb3, setIsUserAccountChange, setIsUserNetworkChange } from '../../../redux/user/user.actions';
 
 const UserSignUp = () => {
   const dispatch = useDispatch();

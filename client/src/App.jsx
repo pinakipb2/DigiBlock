@@ -12,14 +12,17 @@ import AboutUs from './pages/Common/AboutUsPage';
 import HomePage from './pages/Common/HomePage';
 import IssuerDashboard from './pages/Issuer/Dashboard/IssuerDashboard';
 import IssuerLogin from './pages/Issuer/Login/IssuerLogin';
-import UserLogin from './pages/User/UserLogin';
-import UserSignUp from './pages/User/UserSignUp';
+import UserDashboard from './pages/User/Dashboard/UserDashboard';
+import UserLogin from './pages/User/Login/UserLogin';
+import UserSignUp from './pages/User/Login/UserSignUp';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 import IssuerProtectedRoute from './routes/IssuerProtectedRoute';
+import UserProtectedRoute from './routes/UserProtectedRoute';
 
 function App() {
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isIssuerLoggedIn = useSelector((state) => state.issuer.isLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   return (
     <div className="h-screen">
       <Global
@@ -35,6 +38,8 @@ function App() {
         <Route exact path="/login" component={UserLogin} />
         <Route exact path="/signup" component={UserSignUp} />
         <Route exact path="/about-us" component={AboutUs} />
+
+        <UserProtectedRoute exact path="/dashboard" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />
