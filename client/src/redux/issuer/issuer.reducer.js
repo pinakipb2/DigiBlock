@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   isNetworkChanged: false,
   sidebarCollapsed: false,
   issuerName: null,
+  issuerDocTypes: []
 };
 
 const issuerReducer = (state = INITIAL_STATE, action) => {
@@ -52,6 +53,11 @@ const issuerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         issuerName: action.payload,
+      };
+    case IssuerActionTypes.SET_ISSUER_DOC_TYPES:
+      return {
+        ...state,
+        issuerDocTypes: action.payload,
       };
     case IssuerActionTypes.ISSUER_LOGOUT:
       return INITIAL_STATE;

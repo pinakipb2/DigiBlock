@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { validateMasterKey } from '../../../api/Issuer';
-import { setIssuerLoginStatus, setIssuerName } from '../../../redux/issuer/issuer.actions';
+import { setIssuerLoginStatus, setIssuerName, setIssuerDocTypes } from '../../../redux/issuer/issuer.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
   const issuer = useSelector((state) => state.issuer.currentIssuer);
@@ -28,6 +28,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
         } else {
           dispatch(setIssuerLoginStatus(true));
           dispatch(setIssuerName(issuerDetails[0]));
+          dispatch(setIssuerDocTypes(issuerDetails[3]));
           setMasterKey('');
           history.push('/issuer/dashboard');
         }

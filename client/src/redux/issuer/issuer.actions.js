@@ -51,6 +51,11 @@ export const setIssuerName = (issuerName) => ({
   payload: issuerName,
 });
 
+export const setIssuerDocTypes = (docTypes) => ({
+  type: IssuerActionTypes.SET_ISSUER_DOC_TYPES,
+  payload: docTypes,
+});
+
 export const checkIssuerSidebarCollapsed = () => ({
   type: IssuerActionTypes.CHECK_ISSUER_SIDEBAR_COLLAPSED,
 });

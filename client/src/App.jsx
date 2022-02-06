@@ -40,6 +40,8 @@ function App() {
         <Route exact path="/about-us" component={AboutUs} />
 
         <UserProtectedRoute exact path="/dashboard" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/profile" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/documents" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />

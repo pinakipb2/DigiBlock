@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import NavIssuer from '../../../components/Issuer/Dashboard/Navbar/NavIssuer';
-import SideBar from '../../../components/Issuer/Dashboard/SideBar/SideBar';
+import UserDocuments from '../../../components/User/Dashboard/MainComponents/Documents/UserDocuments';
+import UserProfile from '../../../components/User/Dashboard/MainComponents/Profile/Profile';
+import NavUser from '../../../components/User/Dashboard/Navbar/NavUser';
+import SideBar from '../../../components/User/Dashboard/SideBar/SideBar';
 import useDetect from '../../../hooks/useDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
@@ -12,7 +14,7 @@ const UserDashboard = () => {
   useDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
-  const sidebarCollapsed = useSelector((state) => state.issuer.sidebarCollapsed);
+  const sidebarCollapsed = useSelector((state) => state.user.sidebarCollapsed);
   useEffect(() => {
     const pathName = location.pathname.replace('/', '');
     const capitalizeFirstLetter = (str) => {
@@ -38,10 +40,10 @@ const UserDashboard = () => {
         return <>Hi</>;
       // case 'Issue Document':
       //   return <IssueDocument />;
-      // case 'Documents':
-      //   return <IssuerDocuments />;
-      // case 'Profile':
-      //   return <IssuerProfile />;
+      case 'Documents':
+        return <UserDocuments />;
+      case 'Profile':
+        return <UserProfile />;
       default:
         return <></>;
     }
@@ -53,7 +55,7 @@ const UserDashboard = () => {
         <SideBar />
       </div>
       <div className={`${sidebarCollapsed ? 'ml-20' : 'ml-72'} flex-auto h-screen`}>
-        <NavIssuer />
+        <NavUser />
         <div className="text-3xl py-4 px-6 font-light text-gray-700 font-ubuntu">{currMenu}</div>
         <span className="sidebar-tooltip hidden">Dashboard</span>
         {renderInnerComponent()}
