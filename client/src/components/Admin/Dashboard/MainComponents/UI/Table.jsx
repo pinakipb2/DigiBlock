@@ -38,7 +38,7 @@ const Table = ({ tableData, pagesVisited, dataPerPage, issuer }) => {
           )}
         </td>
       )}
-      <td>
+      <td className="flex justify-center items-center">
         <Wrap align="center" m={2}>
           {val.docType.map((doc, ind) => (
             // eslint-disable-next-line react/no-array-index-key
