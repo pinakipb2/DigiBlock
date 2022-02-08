@@ -12,17 +12,21 @@ import AboutUs from './pages/Common/AboutUsPage';
 import HomePage from './pages/Common/HomePage';
 import IssuerDashboard from './pages/Issuer/Dashboard/IssuerDashboard';
 import IssuerLogin from './pages/Issuer/Login/IssuerLogin';
+import RequestorLogin from './pages/Requestor/Login/RequestorLogin';
+import RequestorSignUp from './pages/Requestor/Login/RequestorSignUp';
 import UserDashboard from './pages/User/Dashboard/UserDashboard';
 import UserLogin from './pages/User/Login/UserLogin';
 import UserSignUp from './pages/User/Login/UserSignUp';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 import IssuerProtectedRoute from './routes/IssuerProtectedRoute';
+import RequestorProtectedRoute from './routes/RequestorProtectedRoute';
 import UserProtectedRoute from './routes/UserProtectedRoute';
 
 function App() {
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isIssuerLoggedIn = useSelector((state) => state.issuer.isLoggedIn);
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isRequestorLoggedIn = useSelector((state) => state.requestor.isLoggedIn);
   return (
     <div className="h-screen">
       <Global
@@ -42,6 +46,11 @@ function App() {
         <UserProtectedRoute exact path="/dashboard" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
         <UserProtectedRoute exact path="/profile" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
         <UserProtectedRoute exact path="/documents" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+
+        <RequestorProtectedRoute exact path="/requestor/login" component={RequestorLogin} isAuth={!isRequestorLoggedIn} goTo="/requestor/dashboard" />
+        <RequestorProtectedRoute exact path="/requestor/signup" component={RequestorSignUp} isAuth={!isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/dashboard" isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/profile" isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />
