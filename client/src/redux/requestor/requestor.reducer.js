@@ -8,8 +8,7 @@ const INITIAL_STATE = {
   isAccountChanged: false,
   isNetworkChanged: false,
   sidebarCollapsed: false,
-  requestorName: null,
-  isVerified: false
+  requestorName: null
 };
 
 const requestorReducer = (state = INITIAL_STATE, action) => {
@@ -23,11 +22,6 @@ const requestorReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentRequestor: action.payload,
-      };
-    case RequestorActionTypes.IS_REQUESTOR_VERIFIED:
-      return {
-        ...state,
-        isVerified: action.payload
       };
     case RequestorActionTypes.SET_REQUESTOR_LOGIN_STATUS:
       return {

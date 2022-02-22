@@ -12,6 +12,7 @@ import AboutUs from './pages/Common/AboutUsPage';
 import HomePage from './pages/Common/HomePage';
 import IssuerDashboard from './pages/Issuer/Dashboard/IssuerDashboard';
 import IssuerLogin from './pages/Issuer/Login/IssuerLogin';
+import RequestorDashboard from './pages/Requestor/Dashboard/RequestorDashboard';
 import RequestorLogin from './pages/Requestor/Login/RequestorLogin';
 import RequestorSignUp from './pages/Requestor/Login/RequestorSignUp';
 import UserDashboard from './pages/User/Dashboard/UserDashboard';
@@ -49,8 +50,9 @@ function App() {
 
         <RequestorProtectedRoute exact path="/requestor/login" component={RequestorLogin} isAuth={!isRequestorLoggedIn} goTo="/requestor/dashboard" />
         <RequestorProtectedRoute exact path="/requestor/signup" component={RequestorSignUp} isAuth={!isRequestorLoggedIn} goTo="/requestor/login" />
-        <RequestorProtectedRoute exact path="/requestor/dashboard" isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
-        <RequestorProtectedRoute exact path="/requestor/profile" isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/dashboard" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/request-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/profile" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />

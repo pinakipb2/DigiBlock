@@ -58,8 +58,3 @@ export const checkRequestorSidebarCollapsed = () => ({
 export const logoutRequestor = () => ({
   type: RequestorActionTypes.REQUESTOR_LOGOUT,
 });
-
-export const isRequestorVerified = (isVerified) => ({
-  type: RequestorActionTypes.IS_REQUESTOR_VERIFIED,
-  payload: isVerified
-});

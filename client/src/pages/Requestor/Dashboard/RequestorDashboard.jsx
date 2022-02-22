@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import UserDocuments from '../../../components/User/Dashboard/MainComponents/Documents/UserDocuments';
-import UserProfile from '../../../components/User/Dashboard/MainComponents/Profile/Profile';
-import NavUser from '../../../components/User/Dashboard/Navbar/NavUser';
-import SideBar from '../../../components/User/Dashboard/SideBar/SideBar';
+import RequestorGuide from '../../../components/Requestor/Dashboard/MainComponents/DashboardStats/RequestorGuide';
+import RequestorProfile from '../../../components/Requestor/Dashboard/MainComponents/Profile/RequestorProfile';
+import RequestDocuments from '../../../components/Requestor/Dashboard/MainComponents/RequestDocuments/RequestDocuments';
+import NavRequestor from '../../../components/Requestor/Dashboard/Navbar/NavRequestor';
+import SideBar from '../../../components/Requestor/Dashboard/SideBar/SideBar';
 import useDetect from '../../../hooks/useDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
@@ -14,9 +15,9 @@ const RequestorDashboard = () => {
   useDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
-  const sidebarCollapsed = useSelector((state) => state.user.sidebarCollapsed);
+  const sidebarCollapsed = useSelector((state) => state.requestor.sidebarCollapsed);
   useEffect(() => {
-    const pathName = location.pathname.replace('/', '');
+    const pathName = location.pathname.replace('/requestor/', '');
     const capitalizeFirstLetter = (str) => {
       const splitStr = str.toLowerCase().split(' ');
       for (let i = 0; i < splitStr.length; i++) {
@@ -30,20 +31,20 @@ const RequestorDashboard = () => {
     };
   }, [location]);
 
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const isAccountChanged = useSelector((state) => state.user.isAccountChanged);
-  const isNetworkChanged = useSelector((state) => state.user.isNetworkChanged);
+  const isLoggedIn = useSelector((state) => state.requestor.isLoggedIn);
+  const isAccountChanged = useSelector((state) => state.requestor.isAccountChanged);
+  const isNetworkChanged = useSelector((state) => state.requestor.isNetworkChanged);
 
   function renderInnerComponent() {
     switch (currMenu) {
       case 'Dashboard':
-        return <>Hi</>;
+        return <RequestorGuide />;
       // case 'Issue Document':
       //   return <IssueDocument />;
-      case 'Documents':
-        return <UserDocuments />;
+      case 'Request Documents':
+        return <RequestDocuments />;
       case 'Profile':
-        return <UserProfile />;
+        return <RequestorProfile />;
       default:
         return <></>;
     }
@@ -55,7 +56,7 @@ const RequestorDashboard = () => {
         <SideBar />
       </div>
       <div className={`${sidebarCollapsed ? 'ml-20' : 'ml-72'} flex-auto h-screen`}>
-        <NavUser />
+        <NavRequestor />
         <div className="text-3xl py-4 px-6 font-light text-gray-700 font-ubuntu">{currMenu}</div>
         <span className="sidebar-tooltip hidden">Dashboard</span>
         {renderInnerComponent()}

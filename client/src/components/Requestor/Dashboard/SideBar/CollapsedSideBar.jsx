@@ -5,16 +5,16 @@ import Avatar from 'react-avatar';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Link, NavLink } from 'react-router-dom';
 
-const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData, userName }) => (
+const CollapsedSideBar = ({ currSidebarMenu, sidebarMenuData, requestorName }) => (
   <div className="h-screen w-20 flex flex-col bg-gray-700">
     <div className="py-4 border-b border-gray-500 text-center">
-      <Link to="/admin/dashboard" className="text-2xl font-semibold text-gray-300">
-        UP
+      <Link to="/requestor/dashboard" className="text-2xl font-semibold text-gray-300">
+        RP
       </Link>
     </div>
     <div className="py-4 border-b border-gray-500 text-center flex justify-center items-center">
       {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
-      <Avatar className="rounded-full mr-2" name={userName} size="50" />
+      <Avatar className="rounded-full mr-2" name={requestorName} size="50" />
     </div>
     <Scrollbars
       style={{ width: '100%', height: '100%' }}

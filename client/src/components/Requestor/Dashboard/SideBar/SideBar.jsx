@@ -10,14 +10,14 @@ import FullSideBar from './FullSideBar';
 const SideBar = () => {
   const [currSidebarMenu, setCurrSidebarMenu] = useState(0);
   const [urlPath, setUrlPath] = useState(null);
-  const sidebarCollapsed = useSelector((state) => state.user.sidebarCollapsed);
-  const userName = useSelector((state) => state.user.userName);
+  const sidebarCollapsed = useSelector((state) => state.requestor.sidebarCollapsed);
+  const requestorName = useSelector((state) => state.requestor.requestorName);
 
   const [sidebarMenuData] = useState([
     {
       id: 0,
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/requestor/dashboard',
       icon: 'fas fa-tachometer-alt',
     },
     // {
@@ -28,8 +28,8 @@ const SideBar = () => {
     // },
     {
       id: 1,
-      name: 'Documents',
-      url: '/documents',
+      name: 'Request Documents',
+      url: '/requestor/request-documents',
       icon: 'fas fa-user-alt',
     },
     // {
@@ -47,7 +47,7 @@ const SideBar = () => {
     {
       id: 2,
       name: 'Profile',
-      url: '/profile',
+      url: '/requestor/profile',
       icon: 'fas fa-id-badge',
     },
   ]);
@@ -55,8 +55,15 @@ const SideBar = () => {
   const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
-      const path = location.pathname.replace('/', '');
-      const pathName = path.charAt(0).toUpperCase() + path.slice(1);
+      const path = location.pathname.replace('/requestor/', '');
+      const capitalizeFirstLetter = (str) => {
+        const splitStr = str.toLowerCase().split(' ');
+        for (let i = 0; i < splitStr.length; i++) {
+          splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        return splitStr.join(' ');
+      };
+      const pathName = capitalizeFirstLetter(path.split('-').join(' '));
       setUrlPath(`${pathName} | DigiBlock`);
       setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
     }, [location]);
@@ -69,9 +76,9 @@ const SideBar = () => {
         <title>{urlPath}</title>
       </Helmet>
       {sidebarCollapsed ? (
-        <CollapsedSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} userName={userName} />
+        <CollapsedSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} requestorName={requestorName} />
       ) : (
-        <FullSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} userName={userName} />
+        <FullSideBar currSidebarMenu={currSidebarMenu} sidebarMenuData={sidebarMenuData} requestorName={requestorName} />
       )}
     </>
   );
