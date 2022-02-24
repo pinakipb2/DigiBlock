@@ -1,24 +1,51 @@
 import React, { useState } from 'react';
 
 import { InputGroup, InputLeftElement, Input, FormControl, FormHelperText, Button } from '@chakra-ui/react';
-import { BsPersonBoundingBox } from 'react-icons/bs';
+import { BsJournalMedical } from 'react-icons/bs';
+import { HiDocumentSearch } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const RequestDocuments = () => {
   const objects = [];
+  const disabledDocs = [];
   const instance = useSelector((state) => state.contract.instance);
+  const currentRequestor = useSelector((state) => state.requestor.currentRequestor).account;
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [userAcc, setUserAcc] = useState(null);
   const [userDocuments, setUserDocuments] = useState([]);
+
   const fetchUserDocuments = async (userAccount) => {
     // console.log(userAccount);
+    setUserAcc(userAccount);
     setMessage('');
     try {
+      const pendingDocs = await instance.methods.getUserPendingDocuments(userAccount).call();
+      const acceptedDocs = await instance.methods.getUserAcceptedDocuments(userAccount).call();
+      console.log(pendingDocs, acceptedDocs);
+      for (let i = 0; i < pendingDocs[0].length; i++) {
+        if (pendingDocs[0][i].toLowerCase() === currentRequestor) {
+          disabledDocs.push(pendingDocs[1][i]);
+        }
+      }
+      for (let i = 0; i < acceptedDocs[0].length; i++) {
+        if (acceptedDocs[0][i].toLowerCase() === currentRequestor) {
+          disabledDocs.push(acceptedDocs[1][i]);
+        }
+      }
+      console.log(disabledDocs);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
       const docs = await instance.methods.getAllDocuments(userAccount).call();
-      console.log(docs);
+      // console.log(docs);
       for (let i = 0; i < docs[2].length; i++) {
         objects.push({
           id: i + 1,
-          docType: docs[2][i]
+          docType: docs[2][i],
+          isDisabled: disabledDocs.includes(docs[2][i])
         });
       }
       if (!docs[2][0]) { setMessage('No User Found'); } else { setMessage(''); }
@@ -29,11 +56,39 @@ const RequestDocuments = () => {
     }
   };
 
-  const showData = userDocuments.map((val) => (
-    <tr key={val.id} className="p-2">
+  const requestDocument = async (docType) => {
+    setLoading(true);
+    try {
+      await instance.methods
+        .requestDocumentFromUser(userAcc, docType)
+        .send({ from: currentRequestor })
+        .then(async () => {
+          fetchUserDocuments(userAcc);
+          toast.success('Document Requested Successfully', { toastId: 'Document-Requested' });
+        })
+        .catch((e) => {
+          if (e.code === 4001) {
+            toast.error('Something Went Wrong', { toastId: `${e.message}` });
+          }
+        });
+    } catch (err) {
+      toast.error('Something Went Wrong', { toastId: `${err.message}` });
+    }
+    setLoading(false);
+  };
+
+  const showData = userDocuments.map((val, index) => (
+    <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100' : 'bg-white'}>
       <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">
-        <Button colorScheme="blue">
+        <Button
+          fontWeight="normal"
+          colorScheme="green"
+          isLoading={loading}
+          isDisabled={val.isDisabled}
+          leftIcon={<BsJournalMedical />}
+          onClick={() => requestDocument(val.docType)}
+        >
           Request
         </Button>
       </td>
@@ -63,7 +118,7 @@ const RequestDocuments = () => {
               <InputLeftElement
                 fontSize="lg"
                 pointerEvents="none"
-                children={<BsPersonBoundingBox />}
+                children={<HiDocumentSearch />}
               />
               <Input
                 size="md"
