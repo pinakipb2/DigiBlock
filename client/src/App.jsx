@@ -53,6 +53,10 @@ function App() {
         <RequestorProtectedRoute exact path="/requestor/dashboard" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
         <RequestorProtectedRoute exact path="/requestor/request-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
         <RequestorProtectedRoute exact path="/requestor/profile" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/accepted-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/rejected-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/pending-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/revoked-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />

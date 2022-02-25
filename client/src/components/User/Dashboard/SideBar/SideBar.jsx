@@ -20,30 +20,12 @@ const SideBar = () => {
       url: '/dashboard',
       icon: 'fas fa-tachometer-alt',
     },
-    // {
-    //   id: 1,
-    //   name: 'Admins',
-    //   url: '/admin/admins',
-    //   icon: 'fas fa-user-secret',
-    // },
     {
       id: 1,
       name: 'Documents',
       url: '/documents',
       icon: 'fas fa-user-alt',
     },
-    // {
-    //   id: 2,
-    //   name: 'Issuers',
-    //   url: '/admin/issuers',
-    //   icon: 'fas fa-user-tie',
-    // },
-    // {
-    //   id: 4,
-    //   name: 'Verifiers',
-    //   url: '/admin/verifiers',
-    //   icon: 'fas fa-user-check',
-    // },
     {
       id: 2,
       name: 'Profile',

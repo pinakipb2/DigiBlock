@@ -3,9 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import AcceptedDocuments from '../../../components/Requestor/Dashboard/MainComponents/AcceptedDocuments/AcceptedDocuments';
 import RequestorGuide from '../../../components/Requestor/Dashboard/MainComponents/DashboardStats/RequestorGuide';
+import PendingDocuments from '../../../components/Requestor/Dashboard/MainComponents/PendingDocuments/PendingDocuments';
 import RequestorProfile from '../../../components/Requestor/Dashboard/MainComponents/Profile/RequestorProfile';
+import RejectedDocuments from '../../../components/Requestor/Dashboard/MainComponents/RejectedDocuments/RejectedDocuments';
 import RequestDocuments from '../../../components/Requestor/Dashboard/MainComponents/RequestDocuments/RequestDocuments';
+import RevokedDocuments from '../../../components/Requestor/Dashboard/MainComponents/RevokedDocuments/RevokedDocuments';
 import NavRequestor from '../../../components/Requestor/Dashboard/Navbar/NavRequestor';
 import SideBar from '../../../components/Requestor/Dashboard/SideBar/SideBar';
 import useDetect from '../../../hooks/useDetect';
@@ -39,8 +43,14 @@ const RequestorDashboard = () => {
     switch (currMenu) {
       case 'Dashboard':
         return <RequestorGuide />;
-      // case 'Issue Document':
-      //   return <IssueDocument />;
+      case 'Accepted Documents':
+        return <AcceptedDocuments />;
+      case 'Rejected Documents':
+        return <RejectedDocuments />;
+      case 'Revoked Documents':
+        return <RevokedDocuments />;
+      case 'Pending Documents':
+        return <PendingDocuments />;
       case 'Request Documents':
         return <RequestDocuments />;
       case 'Profile':
