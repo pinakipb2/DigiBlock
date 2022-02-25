@@ -40,13 +40,17 @@ function App() {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/login" component={UserLogin} />
-        <Route exact path="/signup" component={UserSignUp} />
         <Route exact path="/about-us" component={AboutUs} />
 
+        <UserProtectedRoute exact path="/login" component={UserLogin} isAuth={!isUserLoggedIn} goTo="/dashboard" />
+        <UserProtectedRoute exact path="/signup" component={UserSignUp} isAuth={!isUserLoggedIn} goTo="/login" />
         <UserProtectedRoute exact path="/dashboard" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
         <UserProtectedRoute exact path="/profile" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
         <UserProtectedRoute exact path="/documents" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/pending-approval" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-granted" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-rejected" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-revoked" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
 
         <RequestorProtectedRoute exact path="/requestor/login" component={RequestorLogin} isAuth={!isRequestorLoggedIn} goTo="/requestor/dashboard" />
         <RequestorProtectedRoute exact path="/requestor/signup" component={RequestorSignUp} isAuth={!isRequestorLoggedIn} goTo="/requestor/login" />
