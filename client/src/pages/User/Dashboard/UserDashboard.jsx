@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import AccessGranted from '../../../components/User/Dashboard/MainComponents/AccessGranted/AccessGranted';
+import AccessRejected from '../../../components/User/Dashboard/MainComponents/AccessRejected/AccessRejected';
+import AccessRevoked from '../../../components/User/Dashboard/MainComponents/AccessRevoked/AccessRevoked';
 import UserDocuments from '../../../components/User/Dashboard/MainComponents/Documents/UserDocuments';
+import PendingApproval from '../../../components/User/Dashboard/MainComponents/PendingApproval/PendingApproval';
 import UserProfile from '../../../components/User/Dashboard/MainComponents/Profile/Profile';
 import NavUser from '../../../components/User/Dashboard/Navbar/NavUser';
 import SideBar from '../../../components/User/Dashboard/SideBar/SideBar';
@@ -38,12 +42,18 @@ const UserDashboard = () => {
     switch (currMenu) {
       case 'Dashboard':
         return <>Hi</>;
-      // case 'Issue Document':
-      //   return <IssueDocument />;
       case 'Documents':
         return <UserDocuments />;
       case 'Profile':
         return <UserProfile />;
+      case 'Pending Approval':
+        return <PendingApproval />;
+      case 'Access Granted':
+        return <AccessGranted />;
+      case 'Access Rejected':
+        return <AccessRejected />;
+      case 'Access Revoked':
+        return <AccessRevoked />;
       default:
         return <></>;
     }

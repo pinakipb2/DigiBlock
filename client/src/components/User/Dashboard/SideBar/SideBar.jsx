@@ -28,6 +28,30 @@ const SideBar = () => {
     },
     {
       id: 2,
+      name: 'Pending Approval',
+      url: '/pending-approval',
+      icon: 'fas fa-id-badge',
+    },
+    {
+      id: 3,
+      name: 'Access Granted',
+      url: '/access-granted',
+      icon: 'fas fa-id-badge',
+    },
+    {
+      id: 4,
+      name: 'Access Rejected',
+      url: '/access-rejected',
+      icon: 'fas fa-id-badge',
+    },
+    {
+      id: 5,
+      name: 'Access Revoked',
+      url: '/access-revoked',
+      icon: 'fas fa-id-badge',
+    },
+    {
+      id: 6,
       name: 'Profile',
       url: '/profile',
       icon: 'fas fa-id-badge',
@@ -38,7 +62,14 @@ const SideBar = () => {
     const location = useLocation();
     useEffect(() => {
       const path = location.pathname.replace('/', '');
-      const pathName = path.charAt(0).toUpperCase() + path.slice(1);
+      const capitalizeFirstLetter = (str) => {
+        const splitStr = str.toLowerCase().split(' ');
+        for (let i = 0; i < splitStr.length; i++) {
+          splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        return splitStr.join(' ');
+      };
+      const pathName = capitalizeFirstLetter(path.split('-').join(' '));
       setUrlPath(`${pathName} | DigiBlock`);
       setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
     }, [location]);
