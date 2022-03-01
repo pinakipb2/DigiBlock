@@ -58,3 +58,8 @@ export const checkUserSidebarCollapsed = () => ({
 export const logoutUser = () => ({
   type: UserActionTypes.USER_LOGOUT,
 });
+
+export const isUserVerified = (isVerified) => ({
+  type: UserActionTypes.IS_USER_VERIFIED,
+  payload: isVerified
+});

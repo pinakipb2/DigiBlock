@@ -24,6 +24,7 @@ const SignUpUser = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }
       try {
         const transformedFirstName = capitalizeFirstLetter(firstName);
         const transformedLastName = capitalizeFirstLetter(lastName);
+        console.log(transformedFirstName, transformedLastName, email, user.account);
         await instance.methods.addUser(transformedFirstName, transformedLastName, email, user.account)
           .send({ from: user.account })
           .then(() => {

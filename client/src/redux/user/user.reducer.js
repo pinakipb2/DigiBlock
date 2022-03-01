@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   isNetworkChanged: false,
   sidebarCollapsed: false,
   userName: null,
+  isVerified: false
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case UserActionTypes.IS_USER_VERIFIED:
+      return {
+        ...state,
+        isVerified: action.payload
       };
     case UserActionTypes.SET_USER_LOGIN_STATUS:
       return {

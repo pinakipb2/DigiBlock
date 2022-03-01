@@ -8,14 +8,24 @@ import { create } from 'ipfs-http-client';
 import { FaTrash } from 'react-icons/fa';
 import { MdFirstPage, MdChevronLeft, MdChevronRight, MdLastPage } from 'react-icons/md';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import Dropzone from './Dropzone';
 
 const ipfs = create({ host: 'ipfs.infura.io', port: 5001, protocol: 'https', apiPath: '/api/v0' });
 
 const IssueDocument = () => {
+  const instance = useSelector((state) => state.contract.instance);
+  const currentIssuer = useSelector((state) => state.issuer.currentIssuer).account;
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    userAddress: '',
+    docType: ''
+  });
   const [file, setFile] = useState(null);
   const [buffer, setBuffer] = useState(null);
+  const issuerDocTypes = useSelector((state) => state.issuer.issuerDocTypes);
   // const [url, setUrl] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -28,9 +38,31 @@ const IssueDocument = () => {
     };
   };
 
-  const uploadToIPFS = async () => {
-    const resp = await ipfs.add(buffer);
-    console.log(resp.path);
+  const issueDocumentToUser = async () => {
+    if (buffer === null && formData.docType === '' && formData.userAddress === '') {
+      toast.warning('Fill all the details', { toastId: 'Missing-Details' });
+    } else {
+      setLoading(true);
+      const resp = await ipfs.add(buffer);
+      console.log(resp.path);
+      try {
+        await instance.methods
+          .issueDocument(formData.userAddress, resp.path, formData.docType)
+          .send({ from: currentIssuer })
+          .then(async () => {
+            toast.success('Document Issued Successfully', { toastId: 'Document-Issued' });
+          })
+          .catch((e) => {
+            if (e.code === 4001) {
+              toast.error('Something Went Wrong 1', { toastId: `${e.message}` });
+            }
+          });
+      } catch (err) {
+        console.log(err.message);
+        toast.error('Something Went Wrong 2', { toastId: `${err.message}` });
+      }
+      setLoading(false);
+    }
   };
 
   const [numPages, setNumPages] = useState(null);
@@ -60,20 +92,26 @@ const IssueDocument = () => {
     setPageNumber(numPages);
   }
 
+  console.log(formData);
+
   return (
     <div className="container flex justify-center items-center">
       <div className="flex flex-col justify-center items-center w-2/3 h-auto bg-white rounded-2xl">
         <div className="w-1/2 flex flex-col p-4">
           <FormControl isRequired className="pb-4">
             <FormLabel htmlFor="user-address">User Address</FormLabel>
-            <Input id="user-address" placeholder="Enter User Address" />
+            <Input id="user-address" placeholder="Enter User Address" onChange={(e) => setFormData({ ...formData, userAddress: e.target.value })} />
           </FormControl>
 
           <FormControl isRequired className="pb-6">
             <FormLabel htmlFor="document-type">Document Type</FormLabel>
-            <Select id="document-type" placeholder="Select Document Type">
-              <option>United Arab Emirates</option>
-              <option>Nigeria</option>
+            <Select id="document-type" placeholder="Select Document Type" onChange={(e) => setFormData({ ...formData, docType: e.target.value })}>
+              {
+                issuerDocTypes.map((docType, ind) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <option key={ind}>{docType}</option>
+                ))
+              }
             </Select>
           </FormControl>
 
@@ -99,8 +137,9 @@ const IssueDocument = () => {
                 <Button
                   colorScheme="blue"
                   onClick={() => {
-                    uploadToIPFS();
+                    issueDocumentToUser();
                   }}
+                  isLoading={loading}
                 >
                   Submit
                 </Button>
@@ -118,7 +157,7 @@ const IssueDocument = () => {
           <ModalCloseButton />
           <ModalBody>
             <div>
-              <Document file={file} onLoadSuccess={onDocumentLoadSuccess} height={1}>
+              <Document className="overflow-x-scroll" file={file} onLoadSuccess={onDocumentLoadSuccess} height={1}>
                 <Page pageNumber={pageNumber} />
               </Document>
               <Center m={2}>

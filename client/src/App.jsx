@@ -12,14 +12,22 @@ import AboutUs from './pages/Common/AboutUsPage';
 import HomePage from './pages/Common/HomePage';
 import IssuerDashboard from './pages/Issuer/Dashboard/IssuerDashboard';
 import IssuerLogin from './pages/Issuer/Login/IssuerLogin';
-import UserLogin from './pages/User/UserLogin';
-import UserSignUp from './pages/User/UserSignUp';
+import RequestorDashboard from './pages/Requestor/Dashboard/RequestorDashboard';
+import RequestorLogin from './pages/Requestor/Login/RequestorLogin';
+import RequestorSignUp from './pages/Requestor/Login/RequestorSignUp';
+import UserDashboard from './pages/User/Dashboard/UserDashboard';
+import UserLogin from './pages/User/Login/UserLogin';
+import UserSignUp from './pages/User/Login/UserSignUp';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 import IssuerProtectedRoute from './routes/IssuerProtectedRoute';
+import RequestorProtectedRoute from './routes/RequestorProtectedRoute';
+import UserProtectedRoute from './routes/UserProtectedRoute';
 
 function App() {
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isIssuerLoggedIn = useSelector((state) => state.issuer.isLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isRequestorLoggedIn = useSelector((state) => state.requestor.isLoggedIn);
   return (
     <div className="h-screen">
       <Global
@@ -32,9 +40,27 @@ function App() {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/login" component={UserLogin} />
-        <Route exact path="/signup" component={UserSignUp} />
         <Route exact path="/about-us" component={AboutUs} />
+
+        <UserProtectedRoute exact path="/login" component={UserLogin} isAuth={!isUserLoggedIn} goTo="/dashboard" />
+        <UserProtectedRoute exact path="/signup" component={UserSignUp} isAuth={!isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/dashboard" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/profile" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/documents" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/pending-approval" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-granted" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-rejected" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+        <UserProtectedRoute exact path="/access-revoked" component={UserDashboard} isAuth={isUserLoggedIn} goTo="/login" />
+
+        <RequestorProtectedRoute exact path="/requestor/login" component={RequestorLogin} isAuth={!isRequestorLoggedIn} goTo="/requestor/dashboard" />
+        <RequestorProtectedRoute exact path="/requestor/signup" component={RequestorSignUp} isAuth={!isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/dashboard" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/request-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/profile" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/accepted-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/rejected-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/pending-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
+        <RequestorProtectedRoute exact path="/requestor/revoked-documents" component={RequestorDashboard} isAuth={isRequestorLoggedIn} goTo="/requestor/login" />
 
         <AdminProtectedRoute exact path="/admin/login" component={AdminLogin} isAuth={!isAdminLoggedIn} goTo="/admin/dashboard" />
         <AdminProtectedRoute exact path="/admin/dashboard" component={AdminDashboard} isAuth={isAdminLoggedIn} goTo="/admin/login" />

@@ -4,17 +4,17 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import Footer from '../../components/Common/Footer';
-import Navbar from '../../components/Common/Navbar';
-import Login from '../../components/User/Login/Login';
-import getWeb3 from '../../getWeb3';
-import useDetect from '../../hooks/useDetect';
-import { setUserWeb3, setIsUserAccountChange, setIsUserNetworkChange } from '../../redux/user/user.actions';
+import Footer from '../../../components/Common/Footer';
+import Navbar from '../../../components/Common/Navbar';
+import Login from '../../../components/Requestor/Login/Login';
+import getWeb3 from '../../../getWeb3';
+import useDetect from '../../../hooks/useDetect';
+import { setRequestorWeb3, setIsRequestorAccountChange, setIsRequestorNetworkChange } from '../../../redux/requestor/requestor.actions';
 
-const UserLogin = () => {
+const RequestorLogin = () => {
   const dispatch = useDispatch();
   // const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
-  const user = useSelector((state) => state.user.currentUser);
+  const requestor = useSelector((state) => state.requestor.currentRequestor);
 
   useDetect();
 
@@ -65,13 +65,13 @@ const UserLogin = () => {
     if (window.ethereum || window.web3) {
       window.ethereum.on('accountsChanged', async () => {
         const web3 = await getWeb3();
-        dispatch(setUserWeb3(web3));
+        dispatch(setRequestorWeb3(web3));
         const account = web3.currentProvider.selectedAddress;
-        if (account !== user?.account && user !== null) {
-          dispatch(setIsUserAccountChange(true));
+        if (account !== requestor?.account && requestor !== null) {
+          dispatch(setIsRequestorAccountChange(true));
           toast.warn('Account has been changed', { toastId: 'account-changed' });
-        } else if (account === user?.account && user !== null) {
-          dispatch(setIsUserNetworkChange(false));
+        } else if (account === requestor?.account && requestor !== null) {
+          dispatch(setIsRequestorNetworkChange(false));
           // toast.success('Connected account retrieved', { toastId: 'account-retrieved' });
         }
       });
@@ -83,14 +83,14 @@ const UserLogin = () => {
     if (window.ethereum || window.web3) {
       window.ethereum.on('chainChanged', async () => {
         const web3 = await getWeb3();
-        dispatch(setUserWeb3(web3));
+        dispatch(setRequestorWeb3(web3));
         const networkId = await web3.eth.net.getId();
-        if (networkId !== user?.networkId && user !== null) {
-          dispatch(setIsUserAccountChange(true));
+        if (networkId !== requestor?.networkId && requestor !== null) {
+          dispatch(setIsRequestorAccountChange(true));
           toast.warn('Network has been changed', { toastId: 'network-changed' });
           toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
-        } else if (networkId === user?.networkId && user !== null) {
-          dispatch(setIsUserNetworkChange(false));
+        } else if (networkId === requestor?.networkId && requestor !== null) {
+          dispatch(setIsRequestorNetworkChange(false));
           // toast.success('Connected Network retrieved', { toastId: 'network-retrieved' });
         }
       });
@@ -112,4 +112,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default RequestorLogin;

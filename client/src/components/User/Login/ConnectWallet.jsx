@@ -39,7 +39,7 @@ const ConnectWallet = () => {
 
   return (
     <div className="bg-white h-auto m-6 p-2 w-2/3 rounded-2xl flex flex-col justify-center items-center">
-      <h1 className="font-bold text-gray-900 text-2xl text-center mb-8 mt-1 font-roboto">CONNECT YOUR WALLET</h1>
+      <h1 className="font-bold text-gray-900 text-2xl text-center mb-8 mt-1 font-roboto">LOGIN</h1>
       <div className="bg-gray-300 w-5/6 mb-2 rounded-md flex justify-between p-2 text-gray-800">
         <h2 className="font-raleway font-bold">Connection Status</h2>
         <div className="flex justify-center items-center">
