@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { IconButton } from '@chakra-ui/react';
+import { GrRevert } from 'react-icons/gr';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Pagination from '../UI/Pagination';
+import manageRequest from '../Utils/ManageRequest';
 
 const AccessGranted = () => {
   const objects = [];
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const instance = useSelector((state) => state.contract.instance);
   const userAddress = useSelector((state) => state.user.currentUser).account;
   // Data shown at table
@@ -22,6 +27,7 @@ const AccessGranted = () => {
           requestorAddress: acceptedDocs[0][i],
           docType: acceptedDocs[1][i],
           timestamp: new Date(parseInt(acceptedDocs[2][i], 10) * 1000).toDateString(),
+          epoch: acceptedDocs[2][i]
         });
       }
       setOriginalData(objects);
@@ -63,7 +69,9 @@ const AccessGranted = () => {
       <td className="font-ubuntu p-2">{val.requestorAddress}</td>
       <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">{val.timestamp}</td>
-      <td className="font-ubuntu p-2">Revoke</td>
+      <td className="font-ubuntu p-2">
+        <IconButton icon={<GrRevert />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 1, 3, setLoading, instance, dispatch, userAddress)} />
+      </td>
     </tr>
   ));
 

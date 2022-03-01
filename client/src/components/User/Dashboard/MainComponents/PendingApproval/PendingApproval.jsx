@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { IconButton } from '@chakra-ui/react';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Pagination from '../UI/Pagination';
+import manageRequest from '../Utils/ManageRequest';
 
 const PendingApproval = () => {
   const objects = [];
+  const dispatch = useDispatch();
   const instance = useSelector((state) => state.contract.instance);
   const userAddress = useSelector((state) => state.user.currentUser).account;
+  const [loading, setLoading] = useState(false);
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
@@ -22,6 +27,7 @@ const PendingApproval = () => {
           requestorAddress: pendingDocs[0][i],
           docType: pendingDocs[1][i],
           timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
+          epoch: pendingDocs[2][i]
         });
       }
       setOriginalData(objects);
@@ -63,7 +69,10 @@ const PendingApproval = () => {
       <td className="font-ubuntu p-2">{val.requestorAddress}</td>
       <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">{val.timestamp}</td>
-      <td className="font-ubuntu p-2">A R</td>
+      <td className="font-ubuntu p-2 flex justify-evenly">
+        <IconButton icon={<FaCheck />} colorScheme="green" isLoading={loading} onClick={() => manageRequest(val, 0, 1, setLoading, instance, dispatch, userAddress)} />
+        <IconButton icon={<FaTimes />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 0, 2, setLoading, instance, dispatch, userAddress)} />
+      </td>
     </tr>
   ));
 

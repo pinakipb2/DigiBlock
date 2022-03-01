@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import Pagination from '../UI/Pagination';
-import Table from '../UI/Table';
 
 const AccessRevoked = () => {
   const objects = [];
@@ -58,6 +57,15 @@ const AccessRevoked = () => {
     }
   };
 
+  const showData = tableData.slice(pagesVisited, pagesVisited + dataPerPage).map((val, index) => (
+    <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100' : 'bg-white'}>
+      <td className="font-ubuntu p-2">{val.id}</td>
+      <td className="font-ubuntu p-2">{val.requestorAddress}</td>
+      <td className="font-ubuntu p-2">{val.docType}</td>
+      <td className="font-ubuntu p-2">{val.timestamp}</td>
+    </tr>
+  ));
+
   return (
     <div className="px-6 pb-10">
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
@@ -89,9 +97,7 @@ const AccessRevoked = () => {
               <th>Timestamp</th>
             </tr>
           </thead>
-          <tbody className="text-center">
-            <Table tableData={tableData} pagesVisited={pagesVisited} dataPerPage={dataPerPage} issuer />
-          </tbody>
+          <tbody className="text-center">{showData}</tbody>
         </table>
         {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
       </div>
