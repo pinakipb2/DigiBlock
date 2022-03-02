@@ -252,7 +252,7 @@ contract('DigiBlock', (accounts) => {
       } catch (err) {
         assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
       }
-      await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'C', { from: issuer[1] });
+      await DigiBlockInstance.issueDocument(user[0], 'ipfshash1', 'C', { from: issuer[1] });
     });
     it('document requested correctly', async () => {
       try {
@@ -419,6 +419,165 @@ contract('DigiBlock', (accounts) => {
       await DigiBlockInstance.isUserVerified.call(user[0], (err, result) => {
         if (!err) {
           assert(result === true, 'Verfied status incorrect');
+        } else {
+          console.log(err);
+        }
+      });
+    });
+  });
+});
+
+
+contract('DigiBlock Pending Docs', (accounts) => {
+  const contractOwner = accounts[0];
+  const admin = [accounts[1], accounts[2], accounts[3], accounts[4], accounts[5]];
+  const user = [accounts[6], accounts[7], accounts[8], accounts[9], accounts[10]];
+  const issuer = [accounts[11], accounts[12], accounts[13], accounts[14], accounts[15]];
+  const requestor = [accounts[16], accounts[17], accounts[18], accounts[19], accounts[20]];
+  let DigiBlockInstance;
+  let timestampA = 0;
+  let timestampB = 0;
+  beforeEach(async () => {
+    DigiBlockInstance = await DigiBlock.deployed();
+  });
+  describe('Deployment', () => {
+    it('should deploy smart contract properly', async () => {
+      assert(DigiBlockInstance.address !== '', 'Contract not deployed correctly');
+    });
+  });
+  describe('Add User', () => {
+    it('Adding user', async () => {
+      await DigiBlockInstance.addUser('User', '0', 'user0@gmail.com', user[0], { from: contractOwner });
+      await DigiBlockInstance.singleUser.call(user[0], (err, result) => {
+        if (!err) {
+          assert(result[0] === 'User', 'First Name is not set properly');
+          assert(result[1] === '0', 'Last Name is not set properly');
+          assert(result[2] === 'user0@gmail.com', 'Email is not set properly');
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.usersCount.call((err, result) => {
+        if (!err) {
+          assert(result === '1', 'Error in user count');
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.addUser('User', '1', 'user1@gmail.com', user[1], { from: contractOwner });
+    });
+    it('Adding requestor', async () => {
+      await DigiBlockInstance.addRequestor('Requestor0', 'requestor0@gmail.com', requestor[0], { from: contractOwner });
+      await DigiBlockInstance.singleRequestor.call(requestor[0], (err, result) => {
+        if (!err) {
+          assert(result[0] === 'Requestor0', 'Org Name is not set properly');
+          assert(result[1] === 'requestor0@gmail.com', 'Email is not set properly');
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.requestorsCount.call((err, result) => {
+        if (!err) {
+          assert(result === '1', 'Error in requestor count');
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.addRequestor('Requestor1', 'requestor1@gmail.com', requestor[1], { from: contractOwner });
+    });
+    it('Adding issuer', async () => {
+      try {
+        await DigiBlockInstance.addIssuer('Issuer0', 'issuer0@gmail.com', issuer[0], 'MKey', ['A', 'B'], { from: contractOwner });
+      } catch (err) {
+        assert(err.message === 'Returned error: VM Exception while processing transaction: revert Access Denied -- Reason given: Access Denied.');
+      }
+      await DigiBlockInstance.addIssuer('Issuer1', 'issuer1@gmail.com', issuer[1], 'MKey', ['C', 'D'], { from: contractOwner });
+      await DigiBlockInstance.singleIssuer.call(issuer[0], (err, result) => {
+        if (!err) {
+          assert(result[0] === 'Issuer0', 'Org Name is not set properly');
+          assert(result[1] === 'issuer0@gmail.com', 'Email is not set properly');
+          assert(result[2] === 'MKey', 'Master Key is not set properly');
+          assert(result[3].length === 2, 'DocumentType length does not match');
+          assert(result[3][0] === 'A', 'First docType does not match');
+          assert(result[3][1] === 'B', 'Second docType does not match');
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.issuersCount.call((err, result) => {
+        if (!err) {
+          assert(result === '2', 'Error in issuer count');
+        } else {
+          console.log(err);
+        }
+      });
+    });
+  });
+  describe('Issue Doc', () => {
+    it('Issue Doc', async () => {
+      await DigiBlockInstance.issueDocument(user[0], 'ipfshash', 'A', { from: issuer[0] });
+      await DigiBlockInstance.issueDocument(user[1], 'ipfshash1', 'B', { from: issuer[0] });
+      await DigiBlockInstance.issueDocument(user[0], 'ipfshash2', 'C', { from: issuer[1] });
+      await DigiBlockInstance.issueDocument(user[1], 'ipfshash3', 'D', { from: issuer[1] });
+      await DigiBlockInstance.requestDocumentFromUser(user[0], 'A', { from: requestor[0] });
+      await DigiBlockInstance.requestDocumentFromUser(user[0], 'C', { from: requestor[1] });
+      await DigiBlockInstance.requestDocumentFromUser(user[1], 'B', { from: requestor[0] });
+      await DigiBlockInstance.requestDocumentFromUser(user[1], 'D', { from: requestor[1] });
+      //   const requested = await DigiBlockInstance.totalRequestedDocuments.call();
+      //   console.log('Requested : ' + requested.words[0]);
+      //   const pending = await DigiBlockInstance.totalRequestedPendingDocuments.call();
+      //   console.log('Pending : ' + pending.words[0]);
+      //   console.log(DigiBlockInstance);
+      //   const reqdocs = await DigiBlockInstance.requestedDocuments.call(user[0], 1);
+      //   console.log(reqdocs);
+    });
+  });
+  describe('last', () => {
+    it('last', async () => {
+      await DigiBlockInstance.getUserPendingDocuments.call(user[0], async (err, result) => {
+        if (!err) {
+          console.log(result);
+          timestampA = result[2][0];
+          timestampB = result[2][1];
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.changeDocumentStatus(requestor[0], user[0], 'A', parseInt(timestampA), 0, 1, { from: user[0] });
+      await DigiBlockInstance.changeDocumentStatus(requestor[1], user[0], 'C', parseInt(timestampB), 0, 1, { from: user[0] });
+      //   const reqdocs = await DigiBlockInstance.requestedDocuments.call(user[0], 0);
+      //   console.log(reqdocs);
+      await DigiBlockInstance.getUserPendingDocuments.call(user[0], (err, result) => {
+        if (!err) {
+          console.log(result);
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.getUserRevokedDocuments.call(user[0], (err, result) => {
+        if (!err) {
+          console.log(result);
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.getRequestorPendingDocuments.call(requestor[0], (err, result) => {
+        if (!err) {
+          console.log(result);
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.getRequestorPendingDocuments.call(requestor[1], (err, result) => {
+        if (!err) {
+          console.log(result);
+        } else {
+          console.log(err);
+        }
+      });
+      await DigiBlockInstance.getRequestorPendingDocuments.call(requestor[4], (err, result) => {
+        if (!err) {
+          console.log(result);
         } else {
           console.log(err);
         }

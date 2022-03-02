@@ -106,13 +106,13 @@ contract DigiBlock {
     address[] registeredRequestorsAddresses;
 
     // count variables
-    uint256 totalIssuedDocuments;
-    uint256 totalRequestedDocuments;
+    // uint256 totalIssuedDocuments;
+    // uint256 totalRequestedDocuments;
 
-    uint256 totalRequestedPendingDocuments;
-    uint256 totalRequestedAcceptedDocuments;
-    uint256 totalRequestedRejectedDocuments;
-    uint256 totalRequestedRevokedDocuments;
+    // uint256 totalRequestedPendingDocuments;
+    // uint256 totalRequestedAcceptedDocuments;
+    // uint256 totalRequestedRejectedDocuments;
+    // uint256 totalRequestedRevokedDocuments;
 
     // modifier functions
     // Owner Only Action
@@ -418,7 +418,7 @@ contract DigiBlock {
         );
         issuedDocuments[_to].push(newDocument);
         issuedDocsByIssuer[msg.sender].push(newDocument);
-        ++totalIssuedDocuments;
+        // ++totalIssuedDocuments;
     }
 
     // Issued documents by a Issuer
@@ -556,8 +556,8 @@ contract DigiBlock {
         );
         requestedDocuments[_userAddress].push(newRequestedDoc);
         requestedDocsByRequestor[msg.sender].push(newRequestedDoc);
-        ++totalRequestedDocuments;
-        ++totalRequestedPendingDocuments;
+        // ++totalRequestedDocuments;
+        // ++totalRequestedPendingDocuments;
         emit DocumentStatusChange(
             msg.sender,
             _userAddress,
@@ -577,13 +577,13 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _from = new address[](totalRequestedPendingDocuments);
-        string[] memory _docType = new string[](totalRequestedPendingDocuments);
+        address[] memory _from = new address[](requestedDocuments[_userAddress].length);
+        string[] memory _docType = new string[](requestedDocuments[_userAddress].length);
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedPendingDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocuments[_userAddress].length; i++) {
             if (uint8(requestedDocuments[_userAddress][i].status) == 0) {
                 _from[j] = requestedDocuments[_userAddress][i].from;
                 _docType[j] = requestedDocuments[_userAddress][i].docType;
@@ -604,15 +604,15 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _from = new address[](totalRequestedAcceptedDocuments);
+        address[] memory _from = new address[](requestedDocuments[_userAddress].length);
         string[] memory _docType = new string[](
-            totalRequestedAcceptedDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedAcceptedDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocuments[_userAddress].length; i++) {
             if (uint8(requestedDocuments[_userAddress][i].status) == 1) {
                 _from[j] = requestedDocuments[_userAddress][i].from;
                 _docType[j] = requestedDocuments[_userAddress][i].docType;
@@ -633,15 +633,15 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _from = new address[](totalRequestedRejectedDocuments);
+        address[] memory _from = new address[](requestedDocuments[_userAddress].length);
         string[] memory _docType = new string[](
-            totalRequestedRejectedDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedRejectedDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocuments[_userAddress].length; i++) {
             if (uint8(requestedDocuments[_userAddress][i].status) == 2) {
                 _from[j] = requestedDocuments[_userAddress][i].from;
                 _docType[j] = requestedDocuments[_userAddress][i].docType;
@@ -662,13 +662,13 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _from = new address[](totalRequestedRevokedDocuments);
-        string[] memory _docType = new string[](totalRequestedRevokedDocuments);
+        address[] memory _from = new address[](requestedDocuments[_userAddress].length);
+        string[] memory _docType = new string[](requestedDocuments[_userAddress].length);
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedRevokedDocuments
+            requestedDocuments[_userAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocuments[_userAddress].length; i++) {
             if (uint8(requestedDocuments[_userAddress][i].status) == 3) {
                 _from[j] = requestedDocuments[_userAddress][i].from;
                 _docType[j] = requestedDocuments[_userAddress][i].docType;
@@ -689,13 +689,13 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _to = new address[](totalRequestedPendingDocuments);
-        string[] memory _docType = new string[](totalRequestedPendingDocuments);
+        address[] memory _to = new address[](requestedDocsByRequestor[_orgAddress].length);
+        string[] memory _docType = new string[](requestedDocsByRequestor[_orgAddress].length);
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedPendingDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocsByRequestor[_orgAddress].length; i++) {
             if (uint8(requestedDocsByRequestor[_orgAddress][i].status) == 0) {
                 _to[j] = requestedDocsByRequestor[_orgAddress][i].to;
                 _docType[j] = requestedDocsByRequestor[_orgAddress][i].docType;
@@ -718,18 +718,18 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _to = new address[](totalRequestedAcceptedDocuments);
+        address[] memory _to = new address[](requestedDocsByRequestor[_orgAddress].length);
         string[] memory _docType = new string[](
-            totalRequestedAcceptedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         string[] memory _ipfsHash = new string[](
-            totalRequestedAcceptedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedAcceptedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocsByRequestor[_orgAddress].length; i++) {
             if (uint8(requestedDocsByRequestor[_orgAddress][i].status) == 1) {
                 _to[j] = requestedDocsByRequestor[_orgAddress][i].to;
                 _docType[j] = requestedDocsByRequestor[_orgAddress][i].docType;
@@ -753,15 +753,15 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _to = new address[](totalRequestedRejectedDocuments);
+        address[] memory _to = new address[](requestedDocsByRequestor[_orgAddress].length);
         string[] memory _docType = new string[](
-            totalRequestedRejectedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedRejectedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocsByRequestor[_orgAddress].length; i++) {
             if (uint8(requestedDocsByRequestor[_orgAddress][i].status) == 2) {
                 _to[j] = requestedDocsByRequestor[_orgAddress][i].to;
                 _docType[j] = requestedDocsByRequestor[_orgAddress][i].docType;
@@ -783,13 +783,13 @@ contract DigiBlock {
             uint256[] memory
         )
     {
-        address[] memory _to = new address[](totalRequestedRevokedDocuments);
-        string[] memory _docType = new string[](totalRequestedRevokedDocuments);
+        address[] memory _to = new address[](requestedDocsByRequestor[_orgAddress].length);
+        string[] memory _docType = new string[](requestedDocsByRequestor[_orgAddress].length);
         uint256[] memory _timestamp = new uint256[](
-            totalRequestedRevokedDocuments
+            requestedDocsByRequestor[_orgAddress].length
         );
         uint256 j = 0;
-        for (uint256 i = 0; i < totalRequestedDocuments; i++) {
+        for (uint256 i = 0; i < requestedDocsByRequestor[_orgAddress].length; i++) {
             if (uint8(requestedDocsByRequestor[_orgAddress][i].status) == 3) {
                 _to[j] = requestedDocsByRequestor[_orgAddress][i].to;
                 _docType[j] = requestedDocsByRequestor[_orgAddress][i].docType;
@@ -836,13 +836,13 @@ contract DigiBlock {
                 requestedToUserDocs[i].timestamp == _timestamp &&
                 uint256(requestedToUserDocs[i].status) == _prevStatus
             ) {
-                if (uint256(requestedToUserDocs[i].status) == 0)
-                    --totalRequestedPendingDocuments;
-                else if (uint256(requestedToUserDocs[i].status) == 1)
-                    --totalRequestedAcceptedDocuments;
-                if (_nextStatus == 1) ++totalRequestedAcceptedDocuments;
-                else if (_nextStatus == 2) ++totalRequestedRejectedDocuments;
-                else if (_nextStatus == 3) ++totalRequestedRevokedDocuments;
+                // if (uint256(requestedToUserDocs[i].status) == 0)
+                //     --totalRequestedPendingDocuments;
+                // else if (uint256(requestedToUserDocs[i].status) == 1)
+                //     --totalRequestedAcceptedDocuments;
+                // if (_nextStatus == 1) ++totalRequestedAcceptedDocuments;
+                // else if (_nextStatus == 2) ++totalRequestedRejectedDocuments;
+                // else if (_nextStatus == 3) ++totalRequestedRevokedDocuments;
                 requestedToUserDocs[i].status = docAccessStatus(_nextStatus);
                 break;
             }
