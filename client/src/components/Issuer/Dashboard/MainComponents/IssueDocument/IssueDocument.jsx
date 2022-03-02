@@ -46,6 +46,7 @@ const IssueDocument = () => {
       const resp = await ipfs.add(buffer);
       console.log(resp.path);
       try {
+        await instance.methods.singleUser(formData.userAddress).call();
         await instance.methods
           .issueDocument(formData.userAddress, resp.path, formData.docType)
           .send({ from: currentIssuer })
@@ -54,12 +55,12 @@ const IssueDocument = () => {
           })
           .catch((e) => {
             if (e.code === 4001) {
-              toast.error('Something Went Wrong 1', { toastId: `${e.message}` });
+              toast.error('Something Went Wrong', { toastId: `${e.message}` });
             }
           });
       } catch (err) {
         console.log(err.message);
-        toast.error('Something Went Wrong 2', { toastId: `${err.message}` });
+        toast.error('Check all fields correctly', { toastId: `${err.message}` });
       }
       setLoading(false);
     }
