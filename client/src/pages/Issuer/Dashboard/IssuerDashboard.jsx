@@ -9,11 +9,13 @@ import IssueDocument from '../../../components/Issuer/Dashboard/MainComponents/I
 import IssuerProfile from '../../../components/Issuer/Dashboard/MainComponents/Profile/Profile';
 import NavIssuer from '../../../components/Issuer/Dashboard/Navbar/NavIssuer';
 import SideBar from '../../../components/Issuer/Dashboard/SideBar/SideBar';
-import useDetect from '../../../hooks/useDetect';
+// import useDetect from '../../../hooks/useDetect';
+import useIssuerDetect from '../../../hooks/useIssuerDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
 const IssuerDashboard = () => {
-  useDetect();
+  // useDetect();
+  useIssuerDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.issuer.sidebarCollapsed);

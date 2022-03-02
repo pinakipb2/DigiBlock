@@ -8,7 +8,8 @@ import Footer from '../../../components/Common/Footer';
 import Navbar from '../../../components/Common/Navbar';
 import Login from '../../../components/Issuer/Login/Login';
 import getWeb3 from '../../../getWeb3';
-import useDetect from '../../../hooks/useDetect';
+// import useDetect from '../../../hooks/useDetect';
+import useIssuerDetect from '../../../hooks/useIssuerDetect';
 import { setIssuerWeb3, setIsIssuerAccountChange, setIsIssuerNetworkChange } from '../../../redux/issuer/issuer.actions';
 
 const IssuerLogin = () => {
@@ -16,7 +17,8 @@ const IssuerLogin = () => {
   // const isMetaMask = useSelector((state) => state.issuer.isMetaMaskInstalled);
   const issuer = useSelector((state) => state.issuer.currentIssuer);
 
-  useDetect();
+  // useDetect();
+  useIssuerDetect();
 
   // useEffect(() => {
   //   const getMetaMaskStatus = () => {

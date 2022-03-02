@@ -11,11 +11,13 @@ import AdminProfile from '../../../components/Admin/Dashboard/MainComponents/Pro
 // import VerifierDetails from '../../../components/Admin/Dashboard/MainComponents/Verifiers/VerifierDetails';
 import NavAdmin from '../../../components/Admin/Dashboard/Navbar/NavAdmin';
 import SideBar from '../../../components/Admin/Dashboard/SideBar/SideBar';
-import useDetect from '../../../hooks/useDetect';
+import useAdminDetect from '../../../hooks/useAdminDetect';
+// import useDetect from '../../../hooks/useDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
 const AdminDashboard = () => {
-  useDetect();
+  // useDetect();
+  useAdminDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);

@@ -8,7 +8,8 @@ import Login from '../../../components/Admin/Login/Login';
 import Footer from '../../../components/Common/Footer';
 import Navbar from '../../../components/Common/Navbar';
 import getWeb3 from '../../../getWeb3';
-import useDetect from '../../../hooks/useDetect';
+import useAdminDetect from '../../../hooks/useAdminDetect';
+// import useDetect from '../../../hooks/useDetect';
 import { setWeb3, setIsAccountChange, setIsNetworkChange } from '../../../redux/admin/admin.actions';
 
 const AdminLogin = () => {
@@ -16,7 +17,8 @@ const AdminLogin = () => {
   // const isMetaMask = useSelector((state) => state.admin.isMetaMaskInstalled);
   const admin = useSelector((state) => state.admin.currentAdmin);
 
-  useDetect();
+  // useDetect();
+  useAdminDetect();
 
   // useEffect(() => {
   //   const getMetaMaskStatus = () => {

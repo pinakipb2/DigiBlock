@@ -8,7 +8,8 @@ import Footer from '../../../components/Common/Footer';
 import Navbar from '../../../components/Common/Navbar';
 import SignUp from '../../../components/User/SignUp/SignUp';
 import getWeb3 from '../../../getWeb3';
-import useDetect from '../../../hooks/useDetect';
+// import useDetect from '../../../hooks/useDetect';
+import useUserDetect from '../../../hooks/useUserDetect';
 import { setUserWeb3, setIsUserAccountChange, setIsUserNetworkChange } from '../../../redux/user/user.actions';
 
 const UserSignUp = () => {
@@ -16,7 +17,8 @@ const UserSignUp = () => {
   // const isMetaMask = useSelector((state) => state.user.isMetaMaskInstalled);
   const user = useSelector((state) => state.user.currentUser);
 
-  useDetect();
+  // useDetect();
+  useUserDetect();
 
   // useEffect(() => {
   //   const getMetaMaskStatus = () => {

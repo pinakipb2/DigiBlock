@@ -12,11 +12,13 @@ import RequestDocuments from '../../../components/Requestor/Dashboard/MainCompon
 import RevokedDocuments from '../../../components/Requestor/Dashboard/MainComponents/RevokedDocuments/RevokedDocuments';
 import NavRequestor from '../../../components/Requestor/Dashboard/Navbar/NavRequestor';
 import SideBar from '../../../components/Requestor/Dashboard/SideBar/SideBar';
-import useDetect from '../../../hooks/useDetect';
+// import useDetect from '../../../hooks/useDetect';
+import useRequestorDetect from '../../../hooks/useRequestorDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
 const RequestorDashboard = () => {
-  useDetect();
+  // useDetect();
+  useRequestorDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.requestor.sidebarCollapsed);
