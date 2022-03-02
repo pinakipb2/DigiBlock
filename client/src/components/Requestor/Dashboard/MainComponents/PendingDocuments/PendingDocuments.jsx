@@ -18,12 +18,14 @@ const PendingDocuments = () => {
     const func = async () => {
       const pendingDocs = await instance.methods.getRequestorPendingDocuments(requestorAddress).call();
       for (let i = 0; i < pendingDocs[0].length; i++) {
-        objects.push({
-          id: i + 1,
-          userAddress: pendingDocs[0][i],
-          docType: pendingDocs[1][i],
-          timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
-        });
+        if (pendingDocs[2][i] !== '0') {
+          objects.push({
+            id: i + 1,
+            userAddress: pendingDocs[0][i],
+            docType: pendingDocs[1][i],
+            timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
+          });
+        }
       }
       setOriginalData(objects);
       setTableData(objects);

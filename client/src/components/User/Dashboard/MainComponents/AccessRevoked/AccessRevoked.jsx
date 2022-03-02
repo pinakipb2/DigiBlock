@@ -17,12 +17,14 @@ const AccessRevoked = () => {
     const func = async () => {
       const revokedDocs = await instance.methods.getUserRevokedDocuments(userAddress).call();
       for (let i = 0; i < revokedDocs[0].length; i++) {
-        objects.push({
-          id: i + 1,
-          requestorAddress: revokedDocs[0][i],
-          docType: revokedDocs[1][i],
-          timestamp: new Date(parseInt(revokedDocs[2][i], 10) * 1000).toDateString(),
-        });
+        if (revokedDocs[2][i] !== '0') {
+          objects.push({
+            id: i + 1,
+            requestorAddress: revokedDocs[0][i],
+            docType: revokedDocs[1][i],
+            timestamp: new Date(parseInt(revokedDocs[2][i], 10) * 1000).toDateString(),
+          });
+        }
       }
       setOriginalData(objects);
       setTableData(objects);

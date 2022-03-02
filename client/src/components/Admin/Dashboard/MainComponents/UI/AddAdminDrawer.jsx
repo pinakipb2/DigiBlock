@@ -29,7 +29,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { genMasterKey, sendMasterKey, validateMasterKey } from '../../../../../api/Admin';
+import { add, genMasterKey, sendMasterKey, validateMasterKey } from '../../../../../api/Admin';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 
@@ -73,7 +73,8 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
           .addAdmin(transformedFirstName, transformedLastName, data.email, data.walletaddress, newMasterKey.data.hashedMasterKey)
           .send({ from: admin.account })
           .then(async () => {
-            await sendMasterKey(`${transformedFirstName} ${transformedLastName}`, data.walletaddress, data.email, newMasterKey.data.masterKey);
+            await add(data.walletaddress);
+            await sendMasterKey(`${transformedFirstName} ${transformedLastName}`, data.email, newMasterKey.data.masterKey);
             dispatch(setInstanceStart());
             toast.success('Admin Created Successfully', { toastId: 'Admin-success' });
           })

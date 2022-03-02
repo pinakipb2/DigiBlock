@@ -22,13 +22,15 @@ const PendingApproval = () => {
     const func = async () => {
       const pendingDocs = await instance.methods.getUserPendingDocuments(userAddress).call();
       for (let i = 0; i < pendingDocs[0].length; i++) {
-        objects.push({
-          id: i + 1,
-          requestorAddress: pendingDocs[0][i],
-          docType: pendingDocs[1][i],
-          timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
-          epoch: pendingDocs[2][i]
-        });
+        if (pendingDocs[2][i] !== '0') {
+          objects.push({
+            id: i + 1,
+            requestorAddress: pendingDocs[0][i],
+            docType: pendingDocs[1][i],
+            timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
+            epoch: pendingDocs[2][i]
+          });
+        }
       }
       setOriginalData(objects);
       setTableData(objects);

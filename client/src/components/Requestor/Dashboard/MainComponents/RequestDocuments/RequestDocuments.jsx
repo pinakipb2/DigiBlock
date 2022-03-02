@@ -21,26 +21,24 @@ const RequestDocuments = () => {
     setUserAcc(userAccount);
     setMessage('');
     try {
-      const pendingDocs = await instance.methods.getUserPendingDocuments(userAccount).call();
-      const acceptedDocs = await instance.methods.getUserAcceptedDocuments(userAccount).call();
-      console.log(pendingDocs, acceptedDocs);
+      const pendingDocs = await instance.methods.getUserPendingDocuments(userAccount.toLowerCase()).call();
+      const acceptedDocs = await instance.methods.getUserAcceptedDocuments(userAccount.toLowerCase()).call();
       for (let i = 0; i < pendingDocs[0].length; i++) {
-        if (pendingDocs[0][i].toLowerCase() === currentRequestor) {
+        if (pendingDocs[0][i].toLowerCase() === currentRequestor && pendingDocs[2][i] !== '0') {
           disabledDocs.push(pendingDocs[1][i]);
         }
       }
       for (let i = 0; i < acceptedDocs[0].length; i++) {
-        if (acceptedDocs[0][i].toLowerCase() === currentRequestor) {
+        if (acceptedDocs[0][i].toLowerCase() === currentRequestor && acceptedDocs[2][i] !== '0') {
           disabledDocs.push(acceptedDocs[1][i]);
         }
       }
-      console.log(disabledDocs);
     } catch (error) {
       console.log(error);
     }
     try {
       const docs = await instance.methods.getAllDocuments(userAccount).call();
-      // console.log(docs);
+      // console.log(docs, disabledDocs);
       for (let i = 0; i < docs[2].length; i++) {
         objects.push({
           id: i + 1,

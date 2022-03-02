@@ -22,13 +22,15 @@ const AccessGranted = () => {
     const func = async () => {
       const acceptedDocs = await instance.methods.getUserAcceptedDocuments(userAddress).call();
       for (let i = 0; i < acceptedDocs[0].length; i++) {
-        objects.push({
-          id: i + 1,
-          requestorAddress: acceptedDocs[0][i],
-          docType: acceptedDocs[1][i],
-          timestamp: new Date(parseInt(acceptedDocs[2][i], 10) * 1000).toDateString(),
-          epoch: acceptedDocs[2][i]
-        });
+        if (acceptedDocs[2][i] !== '0') {
+          objects.push({
+            id: i + 1,
+            requestorAddress: acceptedDocs[0][i],
+            docType: acceptedDocs[1][i],
+            timestamp: new Date(parseInt(acceptedDocs[2][i], 10) * 1000).toDateString(),
+            epoch: acceptedDocs[2][i]
+          });
+        }
       }
       setOriginalData(objects);
       setTableData(objects);
