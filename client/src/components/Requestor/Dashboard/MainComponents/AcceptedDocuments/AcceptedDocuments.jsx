@@ -18,13 +18,15 @@ const AcceptedDocuments = () => {
     const func = async () => {
       const acceptedDocs = await instance.methods.getRequestorAcceptedDocuments(requestorAddress).call();
       for (let i = 0; i < acceptedDocs[0].length; i++) {
-        objects.push({
-          id: i + 1,
-          userAddress: acceptedDocs[0][i],
-          docType: acceptedDocs[1][i],
-          ipfsHash: acceptedDocs[2][i],
-          timestamp: new Date(parseInt(acceptedDocs[3][i], 10) * 1000).toDateString(),
-        });
+        if (acceptedDocs[3][i] !== '0') {
+          objects.push({
+            id: i + 1,
+            userAddress: acceptedDocs[0][i],
+            docType: acceptedDocs[1][i],
+            ipfsHash: acceptedDocs[2][i],
+            timestamp: new Date(parseInt(acceptedDocs[3][i], 10) * 1000).toDateString(),
+          });
+        }
       }
       setOriginalData(objects);
       setTableData(objects);
