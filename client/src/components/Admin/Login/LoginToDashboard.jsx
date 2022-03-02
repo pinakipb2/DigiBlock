@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { genMasterKey, sendMasterKey, validateMasterKey, verify } from '../../../api/Admin';
+import { add, genMasterKey, sendMasterKey, validateMasterKey, verify } from '../../../api/Admin';
 import { setLoginStatus, setAdminName } from '../../../redux/admin/admin.actions';
 
 const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }) => {
@@ -31,7 +31,8 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
           });
           // const adminDet = await instance.methods.singleAdmin(admin.account).call();
           // console.log(adminDet);
-          await sendMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, admin.account, adminDetails[2], res.data.masterKey);
+          await add(admin.account);
+          await sendMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, adminDetails[2], res.data.masterKey);
           setMasterKey('');
           stepOne();
         } else {

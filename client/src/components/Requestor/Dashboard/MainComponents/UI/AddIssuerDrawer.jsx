@@ -29,8 +29,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { genIssuerMasterKey, sendIssuerMasterKey, validateMasterKey } from '../../../../../api/Admin';
-import { addIssuer } from '../../../../../api/Issuer';
+import { validateMasterKey } from '../../../../../api/Admin';
+import { addIssuer, genIssuerMasterKey, sendIssuerMasterKey } from '../../../../../api/Issuer';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
 import { isValidEmail, isValidEthereumAddress, isValidAlphanumeric } from '../Utils/Validations';
 import TagsInput from './TagsInput';
