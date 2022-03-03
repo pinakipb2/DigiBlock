@@ -21,7 +21,7 @@ const IssueDocument = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userAddress: '',
-    docType: ''
+    docType: '',
   });
   const [file, setFile] = useState(null);
   const [buffer, setBuffer] = useState(null);
@@ -52,6 +52,9 @@ const IssueDocument = () => {
           .send({ from: currentIssuer })
           .then(async () => {
             toast.success('Document Issued Successfully', { toastId: 'Document-Issued' });
+            setFile(null);
+            setBuffer(null);
+            setFormData({ userAddress: '', docType: '' });
           })
           .catch((e) => {
             if (e.code === 4001) {
@@ -101,18 +104,16 @@ const IssueDocument = () => {
         <div className="w-1/2 flex flex-col p-4">
           <FormControl isRequired className="pb-4">
             <FormLabel htmlFor="user-address">User Address</FormLabel>
-            <Input id="user-address" placeholder="Enter User Address" onChange={(e) => setFormData({ ...formData, userAddress: e.target.value })} />
+            <Input id="user-address" placeholder="Enter User Address" value={formData.userAddress} onChange={(e) => setFormData({ ...formData, userAddress: e.target.value })} />
           </FormControl>
 
           <FormControl isRequired className="pb-6">
             <FormLabel htmlFor="document-type">Document Type</FormLabel>
-            <Select id="document-type" placeholder="Select Document Type" onChange={(e) => setFormData({ ...formData, docType: e.target.value })}>
-              {
-                issuerDocTypes.map((docType, ind) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <option key={ind}>{docType}</option>
-                ))
-              }
+            <Select id="document-type" placeholder="Select Document Type" value={formData.docType} onChange={(e) => setFormData({ ...formData, docType: e.target.value })}>
+              {issuerDocTypes.map((docType, ind) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <option key={ind}>{docType}</option>
+              ))}
             </Select>
           </FormControl>
 

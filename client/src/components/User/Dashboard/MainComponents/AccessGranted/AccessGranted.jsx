@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { IconButton } from '@chakra-ui/react';
+import Tippy from '@tippyjs/react';
 import { GrRevert } from 'react-icons/gr';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Loading from '../../../../Common/Loading/Loading';
 import Pagination from '../UI/Pagination';
 import manageRequest from '../Utils/ManageRequest';
 
@@ -16,7 +18,7 @@ const AccessGranted = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
-  // const [loading, setLoading] = useState(true);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
@@ -28,12 +30,13 @@ const AccessGranted = () => {
             requestorAddress: acceptedDocs[0][i],
             docType: acceptedDocs[1][i],
             timestamp: new Date(parseInt(acceptedDocs[2][i], 10) * 1000).toDateString(),
-            epoch: acceptedDocs[2][i]
+            epoch: acceptedDocs[2][i],
           });
         }
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     func();
   }, [instance]);
@@ -72,7 +75,12 @@ const AccessGranted = () => {
       <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">{val.timestamp}</td>
       <td className="font-ubuntu p-2">
-        <IconButton icon={<GrRevert />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 1, 3, setLoading, instance, dispatch, userAddress)} />
+        <Tippy
+          key={val.id}
+          content={<span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">Revoke</span>}
+        >
+          <IconButton icon={<GrRevert />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 1, 3, setLoading, instance, dispatch, userAddress)} />
+        </Tippy>
       </td>
     </tr>
   ));
@@ -98,21 +106,25 @@ const AccessGranted = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>Requestor Address</th>
-              <th>Document Type</th>
-              <th>Timestamp</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">{showData}</tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>Requestor Address</th>
+                <th>Document Type</th>
+                <th>Timestamp</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">{showData}</tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
     </div>
   );
 };
