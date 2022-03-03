@@ -4,6 +4,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 import { allIssuers } from '../../../../../api/Issuer/index';
+import Loading from '../../../../Common/Loading/Loading';
 import AddIssuerDrawer from '../UI/AddIssuerDrawer';
 import Pagination from '../UI/Pagination';
 import Table from '../UI/Table';
@@ -15,6 +16,7 @@ const IssuerDetails = () => {
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
   // const [loading, setLoading] = useState(true);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
@@ -29,6 +31,7 @@ const IssuerDetails = () => {
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     func();
   }, [instance]);
@@ -87,22 +90,26 @@ const IssuerDetails = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>Organization Name</th>
-              <th>Wallet Address</th>
-              <th>Document Types</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            <Table tableData={tableData} pagesVisited={pagesVisited} dataPerPage={dataPerPage} issuer />
-          </tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>Organization Name</th>
+                <th>Wallet Address</th>
+                <th>Document Types</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              <Table tableData={tableData} pagesVisited={pagesVisited} dataPerPage={dataPerPage} issuer />
+            </tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
       <AddIssuerDrawer isOpenAddIssuer={isOpenAddIssuer} onCloseAddIssuer={onCloseAddIssuer} />
     </div>
   );

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Loading from '../../../../Common/Loading/Loading';
 import Pagination from '../UI/Pagination';
 
 const AcceptedDocuments = () => {
@@ -13,6 +14,7 @@ const AcceptedDocuments = () => {
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
   // const [loading, setLoading] = useState(true);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
@@ -30,6 +32,7 @@ const AcceptedDocuments = () => {
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     func();
   }, [instance]);
@@ -65,6 +68,7 @@ const AcceptedDocuments = () => {
     <tr key={val.id} className={index % 2 !== 0 ? 'bg-blue-100' : 'bg-white'}>
       <td className="font-ubuntu p-2">{val.id}</td>
       <td className="font-ubuntu p-2">{val.userAddress}</td>
+      <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2 flex items-center justify-center">
         <Link to={{ pathname: `https://ipfs.io/ipfs/${val.ipfsHash}` }} target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,7 +76,6 @@ const AcceptedDocuments = () => {
           </svg>
         </Link>
       </td>
-      <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">{val.timestamp}</td>
     </tr>
   ));
@@ -98,21 +101,25 @@ const AcceptedDocuments = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>User Address</th>
-              <th>Document Type</th>
-              <th>View Document</th>
-              <th>Timestamp</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">{showData}</tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>User Address</th>
+                <th>Document Type</th>
+                <th>View Document</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">{showData}</tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
     </div>
   );
 };

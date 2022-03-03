@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { isVerified, remove } from '../../../../../api/Admin';
 import { setInstanceStart } from '../../../../../redux/contract/contract.actions';
+import Loading from '../../../../Common/Loading/Loading';
 import AddAdminDrawer from '../UI/AddAdminDrawer';
 import MasterKeyModal from '../UI/MasterKeyModal';
 import Pagination from '../UI/Pagination';
@@ -21,6 +22,7 @@ const AdminDetails = () => {
   const [originalData, setOriginalData] = useState([]);
   // Data shown at table
   const [tableData, setTableData] = useState(originalData);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
   // const renderCounter = useRef(0);
   // renderCounter.current += 1;
   // console.log(renderCounter.current);
@@ -49,6 +51,7 @@ const AdminDetails = () => {
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     if (instance.methods.allAdmins) {
       func();
@@ -182,22 +185,26 @@ const AdminDetails = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Wallet Address</th>
-              <th>Status</th>
-              {currentAdmin === owner ? <th>Remove</th> : null}
-            </tr>
-          </thead>
-          <tbody className="text-center">{showData}</tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Wallet Address</th>
+                <th>Status</th>
+                {currentAdmin === owner ? <th>Remove</th> : null}
+              </tr>
+            </thead>
+            <tbody className="text-center">{showData}</tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
       <AddAdminDrawer isOpenAddAdmin={isOpenAddAdmin} onCloseAddAdmin={onCloseAddAdmin} />
       <MasterKeyModal
         isOpenRemoveAdmin={isOpenRemoveAdmin}
