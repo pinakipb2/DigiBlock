@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { IconButton } from '@chakra-ui/react';
+import Tippy from '@tippyjs/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Loading from '../../../../Common/Loading/Loading';
 import Pagination from '../UI/Pagination';
 import manageRequest from '../Utils/ManageRequest';
 
@@ -16,7 +18,7 @@ const PendingApproval = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
-  // const [loading, setLoading] = useState(true);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
@@ -28,12 +30,13 @@ const PendingApproval = () => {
             requestorAddress: pendingDocs[0][i],
             docType: pendingDocs[1][i],
             timestamp: new Date(parseInt(pendingDocs[2][i], 10) * 1000).toDateString(),
-            epoch: pendingDocs[2][i]
+            epoch: pendingDocs[2][i],
           });
         }
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     func();
   }, [instance]);
@@ -72,12 +75,21 @@ const PendingApproval = () => {
       <td className="font-ubuntu p-2">{val.docType}</td>
       <td className="font-ubuntu p-2">{val.timestamp}</td>
       <td className="font-ubuntu p-2 flex justify-evenly">
-        <IconButton icon={<FaCheck />} colorScheme="green" isLoading={loading} onClick={() => manageRequest(val, 0, 1, setLoading, instance, dispatch, userAddress)} />
-        <IconButton icon={<FaTimes />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 0, 2, setLoading, instance, dispatch, userAddress)} />
+        <Tippy
+          key={val.id}
+          content={<span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">Approve</span>}
+        >
+          <IconButton icon={<FaCheck />} colorScheme="green" isLoading={loading} onClick={() => manageRequest(val, 0, 1, setLoading, instance, dispatch, userAddress)} />
+        </Tippy>
+        <Tippy
+          key={val.id}
+          content={<span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">Reject</span>}
+        >
+          <IconButton icon={<FaTimes />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 0, 2, setLoading, instance, dispatch, userAddress)} />
+        </Tippy>
       </td>
     </tr>
   ));
-
   return (
     <div className="px-6 pb-10">
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
@@ -99,21 +111,25 @@ const PendingApproval = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>Requestor Address</th>
-              <th>Document Type</th>
-              <th>Timestamp</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">{showData}</tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>Requestor Address</th>
+                <th>Document Type</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">{showData}</tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
+import Loading from '../../../../Common/Loading/Loading';
 import Pagination from '../UI/Pagination';
 
 const AccessRevoked = () => {
@@ -12,6 +13,7 @@ const AccessRevoked = () => {
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
   // const [loading, setLoading] = useState(true);
+  const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
     const func = async () => {
@@ -28,6 +30,7 @@ const AccessRevoked = () => {
       }
       setOriginalData(objects);
       setTableData(objects);
+      setIsComponentLoading(false);
     };
     func();
   }, [instance]);
@@ -89,20 +92,24 @@ const AccessRevoked = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <table className="w-full border border-black shadow-xl">
-          <thead className="bg-black text-white">
-            <tr>
-              <th>SNo</th>
-              <th>Requestor Address</th>
-              <th>Document Type</th>
-              <th>Timestamp</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">{showData}</tbody>
-        </table>
-        {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
-      </div>
+      {isComponentLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <table className="w-full border border-black shadow-xl">
+            <thead className="bg-black text-white">
+              <tr>
+                <th>SNo</th>
+                <th>Requestor Address</th>
+                <th>Document Type</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">{showData}</tbody>
+          </table>
+          {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}
+        </div>
+      )}
     </div>
   );
 };
