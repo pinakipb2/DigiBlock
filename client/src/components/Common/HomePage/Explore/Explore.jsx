@@ -6,9 +6,13 @@ const Explore = () => (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col font-bold font-sans text-center md:text-left pb-8">
         <h1 className="text-4xl text-prime leading-9 pb-4 font-roboto">Become a DigiBlock Partner Organization</h1>
-        <p className="text-lg text-prime font-ubuntu">Get registered as a DigiBlock Issuer or Requester!</p>
+        <p className="text-center text-lg text-prime font-ubuntu">Get registered as a DigiBlock Issuer!</p>
       </div>
-      <div className="bg-prime px-3 py-2 w-1/3 text-white font-bold text-center rounded-lg mb-4 cursor-pointer hover:bg-blue-700 hover:text-gray-100 font-roboto">EXPLORE NOW</div>
+      <div className="bg-prime px-3 py-2 w-1/3 text-white font-bold text-center rounded-lg mb-4 cursor-pointer hover:bg-blue-700 hover:text-gray-100 font-roboto">
+        <a href="mailto:admin@digiblock.com?subject=Request for becoming an Issuer">
+          EXPLORE NOW
+        </a>
+      </div>
     </div>
   </div>
 );
