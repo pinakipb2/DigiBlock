@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 
-// import { useDisclosure } from '@chakra-ui/react';
-
-// import AddIssuerDrawer from '../UI/AddIssuerDrawer';
 import Card from './Card';
 
 const Stats = () => {
-  // const { isOpen: isOpenAddIssuer, onOpen: onOpenAddIssuer, onClose: onCloseAddIssuer } = useDisclosure();
   const [stats] = useState([
     {
       id: 1,
@@ -46,13 +42,6 @@ const Stats = () => {
           ))}
         </div>
       </div>
-      {/* <div className="px-2 pt-10 w-44">
-        <div role="button" className="flex bg-indigo-800 hover:bg-indigo-900 cursor-pointer rounded-md px-2 py-3 justify-center items-center" onClick={onOpenAddIssuer}>
-          <i className="fas fa-plus-circle text-xl text-white mr-3 p-1" />
-          <div className="text-white mr-2 font-semibold text-lg">Add Issuer</div>
-        </div>
-      </div> */}
-      {/* <AddIssuerDrawer isOpenAddIssuer={isOpenAddIssuer} onCloseAddIssuer={onCloseAddIssuer} /> */}
     </section>
   );
 };

@@ -33,7 +33,6 @@ const ConnectWallet = () => {
       }
     } catch (error) {
       dispatch(setIssuerMetmaskInstalled(false));
-      console.log(error.message);
     }
   };
 

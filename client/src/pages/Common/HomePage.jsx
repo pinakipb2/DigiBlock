@@ -6,7 +6,7 @@ import Footer from '../../components/Common/Footer';
 import Documents from '../../components/Common/HomePage/Documents/Documents';
 import Explore from '../../components/Common/HomePage/Explore/Explore';
 import Hero from '../../components/Common/HomePage/Hero/Hero';
-import Info from '../../components/Common/HomePage/Info';
+import Info from '../../components/Common/HomePage/Info/Info';
 import Navbar from '../../components/Common/Navbar';
 
 const HomePage = () => (

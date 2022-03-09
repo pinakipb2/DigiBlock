@@ -15,7 +15,6 @@ const IssuerDetails = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
-  // const [loading, setLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
@@ -53,7 +52,6 @@ const IssuerDetails = () => {
   };
   // function to search in table
   const searchTable = (term) => {
-    console.log(term);
     const searchTerm = term.toLowerCase();
     if (searchTerm === '') {
       setTableData(originalData);

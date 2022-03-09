@@ -15,7 +15,6 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
 
   const [masterKey, setMasterKey] = useState('');
   const adminLogin = async () => {
-    // console.log(masterKey);
     if (!masterKey) {
       toast.warn('Please enter Master Key', { toastId: 'no-master-key' });
     } else if (masterKey === 'Pinaki') {
@@ -23,14 +22,11 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
         const adminDetails = await instance.methods.singleAdmin(admin.account).call();
         if (adminDetails[3] === 'Pinaki') {
           const res = await genMasterKey();
-          // console.log(res.data);
           await instance.methods.updateMasterKey(res.data.hashedMasterKey).send({ from: admin.account }, (err) => {
             if (err) {
               throw err.message;
             }
           });
-          // const adminDet = await instance.methods.singleAdmin(admin.account).call();
-          // console.log(adminDet);
           await add(admin.account);
           await sendMasterKey(`${adminDetails[0]} ${adminDetails[1]}`, adminDetails[2], res.data.masterKey);
           setMasterKey('');
@@ -46,9 +42,7 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
     } else {
       try {
         const adminDetails = await instance.methods.singleAdmin(admin.account).call();
-        // console.log(adminDetails[3]);
         const res = await validateMasterKey(masterKey, adminDetails[3]);
-        // console.log(res.data.status);
         if (res.data.status === false) {
           setMasterKey('');
           toast.error('Enter Valid Credentials', { toastId: 'Invalid-Credentials' });

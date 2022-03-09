@@ -77,11 +77,8 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
         tags: 'Please add atleast one Document Type',
       }));
     } else {
-      console.log(tags);
-      // console.log(data);
       const adminDetails = await instance.methods.singleAdmin(admin.account).call();
       const res = await validateMasterKey(data.masterkey, adminDetails[3]);
-      console.log(res.data.status);
       if (res.data.status === false) {
         toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
       } else {
@@ -102,7 +99,6 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
               }
             });
         } catch (err) {
-          console.log(err.message);
           toast.error('Something Went Wrong', { toastId: `${err.message}` });
         }
       }
@@ -127,7 +123,6 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="orgName">Organization Name</FormLabel>
                   <InputGroup>
-                    {/* https://issueexplorer.com/issue/chakra-ui/chakra-ui/4792 */}
                     <Input
                       isInvalid={!!errors.orgName}
                       focusBorderColor={errors.orgName ? 'red.500' : ''}

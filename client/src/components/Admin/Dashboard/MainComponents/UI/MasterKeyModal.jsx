@@ -66,7 +66,6 @@ const MasterKeyModal = ({ isOpenRemoveAdmin, onCloseRemoveAdmin, deleteAdminDeta
     reset();
     setShow(false);
   };
-  // console.log(result);
   return (
     <Modal
       initialFocusRef={initialFocusRef}

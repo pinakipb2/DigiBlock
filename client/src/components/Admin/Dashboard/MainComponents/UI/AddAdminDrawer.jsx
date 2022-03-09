@@ -58,12 +58,10 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
   const [show, setShow] = useState(false);
   const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
   const onSubmit = async (data) => {
-    console.log(data);
     const transformedFirstName = capitalizeFirstLetter(data.firstName);
     const transformedLastName = capitalizeFirstLetter(data.lastName);
     const adminDetails = await instance.methods.singleAdmin(admin.account).call();
     const res = await validateMasterKey(data.masterkey, adminDetails[3]);
-    console.log(res.data.status);
     if (res.data.status === false) {
       toast.error('Invalid Master Key', { toastId: 'Invalid-Master-Key' });
     } else {
@@ -106,7 +104,6 @@ const AddAdminDrawer = ({ isOpenAddAdmin, onCloseAddAdmin }) => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <InputGroup>
-                    {/* https://issueexplorer.com/issue/chakra-ui/chakra-ui/4792 */}
                     <Input
                       isInvalid={!!errors.firstName}
                       focusBorderColor={errors.firstName ? 'red.500' : ''}

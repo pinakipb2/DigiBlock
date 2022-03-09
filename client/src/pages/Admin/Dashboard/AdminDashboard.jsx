@@ -52,12 +52,12 @@ const AdminDashboard = () => {
     }
   }
   return (
-    <div className="flex bg-gray-200 select-none">
+    <div className="flex bg-gray-200 select-none h-screen">
       {isLoggedIn && (isAccountChanged || isNetworkChanged) ? <NonDismissableModal text={`Please Switch to Correct ${isAccountChanged ? 'Account' : 'Network'} to Continue...`} /> : null}
       <div className="fixed">
         <SideBar />
       </div>
-      <div className={`${sidebarCollapsed ? 'ml-20' : 'ml-72'} flex-auto h-screen`}>
+      <div className={`${sidebarCollapsed ? 'ml-20' : 'ml-72'} flex-auto h-full`}>
         <NavAdmin />
         <div className="text-3xl py-4 px-6 font-light text-gray-700 font-ubuntu">{currMenu}</div>
         <span className="sidebar-tooltip hidden">Dashboard</span>
