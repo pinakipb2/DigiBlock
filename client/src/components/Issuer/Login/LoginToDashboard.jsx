@@ -15,7 +15,6 @@ const LoginToDashboard = ({ isConnected, isAccountChanged, isNetworkChanged, ste
 
   const [masterKey, setMasterKey] = useState('');
   const issuerLogin = async () => {
-    // console.log(masterKey);
     if (!masterKey) {
       toast.warn('Please enter Master Key', { toastId: 'no-master-key' });
     } else {

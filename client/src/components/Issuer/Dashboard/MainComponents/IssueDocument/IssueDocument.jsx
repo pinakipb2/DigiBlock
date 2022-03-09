@@ -44,7 +44,6 @@ const IssueDocument = () => {
     } else {
       setLoading(true);
       const resp = await ipfs.add(buffer);
-      console.log(resp.path);
       try {
         await instance.methods.singleUser(formData.userAddress).call();
         await instance.methods
@@ -62,7 +61,6 @@ const IssueDocument = () => {
             }
           });
       } catch (err) {
-        console.log(err.message);
         toast.error('Check all fields correctly', { toastId: `${err.message}` });
       }
       setLoading(false);
@@ -95,8 +93,6 @@ const IssueDocument = () => {
   function changePageLast() {
     setPageNumber(numPages);
   }
-
-  console.log(formData);
 
   return (
     <div className="container flex justify-center items-center">

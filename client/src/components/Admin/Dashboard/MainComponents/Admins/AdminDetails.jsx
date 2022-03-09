@@ -16,26 +16,12 @@ const AdminDetails = () => {
   const instance = useSelector((state) => state.contract.instance);
   const currentAdmin = useSelector((state) => state.admin.currentAdmin).account.toLowerCase();
   const owner = useSelector((state) => state.contract.owner).toLowerCase();
-  // console.log(currentAdmin === owner);
-  // Original data
   const objects = [];
   const [originalData, setOriginalData] = useState([]);
   // Data shown at table
   const [tableData, setTableData] = useState(originalData);
   const [isComponentLoading, setIsComponentLoading] = useState(true);
-  // const renderCounter = useRef(0);
-  // renderCounter.current += 1;
-  // console.log(renderCounter.current);
-  // eslint-disable-next-line no-plusplus
-  // for (let i = 0; i < 120; i++) {
-  //   objects.push({
-  //     id: i + 1,
-  //     name: (Math.random() + 1).toString(36).substring(2),
-  //     email: `${(Math.random() + 1).toString(36).substring(7)}@abc.com`,
-  //     address: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-  //     status: Math.round(Math.random()),
-  //   });
-  // }
+
   useEffect(() => {
     const func = async () => {
       const allAdmins = await instance.methods.allAdmins().call();
@@ -88,7 +74,6 @@ const AdminDetails = () => {
   const [deleteAdminDetails, setDeleteAdminDetails] = useState({});
   // Delete Admin
   const deleteAdmin = async (address) => {
-    console.log(`Deleting : ${address}`);
     // delete this person from sol and db and reinstanciate instance to re-render
     try {
       await instance.methods

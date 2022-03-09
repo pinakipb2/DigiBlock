@@ -17,7 +17,6 @@ const RequestDocuments = () => {
   const [userDocuments, setUserDocuments] = useState([]);
 
   const fetchUserDocuments = async (userAccount) => {
-    // console.log(userAccount);
     setUserAcc(userAccount);
     setMessage('');
     try {
@@ -38,7 +37,6 @@ const RequestDocuments = () => {
     }
     try {
       const docs = await instance.methods.getAllDocuments(userAccount).call();
-      // console.log(docs, disabledDocs);
       for (let i = 0; i < docs[2].length; i++) {
         objects.push({
           id: i + 1,
@@ -47,7 +45,6 @@ const RequestDocuments = () => {
         });
       }
       if (!docs[2][0]) { setMessage('No User Found'); } else { setMessage(''); }
-      console.log(objects);
       setUserDocuments(objects);
     } catch (error) {
       setMessage('No User Found');

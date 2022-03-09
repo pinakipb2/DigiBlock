@@ -9,12 +9,6 @@ const AdminProfile = () => {
   return (
     <div className="container flex justify-center items-center">
       <div className="flex flex-col bg-white justify-center items-center mt-10 py-6 sm:w-1/3 text-center rounded-2xl shadow-xl">
-        {/* <img
-        className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-xl border-2 border-prime"
-        src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png"
-        alt="Admin Profile"
-        draggable={false}
-      /> */}
         <Avatar className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-lg" name={adminName} size="70" />
         <div className="flex flex-col items-center text-center justify-center">
           <h2 className="font-medium title-font mt-2 text-gray-900 text-2xl">{adminName}</h2>
@@ -30,12 +24,7 @@ const AdminProfile = () => {
             </svg>
           </div>
           <div className="w-12 h-1 bg-gray-500 rounded mt-4" />
-          {/* <div className="w-12 h-1 bg-gray-500 rounded mt-2 mb-4" /> */}
         </div>
-        {/* <div className="flex flex-col justify-center items-center">
-        <div className="text-lg text-gray-800">Documents Issued: 100</div>
-        <div className="text-lg text-gray-800">Documents Issued: 100</div>
-      </div> */}
       </div>
     </div>
   );

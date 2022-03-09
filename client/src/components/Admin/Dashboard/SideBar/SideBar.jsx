@@ -26,24 +26,12 @@ const SideBar = () => {
       url: '/admin/admins',
       icon: 'fas fa-user-secret',
     },
-    // {
-    //   id: 2,
-    //   name: 'Users',
-    //   url: '/admin/users',
-    //   icon: 'fas fa-user-alt',
-    // },
     {
       id: 2,
       name: 'Issuers',
       url: '/admin/issuers',
       icon: 'fas fa-user-tie',
     },
-    // {
-    //   id: 4,
-    //   name: 'Verifiers',
-    //   url: '/admin/verifiers',
-    //   icon: 'fas fa-user-check',
-    // },
     {
       id: 3,
       name: 'Profile',
