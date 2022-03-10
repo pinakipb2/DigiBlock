@@ -22,8 +22,15 @@ const AdminDashboard = () => {
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.admin.sidebarCollapsed);
   useEffect(() => {
-    const pathName = location.pathname.replace('/admin/', '');
-    setCurrMenu(`${pathName.charAt(0).toUpperCase() + pathName.slice(1)}`);
+    const pathName = location.pathname.replace('/admin/', '').replaceAll('/', '');
+    const capitalizeFirstLetter = (str) => {
+      const splitStr = str.toLowerCase().split(' ');
+      for (let i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+      }
+      return splitStr.join(' ');
+    };
+    setCurrMenu(capitalizeFirstLetter(pathName.split('-').join(' ')));
     return () => {
       setCurrMenu('Dashboard');
     };
@@ -39,12 +46,8 @@ const AdminDashboard = () => {
         return <Stats />;
       case 'Admins':
         return <AdminDetails />;
-      // case 'Users':
-      //   return <UserDetails />;
       case 'Issuers':
         return <IssuerDetails />;
-      // case 'Verifiers':
-      //   return <VerifierDetails />;
       case 'Profile':
         return <AdminProfile />;
       default:

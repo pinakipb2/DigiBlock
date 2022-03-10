@@ -61,7 +61,7 @@ const SideBar = () => {
   const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
-      const path = location.pathname.replace('/requestor/', '').replace('/', '');
+      const path = location.pathname.replace('/requestor/', '').replaceAll('/', '');
       const capitalizeFirstLetter = (str) => {
         const splitStr = str.toLowerCase().split(' ');
         for (let i = 0; i < splitStr.length; i++) {
@@ -70,7 +70,7 @@ const SideBar = () => {
         return splitStr.join(' ');
       };
       const pathName = capitalizeFirstLetter(path.split('-').join(' '));
-      setUrlPath(`${pathName} | DigiBlock`);
+      setUrlPath(`${pathName} | (Requestor) - DigiBlock`);
       setCurrSidebarMenu(sidebarMenuData.findIndex((data) => data.name === pathName));
     }, [location]);
   };

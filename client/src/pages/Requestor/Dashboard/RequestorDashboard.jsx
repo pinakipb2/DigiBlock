@@ -23,7 +23,7 @@ const RequestorDashboard = () => {
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.requestor.sidebarCollapsed);
   useEffect(() => {
-    const pathName = location.pathname.replace('/requestor/', '').replace('/', '');
+    const pathName = location.pathname.replace('/requestor/', '').replaceAll('/', '');
     const capitalizeFirstLetter = (str) => {
       const splitStr = str.toLowerCase().split(' ');
       for (let i = 0; i < splitStr.length; i++) {

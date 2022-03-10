@@ -61,7 +61,7 @@ const SideBar = () => {
   const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
-      const path = location.pathname.replace('/', '');
+      const path = location.pathname.replaceAll('/', '');
       const capitalizeFirstLetter = (str) => {
         const splitStr = str.toLowerCase().split(' ');
         for (let i = 0; i < splitStr.length; i++) {

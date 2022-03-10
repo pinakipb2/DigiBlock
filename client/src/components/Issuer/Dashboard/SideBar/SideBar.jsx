@@ -42,7 +42,7 @@ const SideBar = () => {
 
   const location = useLocation();
   useEffect(() => {
-    const path = location.pathname.replace('/issuer/', '');
+    const path = location.pathname.replace('/issuer/', '').replaceAll('/', '');
     const capitalizeFirstLetter = (str) => {
       const splitStr = str.toLowerCase().split(' ');
       for (let i = 0; i < splitStr.length; i++) {

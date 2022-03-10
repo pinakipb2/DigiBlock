@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { NETWORKID, NETWORKNAME } from '../../../config';
 import getWeb3 from '../../../getWeb3';
 import { setUserWeb3, setUserMetmaskInstalled, setCurrentUser, setIsUserAccountChange, setIsUserNetworkChange } from '../../../redux/user/user.actions';
 
@@ -21,14 +22,14 @@ const ConnectWallet = () => {
       dispatch(setUserWeb3(web3));
       dispatch(setUserMetmaskInstalled(true));
       const networkId = await web3.eth.net.getId();
-      if (networkId === 5777) {
+      if (networkId === NETWORKID) {
         const account = web3.currentProvider.selectedAddress;
         const balance = parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account))).toFixed(4);
         dispatch(setCurrentUser(account, balance, networkId));
         dispatch(setIsUserAccountChange(false));
         dispatch(setIsUserNetworkChange(false));
       } else {
-        toast.warn('Please switch to Rinkeby Network', { toastId: 'network-wrong' });
+        toast.warn(`Please switch to ${NETWORKNAME}`, { toastId: 'network-wrong' });
         dispatch(setIsUserNetworkChange(true));
       }
     } catch (error) {

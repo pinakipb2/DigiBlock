@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+import BASEURL from '../config';
+
 const adminAPI = axios.create({
-  baseURL: 'http://localhost:5000/api/v1/admin/',
+  baseURL: `${BASEURL}/admin/`,
 });
 
 export const genMasterKey = () => adminAPI.get('/generate-master-key');
