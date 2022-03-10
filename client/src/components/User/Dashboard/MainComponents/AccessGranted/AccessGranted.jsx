@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { IconButton } from '@chakra-ui/react';
 import Tippy from '@tippyjs/react';
-import { GrRevert } from 'react-icons/gr';
+import { FaHistory } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Loading from '../../../../Common/Loading/Loading';
@@ -79,7 +79,7 @@ const AccessGranted = () => {
           key={val.id}
           content={<span className="w-auto p-2 m-2 min-w-max bg-gray-900 text-white left-14 rounded-md shadow-md text-xs font-bold transition-all duration-100 origin-left">Revoke</span>}
         >
-          <IconButton icon={<GrRevert />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 1, 3, setLoading, instance, dispatch, userAddress)} />
+          <IconButton icon={<FaHistory />} colorScheme="red" isLoading={loading} onClick={() => manageRequest(val, 1, 3, setLoading, instance, dispatch, userAddress)} />
         </Tippy>
       </td>
     </tr>
@@ -113,11 +113,11 @@ const AccessGranted = () => {
           <table className="w-full border border-black shadow-xl">
             <thead className="bg-black text-white">
               <tr>
-                <th>SNo</th>
-                <th>Requestor Address</th>
-                <th>Document Type</th>
-                <th>Timestamp</th>
-                <th>Action</th>
+                <th className="p-2">SNo</th>
+                <th className="p-2">Requestor Address</th>
+                <th className="p-2">Document Type</th>
+                <th className="p-2">Timestamp</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-center">{showData}</tbody>

@@ -150,7 +150,7 @@ const AdminDetails = () => {
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           Manage
-          <span className="font-bold">Admins</span>
+          <span className="font-bold ml-2">Admins</span>
         </div>
         <div className="flex justify-evenly items-center">
           <div className="mr-6 bg-white rounded-full text-black">
@@ -177,11 +177,11 @@ const AdminDetails = () => {
           <table className="w-full border border-black shadow-xl">
             <thead className="bg-black text-white">
               <tr>
-                <th>SNo</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Wallet Address</th>
-                <th>Status</th>
+                <th className="p-2">SNo</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Email</th>
+                <th className="p-2">Wallet Address</th>
+                <th className="p-2">Status</th>
                 {currentAdmin === owner ? <th>Remove</th> : null}
               </tr>
             </thead>

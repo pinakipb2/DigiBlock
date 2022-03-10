@@ -297,6 +297,11 @@ contract DigiBlock {
         registeredAdmins[msg.sender].masterKey = _masterKey;
     }
 
+    // Get the count of Admins
+    function adminsCount() external view returns (uint256) {
+        return registeredAdminsAddresses.length;
+    }
+
     // Add a new Issuer (Admin Only action)
     function addIssuer(
         string memory _orgName,

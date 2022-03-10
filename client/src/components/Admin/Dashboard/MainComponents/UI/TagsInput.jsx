@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { Input, Tag, TagLabel, TagCloseButton, Box, WrapItem, Wrap, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
@@ -6,6 +6,8 @@ import { BsFillExclamationCircleFill } from 'react-icons/bs';
 const TagsInput = ({ id, placeholder, error, onChange, defaultTags }) => {
   const [value, setValue] = useState('');
   const [tags, setTags] = useState(defaultTags || []);
+
+  const inputRef = useRef(null);
 
   const changeHandler = (e) => {
     setValue(e.target.value);
@@ -30,6 +32,7 @@ const TagsInput = ({ id, placeholder, error, onChange, defaultTags }) => {
           onChange(arr);
         }
         setValue('');
+        inputRef.current.focus();
       } else if (e.key === 'Enter') {
         const newTag = value.trim();
         const found = tags.find((tag) => tag.toLowerCase() === newTag.toLowerCase());
@@ -39,6 +42,8 @@ const TagsInput = ({ id, placeholder, error, onChange, defaultTags }) => {
           onChange(arr);
         }
         setValue('');
+        inputRef.current.focus();
+        console.log(inputRef.current);
       }
     }
   };
@@ -58,8 +63,10 @@ const TagsInput = ({ id, placeholder, error, onChange, defaultTags }) => {
         </Wrap>
         <InputGroup>
           <Input
+            autoFocus
+            ref={inputRef}
             isInvalid={!!error}
-            focusBorderColor={error ? 'red.500' : ''}
+            errorBorderColor={error ? 'red.500' : ''}
             type="text"
             placeholder={placeholder}
             id={id}

@@ -118,11 +118,11 @@ const PendingApproval = () => {
           <table className="w-full border border-black shadow-xl">
             <thead className="bg-black text-white">
               <tr>
-                <th>SNo</th>
-                <th>Requestor Address</th>
-                <th>Document Type</th>
-                <th>Timestamp</th>
-                <th>Actions</th>
+                <th className="p-2">SNo</th>
+                <th className="p-2">Requestor Address</th>
+                <th className="p-2">Document Type</th>
+                <th className="p-2">Timestamp</th>
+                <th className="p-2">Actions</th>
               </tr>
             </thead>
             <tbody className="text-center">{showData}</tbody>
