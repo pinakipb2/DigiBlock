@@ -84,7 +84,7 @@ const UserDocuments = () => {
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           All
-          <span className="font-bold ml-1">Documents</span>
+          <span className="font-bold ml-2">Documents</span>
         </div>
         <div className="flex justify-evenly items-center">
           <div className="mr-6 bg-white rounded-full text-black">
@@ -107,11 +107,11 @@ const UserDocuments = () => {
           <table className="w-full border border-black shadow-xl">
             <thead className="bg-black text-white">
               <tr>
-                <th>SNo</th>
-                <th>Issuer Address</th>
-                <th>View Document</th>
-                <th>Document Type</th>
-                <th>Issue Timestamp</th>
+                <th className="p-2">SNo</th>
+                <th className="p-2">Issuer Address</th>
+                <th className="p-2">View Document</th>
+                <th className="p-2">Document Type</th>
+                <th className="p-2">Issue Timestamp</th>
               </tr>
             </thead>
             <tbody className="text-center">{showData}</tbody>

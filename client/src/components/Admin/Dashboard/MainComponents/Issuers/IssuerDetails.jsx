@@ -68,7 +68,7 @@ const IssuerDetails = () => {
       <div className="text-white flex justify-between items-center bg-gray-800 w-full text-xl p-4 mb-1.5">
         <div className="font-ubuntu">
           Manage
-          <span className="font-bold">Issuers</span>
+          <span className="font-bold ml-2">Issuers</span>
         </div>
         <div className="flex justify-evenly items-center">
           <div className="mr-6 bg-white rounded-full text-black">
@@ -95,10 +95,10 @@ const IssuerDetails = () => {
           <table className="w-full border border-black shadow-xl">
             <thead className="bg-black text-white">
               <tr>
-                <th>SNo</th>
-                <th>Organization Name</th>
-                <th>Wallet Address</th>
-                <th>Document Types</th>
+                <th className="p-2">SNo</th>
+                <th className="p-2">Organization Name</th>
+                <th className="p-2">Wallet Address</th>
+                <th className="p-2">Document Types</th>
               </tr>
             </thead>
             <tbody className="text-center">
