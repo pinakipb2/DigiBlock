@@ -32,7 +32,7 @@ function App() {
 
   console.log('%cDigiBlock', mystyle);
   return (
-    <div>
+    <>
       <Global
         styles={css`
           .show-disabled-cursor-pagination {
@@ -81,7 +81,7 @@ function App() {
 
         <Route component={ErrorPage} />
       </Switch>
-    </div>
+    </>
   );
 }
 

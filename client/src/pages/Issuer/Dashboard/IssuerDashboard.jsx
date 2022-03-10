@@ -20,7 +20,7 @@ const IssuerDashboard = () => {
   const [currMenu, setCurrMenu] = useState('Dashboard');
   const sidebarCollapsed = useSelector((state) => state.issuer.sidebarCollapsed);
   useEffect(() => {
-    const pathName = location.pathname.replace('/issuer/', '');
+    const pathName = location.pathname.replace('/issuer/', '').replace('/', '');
     const capitalizeFirstLetter = (str) => {
       const splitStr = str.toLowerCase().split(' ');
       for (let i = 0; i < splitStr.length; i++) {
