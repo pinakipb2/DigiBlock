@@ -24,31 +24,31 @@ const SideBar = () => {
       id: 1,
       name: 'Request Documents',
       url: '/requestor/request-documents',
-      icon: 'fas fa-user-alt',
+      icon: 'fas fa-file-import',
     },
     {
       id: 2,
       name: 'Pending Documents',
       url: '/requestor/pending-documents',
-      icon: 'fas fa-user-alt',
+      icon: 'fas fa-clock',
     },
     {
       id: 3,
       name: 'Accepted Documents',
       url: '/requestor/accepted-documents',
-      icon: 'fas fa-user-alt',
+      icon: 'fas fa-check-circle',
     },
     {
       id: 4,
       name: 'Rejected Documents',
       url: '/requestor/rejected-documents',
-      icon: 'fas fa-user-alt',
+      icon: 'fas fa-times-circle',
     },
     {
       id: 5,
       name: 'Revoked Documents',
       url: '/requestor/revoked-documents',
-      icon: 'fas fa-user-alt',
+      icon: 'fas fa-history',
     },
     {
       id: 6,
@@ -61,7 +61,7 @@ const SideBar = () => {
   const changeSidebarIconColor = () => {
     const location = useLocation();
     useEffect(() => {
-      const path = location.pathname.replace('/requestor/', '');
+      const path = location.pathname.replace('/requestor/', '').replace('/', '');
       const capitalizeFirstLetter = (str) => {
         const splitStr = str.toLowerCase().split(' ');
         for (let i = 0; i < splitStr.length; i++) {

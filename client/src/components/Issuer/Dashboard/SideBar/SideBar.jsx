@@ -24,13 +24,13 @@ const SideBar = () => {
       id: 1,
       name: 'Issue Document',
       url: '/issuer/issue-document',
-      icon: 'fas fa-id-badge',
+      icon: 'fas fa-file-signature',
     },
     {
       id: 2,
       name: 'Documents',
       url: '/issuer/documents',
-      icon: 'fas fa-id-badge',
+      icon: 'fas fa-folder-open',
     },
     {
       id: 3,
