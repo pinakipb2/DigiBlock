@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -57,6 +58,7 @@ const UserDocuments = () => {
     } else {
       const filteredTable = originalData.filter(
         (row) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
           row.issuer.toLowerCase().includes(searchTerm) ||
           row.doctype.toLowerCase().includes(searchTerm) ||
           row.timestamp.toLowerCase().includes(searchTerm) ||
