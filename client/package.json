@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && gulp licenses",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.jsx",
@@ -73,6 +73,8 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "gulp": "^4.0.2",
+    "gulp-append-prepend": "^1.0.9",
     "postcss": "^7.0.39",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
   }
