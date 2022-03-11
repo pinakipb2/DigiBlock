@@ -13,7 +13,6 @@ const RevokedDocuments = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
-  // const [loading, setLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {
@@ -97,7 +96,7 @@ const RevokedDocuments = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              <Table tableData={tableData} pagesVisited={pagesVisited} dataPerPage={dataPerPage} issuer />
+              <Table tableData={tableData} pagesVisited={pagesVisited} dataPerPage={dataPerPage} />
             </tbody>
           </table>
           {tableData.length === 0 ? <div className="mt-10 font-mono text-2xl text-red-500">NO MATCHING RESULTS FOUND</div> : <Pagination pageCount={pageCount} changePage={changePage} />}

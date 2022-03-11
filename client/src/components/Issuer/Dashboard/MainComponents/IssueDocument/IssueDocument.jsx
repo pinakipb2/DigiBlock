@@ -26,7 +26,6 @@ const IssueDocument = () => {
   const [file, setFile] = useState(null);
   const [buffer, setBuffer] = useState(null);
   const issuerDocTypes = useSelector((state) => state.issuer.issuerDocTypes);
-  // const [url, setUrl] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onFileCapture = async (blob) => {
@@ -57,6 +56,8 @@ const IssueDocument = () => {
           })
           .catch((e) => {
             if (e.code === 4001) {
+              toast.error('You denied the request', { toastId: `${e.message}` });
+            } else {
               toast.error('Something Went Wrong', { toastId: `${e.message}` });
             }
           });

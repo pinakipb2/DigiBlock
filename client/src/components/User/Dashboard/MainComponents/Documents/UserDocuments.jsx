@@ -9,7 +9,6 @@ import Pagination from '../UI/Pagination';
 const UserDocuments = () => {
   const instance = useSelector((state) => state.contract.instance);
   const currentUser = useSelector((state) => state.user.currentUser).account;
-  // console.log(currentAdmin === owner);
   // Original data
   const objects = [];
   const [originalData, setOriginalData] = useState([]);
@@ -20,7 +19,6 @@ const UserDocuments = () => {
   useEffect(() => {
     const func = async () => {
       const allDocuments = await instance.methods.getAllDocuments(currentUser).call();
-      console.log(allDocuments);
       for (let i = 0; i < allDocuments[0].length; i++) {
         objects.push({
           id: i + 1,
@@ -57,7 +55,13 @@ const UserDocuments = () => {
     if (searchTerm === '') {
       setTableData(originalData);
     } else {
-      const filteredTable = originalData.filter((row) => row.issuer.toLowerCase().includes(searchTerm) || row.doctype.toLowerCase().includes(searchTerm) || row.timestamp.toLowerCase().includes(searchTerm) || row.ipfsHash.toLowerCase().includes(searchTerm));
+      const filteredTable = originalData.filter(
+        (row) =>
+          row.issuer.toLowerCase().includes(searchTerm) ||
+          row.doctype.toLowerCase().includes(searchTerm) ||
+          row.timestamp.toLowerCase().includes(searchTerm) ||
+          row.ipfsHash.toLowerCase().includes(searchTerm)
+      );
       setTableData(filteredTable);
     }
   };

@@ -19,7 +19,6 @@ const Login = () => {
   const requestorLogin = async () => {
     try {
       const requestorDetails = await instance.methods.singleRequestor(requestor.account).call();
-      console.log(requestorDetails);
       dispatch(setRequestorLoginStatus(true));
       dispatch(setRequestorName(requestorDetails[0]));
       history.push('/requestor/dashboard');

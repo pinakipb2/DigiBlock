@@ -19,7 +19,6 @@ const Login = () => {
   const userLogin = async () => {
     try {
       const userDetails = await instance.methods.singleUser(user.account).call();
-      console.log(userDetails);
       dispatch(setUserLoginStatus(true));
       const isVerified = await instance.methods.isUserVerified(user.account).call();
       dispatch(isUserVerified(isVerified));

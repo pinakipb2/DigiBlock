@@ -11,12 +11,10 @@ import PendingApproval from '../../../components/User/Dashboard/MainComponents/P
 import UserProfile from '../../../components/User/Dashboard/MainComponents/Profile/Profile';
 import NavUser from '../../../components/User/Dashboard/Navbar/NavUser';
 import SideBar from '../../../components/User/Dashboard/SideBar/SideBar';
-// import useDetect from '../../../hooks/useDetect';
 import useUserDetect from '../../../hooks/useUserDetect';
 import NonDismissableModal from '../../../UI/NonDismissableModal';
 
 const UserDashboard = () => {
-  // useDetect();
   useUserDetect();
   const location = useLocation();
   const [currMenu, setCurrMenu] = useState('Dashboard');

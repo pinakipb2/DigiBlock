@@ -13,7 +13,7 @@ const SignUpUser = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastname: '',
-    email: ''
+    email: '',
   });
   const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
   const handleSignUp = async () => {
@@ -24,21 +24,23 @@ const SignUpUser = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }
       try {
         const transformedFirstName = capitalizeFirstLetter(firstName);
         const transformedLastName = capitalizeFirstLetter(lastName);
-        console.log(transformedFirstName, transformedLastName, email, user.account);
-        await instance.methods.addUser(transformedFirstName, transformedLastName, email, user.account)
+        await instance.methods
+          .addUser(transformedFirstName, transformedLastName, email, user.account)
           .send({ from: user.account })
           .then(() => {
             dispatch(logoutUser());
             setUserDetails({
               firstName: '',
               lastname: '',
-              email: ''
+              email: '',
             });
             stepOne();
             toast.success('User Created Successfully', { toastId: 'User-success' });
           })
           .catch((e) => {
             if (e.code === 4001) {
+              toast.error('You denied the request', { toastId: `${e.message}` });
+            } else {
               toast.error('Something Went Wrong', { toastId: `${e.message}` });
             }
           });
@@ -89,11 +91,7 @@ const SignUpUser = ({ isConnected, isAccountChanged, isNetworkChanged, stepOne }
           Back
         </button>
         {isConnected && isAccountChanged === false && isNetworkChanged === false ? (
-          <button
-            type="button"
-            className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none"
-            onClick={handleSignUp}
-          >
+          <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none" onClick={handleSignUp}>
             Sign Up
           </button>
         ) : (

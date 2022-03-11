@@ -43,7 +43,6 @@ const TagsInput = ({ id, placeholder, error, onChange, defaultTags }) => {
         }
         setValue('');
         inputRef.current.focus();
-        console.log(inputRef.current);
       }
     }
   };

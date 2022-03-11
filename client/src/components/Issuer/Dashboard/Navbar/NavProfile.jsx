@@ -18,12 +18,6 @@ const NavProfile = () => {
   return (
     <div className="absolute top-8 right-32 z-50 flex justify-center items-center w-44">
       <div className="flex flex-col bg-white justify-center items-center mt-10 py-4 text-center rounded-2xl shadow-xl">
-        {/* <img
-          className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-xl border-2 border-prime"
-          src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png"
-          alt="Admin Profile"
-          draggable={false}
-        /> */}
         <Avatar className="w-20 h-20 rounded-full inline-flex items-center justify-center shadow-lg" name={issuerName} size="60" />
         <div className="flex flex-col items-center px-4 text-center justify-center">
           <h2 className="font-semibold title-font mt-2 text-gray-900 text-xl">{issuerName}</h2>

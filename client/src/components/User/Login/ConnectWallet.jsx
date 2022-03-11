@@ -34,7 +34,6 @@ const ConnectWallet = () => {
       }
     } catch (error) {
       dispatch(setIsUserNetworkChange(false));
-      console.log(error.message);
     }
   };
 

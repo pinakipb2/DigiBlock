@@ -60,7 +60,6 @@ const NavIssuer = () => {
             </div>
           </div>
           <div role="button" onClick={() => setToggleProfile(!toggleProfile)} className="text-center flex justify-center items-center pr-24 cursor-pointer">
-            {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
             <Avatar className="rounded-full mr-2" name={issuerName} size="41" />
             <h1 className="text-lg text-gray-900">{issuerName}</h1>
           </div>

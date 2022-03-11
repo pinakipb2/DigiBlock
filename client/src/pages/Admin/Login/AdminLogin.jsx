@@ -9,7 +9,6 @@ import Footer from '../../../components/Common/Footer';
 import Navbar from '../../../components/Common/Navbar';
 import getWeb3 from '../../../getWeb3';
 import useAdminDetect from '../../../hooks/useAdminDetect';
-// import useDetect from '../../../hooks/useDetect';
 import { setWeb3, setIsAccountChange, setIsNetworkChange } from '../../../redux/admin/admin.actions';
 
 const AdminLogin = () => {

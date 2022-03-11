@@ -13,7 +13,6 @@ const AcceptedDocuments = () => {
   // Data shown at table
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState(originalData);
-  // const [loading, setLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(true);
 
   useEffect(() => {

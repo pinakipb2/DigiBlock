@@ -95,6 +95,8 @@ const AddIssuerDrawer = ({ isOpenAddIssuer, onCloseAddIssuer }) => {
             })
             .catch((e) => {
               if (e.code === 4001) {
+                toast.error('You denied the request', { toastId: `${e.message}` });
+              } else {
                 toast.error('Something Went Wrong', { toastId: `${e.message}` });
               }
             });

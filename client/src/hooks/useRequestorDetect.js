@@ -49,7 +49,6 @@ const useRequestorDetect = () => {
         }
         const networkId = await web3.eth.net.getId();
         if (networkId !== requestor?.networkId && requestor !== null) {
-          console.log(networkId, requestor.networkId);
           dispatch(setIsRequestorNetworkChange(true));
           if (!isRequestorLoggedIn) {
             toast.warn('Network has been changed', { toastId: 'network-changed' });

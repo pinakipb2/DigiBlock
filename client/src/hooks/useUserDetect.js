@@ -49,7 +49,6 @@ const useUserDetect = () => {
         }
         const networkId = await web3.eth.net.getId();
         if (networkId !== user?.networkId && user !== null) {
-          console.log(networkId, user.networkId);
           dispatch(setIsUserNetworkChange(true));
           if (!isUserLoggedIn) {
             toast.warn('Network has been changed', { toastId: 'network-changed' });

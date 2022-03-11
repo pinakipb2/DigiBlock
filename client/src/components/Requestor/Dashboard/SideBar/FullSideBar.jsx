@@ -12,7 +12,6 @@ const FullSideBar = ({ currSidebarMenu, sidebarMenuData, requestorName }) => (
       </Link>
     </div>
     <div className="py-4 border-b border-gray-500 text-center flex justify-center items-center">
-      {/* <img className="rounded-full w-10 h-10 mr-2" src="https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png" alt="Admin Profile" draggable={false} /> */}
       <Avatar className="rounded-full mr-2" name={requestorName} size="41" />
       <h1 className="text-lg text-gray-300 hover:text-gray-100 cursor-pointer">{requestorName}</h1>
     </div>

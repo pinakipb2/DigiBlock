@@ -33,7 +33,7 @@ const RequestDocuments = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      setMessage('Something Went Wrong');
     }
     try {
       const docs = await instance.methods.getAllDocuments(userAccount).call();
@@ -63,6 +63,8 @@ const RequestDocuments = () => {
         })
         .catch((e) => {
           if (e.code === 4001) {
+            toast.error('You denied the request', { toastId: `${e.message}` });
+          } else {
             toast.error('Something Went Wrong', { toastId: `${e.message}` });
           }
         });

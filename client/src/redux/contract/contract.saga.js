@@ -20,7 +20,7 @@ export function* setInstance() {
           yield put(setOwner(Owner));
         }
       } else {
-        console.log('error in deployment');
+        console.log('Error in Deployment');
       }
     }
   } catch (err) {

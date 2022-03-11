@@ -19,7 +19,6 @@ const ConnectWallet = () => {
   const ConnectToMetamask = async () => {
     try {
       const web3 = await getWeb3();
-      console.log(web3);
       dispatch(setRequestorWeb3(web3));
       dispatch(setRequestorMetmaskInstalled(true));
       const networkId = await web3.eth.net.getId();
@@ -35,7 +34,6 @@ const ConnectWallet = () => {
       }
     } catch (error) {
       dispatch(setIsRequestorNetworkChange(false));
-      console.log(error.message);
     }
   };
 

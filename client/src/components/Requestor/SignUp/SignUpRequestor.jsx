@@ -12,7 +12,7 @@ const SignUpRequestor = ({ isConnected, isAccountChanged, isNetworkChanged, step
   const dispatch = useDispatch();
   const [requestorDetails, setRequestorDetails] = useState({
     orgName: '',
-    email: ''
+    email: '',
   });
   const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
   const handleSignUp = async () => {
@@ -22,20 +22,22 @@ const SignUpRequestor = ({ isConnected, isAccountChanged, isNetworkChanged, step
     } else {
       try {
         const transformedFirstName = capitalizeFirstLetter(orgName);
-        console.log(transformedFirstName, email, requestor.account);
-        await instance.methods.addRequestor(transformedFirstName, email, requestor.account)
+        await instance.methods
+          .addRequestor(transformedFirstName, email, requestor.account)
           .send({ from: requestor.account })
           .then(() => {
             dispatch(logoutRequestor());
             setRequestorDetails({
               orgName: '',
-              email: ''
+              email: '',
             });
             stepOne();
             toast.success('Requestor Created Successfully', { toastId: 'Requestor-success' });
           })
           .catch((e) => {
             if (e.code === 4001) {
+              toast.error('You denied the request', { toastId: `${e.message}` });
+            } else {
               toast.error('Something Went Wrong', { toastId: `${e.message}` });
             }
           });
@@ -76,11 +78,7 @@ const SignUpRequestor = ({ isConnected, isAccountChanged, isNetworkChanged, step
           Back
         </button>
         {isConnected && isAccountChanged === false && isNetworkChanged === false ? (
-          <button
-            type="button"
-            className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none"
-            onClick={handleSignUp}
-          >
+          <button type="button" className="bg-prime rounded-md px-3 py-2 text-white w-32 h-12 text-center text-lg font-bold hover:bg-indigo-600 select-none" onClick={handleSignUp}>
             Sign Up
           </button>
         ) : (
