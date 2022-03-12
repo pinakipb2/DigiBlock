@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import AcceptedDocuments from '../../../components/Requestor/Dashboard/MainComponents/AcceptedDocuments/AcceptedDocuments';
-import RequestorGuide from '../../../components/Requestor/Dashboard/MainComponents/DashboardStats/RequestorGuide';
+import RequestorGuide from '../../../components/Requestor/Dashboard/MainComponents/DashboardGuide/RequestorGuide';
 import PendingDocuments from '../../../components/Requestor/Dashboard/MainComponents/PendingDocuments/PendingDocuments';
 import RequestorProfile from '../../../components/Requestor/Dashboard/MainComponents/Profile/RequestorProfile';
 import RejectedDocuments from '../../../components/Requestor/Dashboard/MainComponents/RejectedDocuments/RejectedDocuments';

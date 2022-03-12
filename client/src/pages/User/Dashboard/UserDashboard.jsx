@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import AccessGranted from '../../../components/User/Dashboard/MainComponents/AccessGranted/AccessGranted';
 import AccessRejected from '../../../components/User/Dashboard/MainComponents/AccessRejected/AccessRejected';
 import AccessRevoked from '../../../components/User/Dashboard/MainComponents/AccessRevoked/AccessRevoked';
+import UserGuide from '../../../components/User/Dashboard/MainComponents/DashboardGuide/UserGuide';
 import UserDocuments from '../../../components/User/Dashboard/MainComponents/Documents/UserDocuments';
 import PendingApproval from '../../../components/User/Dashboard/MainComponents/PendingApproval/PendingApproval';
 import UserProfile from '../../../components/User/Dashboard/MainComponents/Profile/Profile';
@@ -41,7 +42,7 @@ const UserDashboard = () => {
   function renderInnerComponent() {
     switch (currMenu) {
       case 'Dashboard':
-        return <>Hi</>;
+        return <UserGuide />;
       case 'Documents':
         return <UserDocuments />;
       case 'Profile':
