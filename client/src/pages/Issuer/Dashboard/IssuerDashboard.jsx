@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import Guide from '../../../components/Issuer/Dashboard/MainComponents/DashboardGuide/Guide';
+import IssuerGuide from '../../../components/Issuer/Dashboard/MainComponents/DashboardGuide/IssuerGuide';
 import IssuerDocuments from '../../../components/Issuer/Dashboard/MainComponents/Documents/IssuerDocuments';
 import IssueDocument from '../../../components/Issuer/Dashboard/MainComponents/IssueDocument/IssueDocument';
 import IssuerProfile from '../../../components/Issuer/Dashboard/MainComponents/Profile/Profile';
@@ -39,7 +39,7 @@ const IssuerDashboard = () => {
   function renderInnerComponent() {
     switch (currMenu) {
       case 'Dashboard':
-        return <Guide />;
+        return <IssuerGuide />;
       case 'Issue Document':
         return <IssueDocument />;
       case 'Documents':
