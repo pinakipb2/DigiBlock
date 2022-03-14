@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-import BASEURL from '../config';
-
 const issuerAPI = axios.create({
-  baseURL: `${BASEURL}/issuer/`,
+  baseURL: `${process.env.REACT_APP_API_BASE_URL}/issuer/`,
 });
 
 export const genIssuerMasterKey = () => issuerAPI.get('/generate-master-key');
