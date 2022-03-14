@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { NETWORKID, NETWORKNAME } from '../../../config';
 import getWeb3 from '../../../getWeb3';
 import { setCurrentIssuer, setIsIssuerAccountChange, setIsIssuerNetworkChange, setIssuerWeb3, setIssuerMetmaskInstalled } from '../../../redux/issuer/issuer.actions';
 
@@ -22,14 +21,14 @@ const ConnectWallet = () => {
       dispatch(setIssuerWeb3(web3));
       dispatch(setIssuerMetmaskInstalled(true));
       const networkId = await web3.eth.net.getId();
-      if (networkId === NETWORKID) {
+      if (networkId === parseInt(process.env.REACT_APP_BLOCKCHAIN_NETWORK_ID, 10)) {
         const account = web3.currentProvider.selectedAddress;
         const balance = parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account))).toFixed(4);
         dispatch(setCurrentIssuer(account, balance, networkId));
         dispatch(setIsIssuerAccountChange(false));
         dispatch(setIsIssuerNetworkChange(false));
       } else {
-        toast.warn(`Please switch to ${NETWORKNAME}`, { toastId: 'network-wrong' });
+        toast.warn(`Please switch to ${process.env.REACT_APP_BLOCKCHAIN_NETWORK_NAME}`, { toastId: 'network-wrong' });
         dispatch(setIsIssuerNetworkChange(true));
       }
     } catch (error) {

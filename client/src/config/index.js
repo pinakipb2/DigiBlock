@@ -1,4 +1,0 @@
-const NETWORKID = 5777;
-const NETWORKNAME = 'GANACHE';
-
-export { NETWORKID, NETWORKNAME };

@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-import BASEURL from '../config';
-
 const adminAPI = axios.create({
-  baseURL: `${BASEURL}/admin/`,
+  baseURL: `${process.env.REACT_APP_API_BASE_URL}/admin/`,
 });
 
 export const genMasterKey = () => adminAPI.get('/generate-master-key');
