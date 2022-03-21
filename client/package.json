@@ -75,6 +75,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-append-prepend": "^1.0.9",
+    "gulp-inject-string": "^1.1.2",
     "postcss": "^7.0.39",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
   }

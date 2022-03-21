@@ -1,10 +1,11 @@
 const gulp = require('gulp');
 const gap = require('gulp-append-prepend');
+const inject = require('gulp-inject-string');
 
 const year = new Date().getFullYear();
 
 gulp.task('licenses', (done) => {
-  // this is to add DigiBlock licenses in the production mode for the minified js
+  // This is to add DigiBlock licenses in the production mode for the minified js
   gulp
     .src('build/static/js/*chunk.js', { base: './' })
     .pipe(
@@ -26,7 +27,7 @@ gulp.task('licenses', (done) => {
     )
     .pipe(gulp.dest('./', { overwrite: true }));
 
-  // this is to add DigiBlock licenses in the production mode for the minified html
+  // This is to add DigiBlock licenses in the production mode for the minified html
   gulp
     .src('build/index.html', { base: './' })
     .pipe(
@@ -48,7 +49,7 @@ gulp.task('licenses', (done) => {
     )
     .pipe(gulp.dest('./', { overwrite: true }));
 
-  // this is to add DigiBlock licenses in the production mode for the minified css
+  // This is to add DigiBlock licenses in the production mode for the minified css
   gulp
     .src('build/static/css/*chunk.css', { base: './' })
     .pipe(
@@ -69,5 +70,12 @@ gulp.task('licenses', (done) => {
 */`)
     )
     .pipe(gulp.dest('./', { overwrite: true }));
+
+  // This is to stop REACT DEV TOOLS from activating on PRODUCTION
+  gulp
+    .src('build/index.html', { base: './' })
+    .pipe(inject.before('</body>', '<script>window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}</script>'))
+    .pipe(gulp.dest('./', { overwrite: true }));
+
   done();
 });
