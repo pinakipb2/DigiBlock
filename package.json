@@ -1,8 +1,21 @@
 {
+  "name": "digiblock",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Pinaki Bhattacharjee <pinakipb2@gmail.com>",
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate --reset",
+    "demo-accounts": "ganache-cli -a=20 -e=300",
+    "test": "trufle test",
+    "deploy": "truffle migrate --network rinkeby --reset"
+  },
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.5.1"
+    "@truffle/hdwallet-provider": "^1.5.1",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.4"
+    "chai": "^4.3.4",
+    "ganache-cli": "^6.12.2"
   }
 }

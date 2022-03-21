@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "author": "Pinaki Bhattacharjee <pinakipb2@gmail.com>",
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
     "@craco/craco": "^6.3.0",
