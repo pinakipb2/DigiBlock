@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const gap = require('gulp-append-prepend');
-const inject = require('gulp-inject-string');
+// const inject = require('gulp-inject-string');
 
 const year = new Date().getFullYear();
 
@@ -72,10 +72,10 @@ gulp.task('licenses', (done) => {
     .pipe(gulp.dest('./', { overwrite: true }));
 
   // This is to stop REACT DEV TOOLS from activating on PRODUCTION
-  gulp
-    .src('build/index.html', { base: './' })
-    .pipe(inject.before('</body>', '<script>window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}</script>'))
-    .pipe(gulp.dest('./', { overwrite: true }));
+  // gulp
+  //   .src('build/index.html', { base: './' })
+  //   .pipe(inject.before('</body>', '<script>window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}</script>'))
+  //   .pipe(gulp.dest('./', { overwrite: true }));
 
   done();
 });
